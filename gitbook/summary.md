@@ -28,3 +28,4 @@
 * [视图直接访问](main.-shi-tu-zhi-jie-fang-wen.md)
 * [使用View.js的注意事项](main.-shi-yong-viewjs-de-zhu-yi-shi-xiang.md)
 * [事件](main.-shi-jian.md)
+

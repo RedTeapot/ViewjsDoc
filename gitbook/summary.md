@@ -1,6 +1,6 @@
 # Table of contents
 
-* [简介](main.-viewjs-de-bi-jiao-you-shi.md)
+* [简介](readme.md)
 * [视图](main.-shi-tu.md)
 * [默认视图](main.-mo-ren-shi-tu.md)
 * [活动视图](main.-huo-dong-shi-tu.md)
@@ -24,5 +24,5 @@
 * [初始化](main.-chu-shi-hua.md)
 * [日志输出](main.-ri-zhi-shu-chu.md)
 * [识别浏览器的前进与后退](main.-shi-bie-liu-lan-qi-de-qian-jin-yu-hou-tui.md)
-* [视图直接访问(main.-shi-tu-zhi-jie-fang-wen.md)
+* [视图直接访问](main.-shi-tu-zhi-jie-fang-wen.md)
 * [使用View.js的注意事项](main.-shi-yong-viewjs-de-zhu-yi-shi-xiang.md)

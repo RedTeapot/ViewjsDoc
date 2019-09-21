@@ -123,12 +123,17 @@ View.changeTo("@sub/another.html");
 3. 视图的当前浏览位置
 
 例如：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190814230725909.gif)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190814233159676.gif)
 
 此外，View.js 提供了API：`View.ifCanGoBack()` 来检索当前是否处于栈顶，例如：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190814231252164.gif)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190814233937526.gif)
+
 当浏览位置处于栈顶式，`View.back()` 以及 `data-view-rel=':back'` 在执行时将没有任何反应，开发者可以通过 `View.setNoViewToNavBackAction` 设定此时的表现，例如：
 ```js
 /**

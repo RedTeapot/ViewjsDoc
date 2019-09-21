@@ -1,4 +1,5 @@
 为辅助开发者更清晰地排查问题，View.js内置了格式化日志输出组件，输出效果如下图所示：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190224152904243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
 
 每个视图实例均含有名为logger的实例句柄，开发者可以直接使用。

@@ -8,13 +8,15 @@
 >3.4 View.SWITCHTYPE_VIEWCHANGE - 由视图切换：View.changeTo操作触发
 >4. 开发者根据type应用不同的视图切换动画
 
-##### 浏览追踪
+# 浏览追踪
 每次发生视图切换操作，View.js都会记录如下关键信息并将其反映在浏览状态：`history.state` 上：
 >1. 视图ID
 >2. 浏览流水
 
 例如：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190412132236515.png)
+
 其中，视图ID标记了浏览的视图，浏览流水则标记了浏览发生的时间（时间戳的36进制 + 2位序列号）。下面是View.js生成浏览流水的源代码：
 ```js
 var getUniqueString = (function(){
@@ -34,7 +36,7 @@ var getUniqueString = (function(){
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190412135433191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
 
-##### 顺序比较
+# 顺序比较
 当用户通过浏览器执行前进或后退浏览操作时，浏览器便会触发 `history` 的 `popstate` 事件，并将对应的先前追踪并压入的浏览状态通过事件实例反馈给View.js，如下文源码：
 ```js
 var stateChangeListener =  function(e){
@@ -66,7 +68,7 @@ var stateChangeListener =  function(e){
 };
 ```
 
-##### 效果实现
+# 效果实现
 开发者在设定视图切换效果时，便可以通过比较结果决定对应的渲染动画，例如：
 ```js
 /**

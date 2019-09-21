@@ -1,6 +1,7 @@
 在正式介绍视图配置的功能作用之前，我们先来看一看我们在面临『相似而又不同』的需求时，我们是如何处理的。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190220214934986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+
 如上图所示，我们同时面临3个需求需要满足（这些需求可能是同时提出的，也可能是一个需求满足后而又提出的其它需求），这些需求有相当一部分是重合，可以共用的，但是彼此时间又互有差异之处。
 
 通常的做法，是先满足一个需求，然后将重叠部分的逻辑硬拷贝多份，转而以其为基础分别实现需求B和需求C。
@@ -18,6 +19,7 @@
 > 将需求A、需求B和需求C合并开发，使用配置决定工作模式
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190220220951149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+
 亦即，开发者可以将需求A和需求B，以及需求C在同一载体上同时实现，然后借助配置工具通过配置决定功能的具体工作模式。
 对View.js而言，这个载体就是视图，配置工具，就是视图配置。
 

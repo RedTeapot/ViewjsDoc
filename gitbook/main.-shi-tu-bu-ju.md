@@ -1,7 +1,9 @@
 # 布局方式
 作为用户视觉的页面载体，每个视图都可能拥有自己独特的布局。
 下图是移动端常见的布局结构：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190303194147538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+
 其中，顶部标题栏和底部导航栏，以及可能存在的标签页栏，通常情况下是需要固定位置显示的。开发者一般采用绝对定位的方式将其固定。但在页面涉及用户输入的场景下，为避免弹出的虚拟键盘将底部导航 “顶上去” 的情况等，View.js 建议开发者使用脚本动态布局来实现位置固定的目的，亦即：
 
 > [可滚动正文] 的高度 = 布局空间的总高度 - [标题]的高度 - [底部导航] 的高度
@@ -21,7 +23,6 @@ bodyObj.style.height = height + "px";
 > 1. 开发者提供特定布局空间宽度和高度下的布局动作；
 > 2. View.js自动检测布局环境的变化，做出是否需要重新布局的决定，并自动计算出布局空间的宽度和高度；
 > 3. View.js使用计算得出的布局空间的宽度和高度调用开发者提供的布局动作，实现动态布局的目的
-
 
 
 开发者可以通过API：
@@ -168,6 +169,7 @@ var layoutAsPC = function(){
 };
 ```
 PC浏览效果：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190303200402825.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
 
 如果开发者不希望使用 320 * 568 的分辨率，则可以通过在html节点上声明 `data-view-whr` 属性以设定期望的视图宽高比。例如：
@@ -177,4 +179,5 @@ PC浏览效果：
 </html>
 ```
 效果如下所示：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190303201217485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)

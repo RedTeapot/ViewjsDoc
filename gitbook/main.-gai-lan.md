@@ -1,38 +1,85 @@
-# 视图导航
+# 概览
 
-视图导航，在视图切换时由View.js自动完成。下面是一个例子
+## 视图导航
 
-```js
-/* 切换至商品详情视图 */
+视图导航，在视图切换时由 View.js 自动完成。
+
+编程式导航：
+
+```javascript
+/* 切换至商品详情页面 */
 View.navTo("goods-detail", {
-    options: {
+    options: {/* 在 options 中指定的参数将体现在地址栏中，刷新后仍然存在 */
         goodsId: "G01"
     }
 });
 ```
 
-视图切换后，页面URL将自动变更为：http://domain:port/context/index.html#goods-detail!goodsId=G01。
+或者声明式导航：
 
-> View.js当前仅支持hash形式的地址表示，出于简化运维人员工作以及降低开发复杂性的考虑，暂不考虑其它形式的地址表示。
+```markup
+<span data-view-rel = "goods-detail!goodsId=G01">商品详情</span>
+```
 
-# 视图传参
+视图切换后，页面URL将自动变更为：
 
-View.js允许以视图为单位拆分任务，执行多人协作。视图之间使用参数完成协作。参数在进行视图切换时传递，如下所示：
-```js
+_http://domain:port/context/index.html\#goods-detail!goodsId=G01。_
+
+> View.js当前仅支持hash形式的地址表示，出于简化运维人员工作以及降低开发复杂性的考虑，暂不考虑其它形式的地址表示
+
+视图的导航目标，可以是视图、伪视图、视图群组和外部链接：
+
+```javascript
+/* 导航目标是：视图 */
+View.navTo("targetViewId");
+
+/* 导航目标是：伪视图 */
+View.navTo(":default-view");
+
+/* 导航目标是：视图群组 */
+View.navTo("~profile");
+
+/* 导航目标是：外部链接 */
+View.navTo("@http://www.baidu.com");
+```
+
+## 视图传参
+
+View.js 允许以视图为单位拆分任务，执行多人协作。视图之间使用参数完成协作。参数在进行视图切换时传递，如下所示：
+
+{% code-tabs %}
+{% code-tabs-item title="1.js" %}
+```javascript
 View.navTo("goods-detail", {
-    options: {/* 使用options传递的参数将反馈到地址栏中，因此只能传递字符串类型的参数 */
+    /**
+     * 使用 options 传递的参数将反馈到地址栏中，
+     * 因此只适合传递字符串类型的参数
+     */
+    options: {
         goodsId: "G01"
     }
 });
- 
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="2.js" %}
+```javascript
 View.navTo("delivery-address-list", {
-    params: {/* 使用params传递的参数不会反馈到地址栏中，因此可以是任意被浏览器所支持的类型 */
+    /**
+     * 使用 params 传递的参数不会反馈到地址栏中，
+     * 因此可以是任意被浏览器所支持的类型
+     */
+    params: {
         selectCallback: function(selectedAddress){
             //...
         }
     }
 });
- 
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="3.js" %}
+```javascript
 View.navTo("goods-detail", {
     params: {
         goodsId: "G01",
@@ -41,7 +88,7 @@ View.navTo("goods-detail", {
         goodsId: "G02"
     }
 });
- 
+
 var view = View.ofId("goods-detail");
 view.on("enter", function(){
     var goodsId = view.getParameter("goodsId");// --> G01
@@ -49,82 +96,150 @@ view.on("enter", function(){
     goodsId = view.seekParameter("goodsId");// --> G01
 });
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
-# 视图配置
+> `options` 用于指定视图选项，`params` 用于指定视图参数
 
-多数情况下，一个视图的表现和行为是固定的一种。但对于软件提供商，其同一产品在被多个客户购买时，会遇到“不同客户有不同需求，拒绝需求没收入，答应需求成本高”的窘境。而不同需求的差异点通常也并不高，可能也就只有10-30%左右的差别。但因为10%的差别，就要把源码硬拷贝2份，对于软件提供商而言，成本无疑高了许多。
+## 视图配置
 
-View.js考虑到了这一点。
+多数情况下，一个视图的表现和行为是固定的一种。但开发者仍然可以在一个视图中实现多个效果，并以配置的方式在运行时决定使用哪一种。
 
-通过引入视图配置，开发者可以将视图开发为多种形态的综合体，最终以视图配置的方式指定视图的具体工作模式或表现形式。如下所示：
+例如：同一个注册页面，对于密码长度，不同的甲方要求执行不同的长度限制：
 
-```js
+{% code-tabs %}
+{% code-tabs-item title="register.config.js" %}
+```javascript
 var view = View.ofId("register");
- 
+
 /* 默认配置：密码最少位数 */
 view.config.get("password-min-length").setValue(6);
- 
+
 /* 默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20);
- 
-/* -------------------------------------------- */
- 
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="register.action.js" %}
+```javascript
+var view = View.ofId("register");
 view.find(".submit").addEventListener("click", function(){
     var pwd = pwdObj.value.trim();
- 
+
     var minLen = view.config.get("password-min-length").getValue(),
         maxLen = view.config.get("password-max-length").getValue();
- 
+
     if(pwd.length < min){
         alert("密码长度不能少于" + minLen + "位");
         return;
     }
- 
+
     if(pwd.length > max){
         alert("密码长度不能多于" + maxLen + "位");
         return;
     }
 });
- 
-/* -------------------------------------------- */
- 
-/* 客户A的视图配置 */
- 
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="客户A配置.js" %}
+```javascript
+var view = View.ofId("register");
+
 /* 重载既有配置：密码最少位数 */
-view.config.get("password-min-length").setValue(10, true);/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
- 
+/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
+view.config.get("password-min-length").setValue(10, true);
+
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20, true);
- 
-/* -------------------------------------------- */
- 
-/* 客户B的视图配置 */
- 
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="客户B配置.js" %}
+```
+var view = View.ofId("register");
+
 /* 重载既有配置：密码最少位数 */
+/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
 view.config.get("password-min-length").setValue(4, true);
- 
+
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(10, true);
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
-# 事件驱动
+## 视图上下文
 
-开发者通过监听视图的相关事件来决定执行特定操作的时机。View.js为每个视图实例预制了如下几个事件：
+视图上下文，即视图的数据存取上下文，用于供视图关联的脚本存取数据。例如：
 
-- ready - 视图就绪，在视图第一次进入时触发
-- beforeenter - 视图即将进入
-- enter - 视图进入
-- afterenter - 视图进入后
-- leave - 视图离开
-> 关于事件触发顺序及差异，参阅：TODO
+```javascript
+var view = View.ofId("myView");
+
+view.context.set("gender", "male");
+view.context.set("getGreeting", {callback: function(){return "Hi~"}});
+
+var gender = view.context.get("gender"); // -> male
+var greeting = view.context.get("getGreeting")(); //-> Hi~
+
+var ifExists = view.context.has("getGreeting"); // -> true
+view.context.remove("getGreeting");
+ifExists = view.context.has("getGreeting"); // -> false
+
+view.context.clear();
+ifExists = view.context.has("gender"); // -> false
+```
+
+## 事件驱动
+
+View.js为每个视图实例预置了关键事件，开发者可以据此决定特定操作的执行时机：
+
+```javascript
+var view = View.ofId("my-view");
+
+/**
+ * ready：视图就绪，仅在第一次进入时触发
+ */
+view.on("ready", function(){
+    //初始化数据
+});
+
+/**
+ * enter：进入视图，每次进入均会被触发。在 ready 之后触发
+ */
+view.on("enter", function(){
+    var callback = view.getParameter("callback");
+    callback();
+});
+
+/**
+ * leave：离开视图，每次离开均会被触发
+ */
+view.on("leave", function(){
+    //重置视图
+});
+```
+
+* > 更多事件，以及事件触发顺序和差异等，参阅：TODO
 
 除此之外，开发者还可以根据自己的业务需要，自行发起并消费事件，如下所示：
 
-```js
+{% code-tabs %}
+{% code-tabs-item title="init.js" %}
+```javascript
 var view = View.ofId("myView");
 view.on("myevent", function(e){
     view.logger.debug("Event name: {}, event data: {}", e.name, e.data);
 });
-//…
-view.fire("myevent", {a: 1});//-> 0918 10:20:54 [View#myView]: Event name: null, event data: {"a":1}
 ```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="action.js" %}
+```javascript
+var view = View.ofId("myView");
+view.fire("myevent", {a: 1});
+//控制台将输出： 0918 10:20:54 [View#myView]: Event name: null, event data: {"a":1}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+

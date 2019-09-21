@@ -1,13 +1,16 @@
+# 伪视图
+
 伪视图，是并不存在，但可以指导View.js进行视图切换的视图。这些视图通常具有特殊含义，如：首页、上一个界面、后一个界面等。这些视图并不是固定的，是会随着浏览位置的变更而发生变化的。
 
 View.js预置了如下几个伪视图：
->- “:back”。代表上一个浏览的视图
->- “:forward”。代表下一个浏览的视图
->- “:default-view”。代表当前页面的默认视图
+
+> * “:back”。代表上一个浏览的视图
+> * “:forward”。代表下一个浏览的视图
+> * “:default-view”。代表当前页面的默认视图
 
 使用方法如下所示：
 
-```html
+```markup
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -30,8 +33,9 @@ View.js预置了如下几个伪视图：
 </html>
 ```
 
-```js
+```javascript
 View.navTo(":default-view");
 View.navTo(":back");// --> 等同于 View.back()
 View.navTo(":forward");// --> 等同于 View.forward()
 ```
+

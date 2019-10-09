@@ -2,10 +2,12 @@
 
 ## 视图导航
 
-视图导航，在视图切换时由 View.js 自动完成。
+视图导航，即 “将用户看到的视图切换到另外一个上去” 的过程，亦为活动视图发生改变的过程。
 
-编程式导航：
+View.js提供了两种导航方式：编程式导航 和 声明式导航。例如：
 
+{% code-tabs %}
+{% code-tabs-item title="编程式.js" %}
 ```javascript
 /* 切换至商品详情页面 */
 View.navTo("goods-detail", {
@@ -14,27 +16,31 @@ View.navTo("goods-detail", {
     }
 });
 ```
+{% endcode-tabs-item %}
 
-或者声明式导航：
-
-```markup
+{% code-tabs-item title="声明式.js" %}
+```javascript
 <span data-view-rel = "goods-detail!goodsId=G01">商品详情</span>
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
-视图切换后，页面URL将自动变更为：
+在执行导航动作时，View.js将自动记录浏览堆栈和浏览顺序，并自动调整 URL 中的 hash，使其匹配新的活动视图信息，例如：
 
 _http://domain:port/context/index.html\#goods-detail!goodsId=G01。_
 
 > View.js当前仅支持hash形式的地址表示，出于简化运维人员工作以及降低开发复杂性的考虑，暂不考虑其它形式的地址表示
 
-视图的导航目标，可以是视图、伪视图、视图群组和外部链接：
+
+
+对于视图的导航目标，可以是视图、伪视图、视图群组和外部链接：
 
 ```javascript
 /* 导航目标是：视图 */
 View.navTo("targetViewId");
 
 /* 导航目标是：伪视图 */
-View.navTo(":default-view");
+View.navTo(":default-view");/* 默认视图，通常是首页 */
 
 /* 导航目标是：视图群组 */
 View.navTo("~profile");

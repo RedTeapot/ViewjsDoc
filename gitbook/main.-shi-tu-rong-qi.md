@@ -20,3 +20,11 @@
 
 
 
+除此之外，视图容器还承载着 “表达 View.js 的初始化状态，以及当前活动视图” 的责任。这些信息的表达，通过在其 DOM 上附加相关属性完成，例如：
+
+![&#x8868;&#x8FBE;&#x7684;&#x4FE1;&#x606F;&#x5728;&#x89C6;&#x56FE;&#x5207;&#x6362;&#x65F6;&#x7684;&#x6539;&#x53D8;](.gitbook/assets/3.gif)
+
+其中 `data-view-state=ready` 表示 “View.js 已准备就绪”，`data-active-view-id` 代表当前活动视图的 ID，`data-active-view-namespace` 代表当前活动视图的命名空间。
+
+
+

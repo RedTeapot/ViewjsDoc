@@ -3,11 +3,11 @@
 * [简介](readme.md)
 * [概览](main.-gai-lan.md)
 * [视图](main.-shi-tu.md)
+* [视图容器](main.-shi-tu-rong-qi.md)
 * [默认视图](main.-mo-ren-shi-tu.md)
 * [活动视图](main.-huo-dong-shi-tu.md)
 * [伪视图](main.-wei-shi-tu.md)
 * [视图群组](main.-shi-tu-qun-zu.md)
-* [视图容器](main.-shi-tu-rong-qi.md)
 * [视图命名空间](main.-shi-tu-ming-ming-kong-jian.md)
 * [事件驱动（一）](main.-shi-jian-qu-dong-1.md)
 * [事件驱动（二）](main.-shi-jian-qu-dong-2.md)
@@ -28,4 +28,5 @@
 * [视图直接访问](main.-shi-tu-zhi-jie-fang-wen.md)
 * [使用View.js的注意事项](main.-shi-yong-viewjs-de-zhu-yi-shi-xiang.md)
 * [事件](main.-shi-jian.md)
+* [垃圾箱](la-ji-xiang.md)
 

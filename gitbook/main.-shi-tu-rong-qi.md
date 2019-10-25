@@ -12,7 +12,7 @@
 
 
 
-开发者可以借助浏览器的开发者工具，通过识别 `data-view-container` 属性确定当前的视图容器，例如：
+开发者可以借助浏览器的开发者工具，通过识别 `data-view-container` 属性确定当前的视图容器，例如： 
 
 ![&#x8BC6;&#x522B;&#x89C6;&#x56FE;&#x5BB9;&#x5668;1](.gitbook/assets/1.png)
 

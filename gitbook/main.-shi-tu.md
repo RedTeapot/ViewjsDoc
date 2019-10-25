@@ -123,9 +123,29 @@ submitObj.addEventListener("click", function(){
 
 View.js 能够很友好地与其它 _非路由类_ _\*\*_框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统的开发方式使用这些框架。
 
-## URL
+## 视图URL
 
-//TODO
+视图的URL组成由以下三部分组成：
+
+1. 视图ID
+2. 视图命名空间
+3. 视图选项（体现在地址栏中的，和视图绑定在一起的参数）
+
+形如：
+
+> _http://domain:port/context/path/to/html\#view-id@view-namespace!option1=value1&option2=value2..._
+
+当视图命名空间为 `default` 时，URL将表现为：
+
+> _http://domain:port/context/path/to/html\#view-id!option1=value1&option2=value2..._
+
+其中，`#` 符号即为锚点，是视图ID的URL前缀；`@` 符号为 视图ID 与 视图命名空间的分隔符；`!` 符号为 视图 与 视图选项 的分隔符；`&` 符号为多个选项之间的分隔符；`=` 符号为 选项 key 与 选项 value 之间的分隔符。
+
+当活动视图发生变化时，View.js 将根据新的活动视图信息，结合视图跳转动作关联的视图选项，实时构造新的 URL 并将其反馈到浏览器的地址栏中。
+
+{% hint style="info" %}
+视图当前仅支持 hash 形态的地址栏表示，且不支持自定义。出于简化开发的考虑，View.js 当前也并不打算变更这一特性。
+{% endhint %}
 
 ## 注意事项
 

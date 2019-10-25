@@ -29,7 +29,7 @@
             <div class = "item address">
                 <label>住址：</label><input/>
             </div>
-        
+
             <div class = "btn">提交</div>
         </div>
     </section>
@@ -89,7 +89,7 @@ var resetView = function(){
     /* 清空输入框的内容 */
     nameInputObj.value = "";
     addressInputObj.value = "";
-    
+
     /* 重置浏览位置，使其回到顶部 */
     bodyObj.scrollTop = 0;
 };
@@ -121,9 +121,10 @@ submitObj.addEventListener("click", function(){
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-View.js 能够很友好地与其它 _非路由类_ ****框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统的开发方式使用这些框架。
+View.js 能够很友好地与其它 _非路由类_ _\*\*_框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统的开发方式使用这些框架。
 
 ## URL
+
 //TODO
 
 ## 注意事项

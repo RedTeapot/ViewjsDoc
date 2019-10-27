@@ -15,7 +15,8 @@ console.log(View.getActiveView().getId());// --> view1
 
 /* 导航到ID为 view2 的视图 */
 View.navTo("view2");
-console.log(View.getActiveView().getId());// --> view2
+/* id 属性只读，与 getId() 方法功能相同，均用于获取视图的ID */
+console.log(View.getActiveView().id);// --> view2
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -33,7 +34,7 @@ console.log(View.ofId("view2").isActive());// --> true
 
 ## 视图选项
 
-视图选项，是体现在浏览器地址栏中，位于视图信息后边的参数集合。（View.js 不仅支持 视图选项，还支持 视图参数，我们将在后边的篇章中详细介绍这两者。）
+视图选项，是体现在浏览器地址栏中的，位于视图信息后边的参数集合，用于供开发者在视图间传递参数，实现跨视图协作。（View.js 不仅支持 视图选项，还支持 视图参数，我们将在后边的篇章中详细介绍这两者。）
 
 活动视图的视图选项，可通过API：`View.getActiveViewOptions()` 及 `View.getActiveViewOption(optionName)` 获取。例如：
 
@@ -56,13 +57,13 @@ console.log(View.getActiveViewOption("a")); // --> "1"
 console.log(View.getActiveViewOption("c")); // --> undefined
 ```
 
-技术上，由于 视图选项 仍然属于锚点的内部内容，所以当视图发生切换时，视图选项 将和 视图 同时出现和隐藏。 而`View.getActiveViewOptions()` 和 `View.getActiveViewOption(optionName)` 也将只返回最新的活动视图的视图选项，如下图所示：
+但要格外注意的是，开发者只能获取处于活动状态的视图的选项。视图变为非活动状态后，`View.getActiveViewOptions()` 等方法将返回 新的活动视图 的视图选项。这也是为什么获取视图选项的API被定义为 `getActiveViewOptions()` 而非 `getViewOptions()` 的原因。
 
-![&#x5B9A;&#x4E49;&#x89C6;&#x56FE;&#x5BB9;&#x5668;&#x7684;&#x5C3A;&#x5BF8;](.gitbook/assets/view-option.gif)
+之所以这样，是因为技术上，视图选项在符号 `#` 之后，虽然有 `!` 符号分隔，但仍属于锚点内容，而锚点内容是会随活动视图的切换变化的。例如：
 
-亦即，当视图没有处于活动状态时，开发者是无法获得该视图的视图选项的。
+![视图选项的变化](.gitbook/assets/view-option.gif)
 
-如果需要随时能够获取响应参数，则可以在视图进入时，将视图选项存放到视图的上下文中，如下所示：
+如果需要能够随时获取视图选项，则可以在视图进入时，将视图选项存放到视图的上下文中，然后通过视图上下文灵活存取，如下所示：
 
 ```javascript
 var view = View.ofId("my-view");

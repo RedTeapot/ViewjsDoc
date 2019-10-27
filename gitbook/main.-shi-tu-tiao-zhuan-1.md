@@ -2,7 +2,40 @@
 
 ## 概述
 
-视图跳转，是指用户看到的界面切换为另一个界面的过程，亦即活动视图转移的过程（同一时刻，只有一个视图处于活动状态）。
+视图跳转，是指活动视图由一个视图转变为另外一个视图的过程。
+
+开发者通过如下两种方式执行视图跳转：
+
+1. 在跳转入口 DOM 元素上声明跳转指令：`data-view-rel`
+2. 调用API：`View.navTo(targetViewId)` 或 `View.changeTo(targetViewId)`
+
+例如：
+
+```javascript
+/* 跳转至 default 命名空间下的 targetViewId */
+View.navTo("targetViewId");
+
+/* 跳转至 targetViewNamespace 命名空间下的 targetViewId */
+View.navTo("targetViewId", "targetViewNamespace");
+
+/* 跳转至 targetViewNamespace 命名空间下的 targetViewId，并传递 视图参数（关键字：params） 和 视图选项（options） */
+View.navTo("targetViewId", "targetViewNamespace", {
+	params: {/* 'params' 为预留关键字，代表视图参数。视图参数可以传递任意类型的参数，但刷新后丢失 */
+		param1: "paramValue",
+		param2: {
+			key: "value"
+		},
+		param3: document.body,
+		callback: function(){}
+	},
+
+	options: {/* 'options' 为预留关键字，代表视图选项。视图选项只能传递字符串类型的参数，刷新后不会丢失 */
+		option1: "optionValue"
+	}
+})
+```
+
+
 
 开发者可以通过API方法调用，或者声明DOM属性的方式实现视图跳转。视觉效果如下所示：
 

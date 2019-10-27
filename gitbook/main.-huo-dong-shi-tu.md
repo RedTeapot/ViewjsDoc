@@ -59,7 +59,7 @@ console.log(View.getActiveViewOption("c")); // --> undefined
 
 但要格外注意的是，开发者只能获取处于活动状态的视图的选项。视图变为非活动状态后，`View.getActiveViewOptions()` 等方法将返回 新的活动视图 的视图选项。这也是为什么获取视图选项的API被定义为 `getActiveViewOptions()` 而非 `getViewOptions()` 的原因。
 
-之所以这样，是因为技术上，视图选项在符号 `#` 之后，虽然有 `!` 符号分隔，但仍属于锚点内容，而锚点内容是会随活动视图的切换变化的。例如：
+之所以这样，是因为技术上，视图选项在符号 `#` 之后，虽然有 `!` 符号分隔，但仍属于锚点内容，而锚点内容是会随活动视图的变化而变化的。例如：
 
 ![视图选项的变化](.gitbook/assets/view-option.gif)
 

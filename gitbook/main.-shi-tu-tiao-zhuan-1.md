@@ -11,6 +11,20 @@
 
 例如：
 
+{% code-tabs %}
+{% code-tabs-item title="main.html" %}
+```
+<!-- :back 为伪视图，代表上一个视图 -->
+<a class = "nav-back" data-view-rel = ":back">返回</a>
+<!-- :default-view 为伪视图，代表默认视图 -->
+<a class = "nav-home" data-view-rel = ":default-view">首页</a>
+
+<!-- 跳转至 order 命名空间下ID为 settle-order 的视图，并使用视图选项传递参数：orderId -->
+<div class = "btn" data-view-rel = "settle-order@order!orderId=ORD01">结算</div>
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title="action.js" %}
 ```javascript
 /* 跳转至 default 命名空间下的 targetViewId */
 View.navTo("targetViewId");
@@ -20,60 +34,46 @@ View.navTo("targetViewId", "targetViewNamespace");
 
 /* 跳转至 targetViewNamespace 命名空间下的 targetViewId，并传递 视图参数（关键字：params） 和 视图选项（options） */
 View.navTo("targetViewId", "targetViewNamespace", {
-	params: {/* 'params' 为预留关键字，代表视图参数。视图参数可以传递任意类型的参数，但刷新后丢失 */
-		param1: "paramValue",
-		param2: {
-			key: "value"
-		},
-		param3: document.body,
-		callback: function(){}
-	},
+    params: {/* 'params' 为预留关键字，代表视图参数。视图参数可以传递任意类型的参数，但刷新后丢失 */
+        param1: "paramValue",
+        param2: {
+            key: "value"
+        },
+        param3: document.body,
+        callback: function(){}
+    },
 
-	options: {/* 'options' 为预留关键字，代表视图选项。视图选项只能传递字符串类型的参数，刷新后不会丢失 */
-		option1: "optionValue"
-	}
+    options: {/* 'options' 为预留关键字，代表视图选项。视图选项只能传递字符串类型的参数，刷新后不会丢失 */
+        option1: "optionValue"
+    }
 })
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
+## 底层技术
 
+View.js 使用浏览器的 `history` API完成视图跳转。
 
-开发者可以通过API方法调用，或者声明DOM属性的方式实现视图跳转。视觉效果如下所示：
+`history.pushState()` 方法使能 `View.navTo()` 方法 和 `data-view-rel-type` 的 `nav` 取值；`history.replaceState()` 方法使能 `View.changeTo()` 方法 和 `data-view-rel-type` 的 `change` 取值。
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190803225541748.gif)
-
-> 开发者可以自行定义视图跳转时呈现的切换动画。更多信息请参阅 [\[视图切换动画\]](https://blog.csdn.net/baozhang007/article/details/88364811)
-
-视图跳转时，View.js将自动调整地址栏中的hash部分，使其始终反映出当前的活动视图ID。如：
-
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190803230429461.gif)
-
-其中，`SC_home-page_N0A` 和 `profile_N06` 等即为新活动视图的视图ID。
-
-## 关联技术
-
-开发者可以通过如下两种方式实现视图跳转：
-
-> 1. 调用API
+> `data-view-rel` 指令用于指定跳转目标；`data-view-rel-type = nav | change` 用于指定视图的跳转方式：压入堆栈（`nav`） 或 替换栈顶（`change`）。
 >
->    1.1 `View.navTo()` - 以 “压入堆栈” 的方式切换至目标视图。[\[方法介绍\]](http://wzhsoft.com/api.html#api_View-navTo)
+> `View.navTo()` 用于以“压入堆栈”的方式执行视图跳转；`View.changeTo()` 用于以“替换栈顶”的方式执行视图跳转
 >
->    1.2 `View.changeTo()` - 以 “替换栈顶” 的方式切换至目标视图。[\[方法介绍\]](http://wzhsoft.com/api.html#api_View-changeTo)
->
->    1.3 `View.back()` - 切换至上一个视图。[\[方法介绍\]](http://wzhsoft.com/api.html#api_View-back)
->
->    1.4 `View.forward()` - 前进至下一个视图。[\[方法介绍\]](http://wzhsoft.com/api.html#api_View-forward)
->
-> 2. 声明DOM属性：`data-view-rel` [\[属性介绍\]](http://wzhsoft.com/attr.html#attr_data-view-rel)，和 `data-view-rel-type` [\[属性介绍\]](http://wzhsoft.com/attr.html#attr_data-view-rel-type)
+> “压入堆栈” 和 “替换栈顶” 的差别，在于如何影响用户的浏览位置。
 
-无论是由API触发，还是声明属性交给View.js自行触发，这两种方式都会改变浏览历史或浏览位置。而 “压入堆栈” 和 “替换栈顶” 的差别，就在于如何影响用户的浏览历史。
+{% hint style="warning" %}
+堆栈或栈顶的变化，直接决定了页面的返回路径，因而需要开发者格外注意，否则很容易会让终端用户掉入无法返回的陷阱中。
+{% endhint %}
 
-## 压入堆栈
+### 压入堆栈
 
 ![&#x538B;&#x5165;&#x5806;&#x6808;](https://img-blog.csdnimg.cn/20181227133026900.png)
 
 进入视图C后，用户需要执行两次回退操作，才能返回视图A。
 
-## 替换栈顶
+### 替换栈顶
 
 ![&#x66FF;&#x6362;&#x5806;&#x6808;](https://img-blog.csdnimg.cn/20181227133127491.png)
 

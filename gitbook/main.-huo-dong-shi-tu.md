@@ -61,7 +61,7 @@ console.log(View.getActiveViewOption("c")); // --> undefined
 
 之所以这样，是因为技术上，视图选项在符号 `#` 之后，虽然有 `!` 符号分隔，但仍属于锚点内容，而锚点内容是会随活动视图的变化而变化的。例如：
 
-![视图选项的变化](.gitbook/assets/view-option.gif)
+![&#x89C6;&#x56FE;&#x9009;&#x9879;&#x7684;&#x53D8;&#x5316;](.gitbook/assets/view-option.gif)
 
 如果需要能够随时获取视图选项，则可以在视图进入时，将视图选项存放到视图的上下文中，然后通过视图上下文灵活存取，如下所示：
 
@@ -89,3 +89,4 @@ view.on("enter", function(){
   console.log(options === view.context.get("options")); // --> true
 });
 ```
+

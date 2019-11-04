@@ -48,7 +48,7 @@ View.navTo("targetViewId", "targetViewNamespace", {
     options: {/* 'options' 为预留关键字，代表视图选项。视图选项只能传递字符串类型的参数，刷新后不会丢失 */
         option1: "optionValue"
     }
-})
+});
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}

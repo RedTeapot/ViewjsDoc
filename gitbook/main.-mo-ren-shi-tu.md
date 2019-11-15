@@ -32,8 +32,7 @@
 
 开发者也可以在 View.js 就绪前通过脚本动态指定，如下所示：
 
-{% code-tabs %}
-{% code-tabs-item title="init.js" %}
+{% code title="init.js" %}
 ```javascript
 View.beforeInit(function(){
     View.setAsDefault("home-page");
@@ -41,6 +40,5 @@ View.beforeInit(function(){
     console.log(View.getDefaultView().getId());// --> home-page
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

@@ -23,8 +23,7 @@ View.js 在执行视图跳转时，将按顺序执行如下动作：
 
 假定我们当前处于视图 A ，对于浏览路径：A → B 及如下事件监听：
 
-{% code-tabs %}
-{% code-tabs-item title="init.js" %}
+{% code title="init.js" %}
 ```javascript
 var viewA = View.ofId("A"),
     viewB = View.ofId("B");
@@ -45,8 +44,7 @@ viewB.on("ready", log("B: ready"));/* ready 事件仅在视图第一次进入时
 viewB.on("enter", log("B: enter"));
 viewB.on("afterenter", log("B: afterenter"));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 在切换至视图 B 后，我们将会得到下面的结果
 
@@ -72,8 +70,7 @@ View.js 当前支持如下几种跳转目标：
 
  例如：
 
-{% code-tabs %}
-{% code-tabs-item title="action.js" %}
+{% code title="action.js" %}
 ```javascript
 /**
  * 以“压入堆栈”方式跳转至 default 命名空间下，ID 为 targetView 的视图
@@ -111,7 +108,7 @@ View.changeTo("targetView", {
     },
     
     /**
-     * options为预留关键字，代表 视图选项。
+     * options 为预留关键字，代表 视图选项。
      * 视图选项只能传递字符串类型的数据，页面刷新后参数仍然存在。
      */
     options: {
@@ -158,8 +155,7 @@ View.navTo("@http://view-js.com");
  */
 View.changeTo("@sub/another.html");
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ## 开发调测
 
@@ -181,10 +177,9 @@ View.changeTo("@sub/another.html");
 
 ![&#x5F00;&#x53D1;&#x8C03;&#x6D4B;4](https://img-blog.csdnimg.cn/20190814233937526.gif)
 
-当浏览位置处于栈顶时，`View.back()` 以及 `data-view-rel=':back'` 在执行时将没有任何反应，开发者可以通过 `View.setNoViewToNavBackAction(action: Function)` 设定此时的表现，例如：
+当浏览位置处于栈顶时，`View.back()` 以及 `data-view-rel=':back'` 在执行时将没有任何反应，开发者可以通过API： `View.setNoViewToNavBackAction(action: Function)` 设定此时的表现，亦即： “没有更多页面可回退时将要执行的动作” 。例如：
 
-{% code-tabs %}
-{% code-tabs-item title="init.js" %}
+{% code title="init.js" %}
 ```javascript
 /**
  * 当执行 View.back() 或 点击 data-view-rel=':back' 元素时，
@@ -194,8 +189,7 @@ View.setNoViewToNavBackAction(function(){
     alert(2);
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ## 其它能力
 

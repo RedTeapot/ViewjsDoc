@@ -11,8 +11,8 @@
 
 例如：
 
-{% code-tabs %}
-{% code-tabs-item title="main.html" %}
+{% tabs %}
+{% tab title="main.html" %}
 ```markup
 <!-- data-view-rel 用于指定跳转目标 -->
 <!-- :back 为伪视图，代表上一个视图 -->
@@ -24,9 +24,9 @@
 <!-- 跳转至 order 命名空间下ID为 settle-order 的视图，并使用视图选项传递参数：orderId -->
 <div class = "btn" data-view-rel = "settle-order@order!orderId=ORD01">结算</div>
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="action.js" %}
+{% tab title="action.js" %}
 ```javascript
 /* 跳转至 default 命名空间下的 targetViewId */
 View.navTo("targetViewId");
@@ -50,8 +50,8 @@ View.navTo("targetViewId", "targetViewNamespace", {
     }
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## 底层技术
 

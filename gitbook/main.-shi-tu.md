@@ -52,8 +52,7 @@
 
 视图创建完成后，开发者即可添加脚本，实现视图内的数据展现、操作交互等，例如：
 
-{% code-tabs %}
-{% code-tabs-item title="init.js" %}
+{% code title="init.js" %}
 ```javascript
 var view = View.ofId("view1");
 
@@ -73,11 +72,9 @@ view.on("enter", function(){
     });
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="init.reset-view.js" %}
+{% code title="init.reset-view.js" %}
 ```javascript
 var view = View.ofId("view1");
 
@@ -99,11 +96,9 @@ var resetView = function(){
  */
 view.on("leave", resetView);
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="action.js" %}
+{% code title="action.js" %}
 ```javascript
 var view = View.ofId("view1");
 
@@ -118,8 +113,7 @@ submitObj.addEventListener("click", function(){
     //do something
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 View.js 能够很友好地与其它 _非路由类_ _\*\*_框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统的开发方式使用这些框架。
 

@@ -8,8 +8,7 @@
 
 视图命名空间的设定，通过在视图的布局骨架上声明 DOM 属性：`data-view-namespace` 完成。例如：
 
-{% code-tabs %}
-{% code-tabs-item title="main.html" %}
+{% code title="main.html" %}
 ```markup
 <section id = "home-page" data-view-namespace = "b2c-mall">
     ...
@@ -19,13 +18,12 @@
     ...
 </section>
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 在执行视图跳转时，如果目标视图设定有命名空间，开发者需要同步指明目标视图所隶属的命名空间。如果目标视图的命名空间是 `default`，则无需显示声明。例如：
 
-{% code-tabs %}
-{% code-tabs-item title="main.html" %}
+{% tabs %}
+{% tab title="main.html" %}
 ```markup
 <!--
 1. data-view-rel 指令用于指定跳转目标
@@ -37,9 +35,9 @@
 <!-- 跳转至 order 命名空间下ID为 settle-order 的视图，并使用视图选项传递参数：orderId -->
 <div class = "btn" data-view-rel = "settle-order@order!orderId=ORD01">结算</div>
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="action.js" %}
+{% tab title="action.js" %}
 ```javascript
 /* 跳转至 default 命名空间下的 targetViewId */
 View.navTo("targetViewId");
@@ -63,6 +61,6 @@ View.navTo("targetViewId", "targetViewNamespace", {
     }
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 

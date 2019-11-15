@@ -6,8 +6,8 @@
 
 View.js提供了两种导航方式：编程式导航 和 声明式导航。例如：
 
-{% code-tabs %}
-{% code-tabs-item title="编程式.js" %}
+{% tabs %}
+{% tab title="编程式.js" %}
 ```javascript
 /* 切换至商品详情页面 */
 View.navTo("goods-detail", {
@@ -16,14 +16,14 @@ View.navTo("goods-detail", {
     }
 });
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="声明式.js" %}
+{% tab title="声明式.js" %}
 ```javascript
 <span data-view-rel = "goods-detail!goodsId=G01">商品详情</span>
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 在执行导航动作时，View.js将自动记录浏览堆栈和浏览顺序，并自动调整 URL 中的 hash，使其匹配新的活动视图信息，例如：
 
@@ -53,8 +53,8 @@ View.navTo("@http://www.baidu.com");
 
 View.js 允许以视图为单位拆分任务，执行多人协作。视图之间使用参数完成协作。参数在进行视图切换时传递，如下所示：
 
-{% code-tabs %}
-{% code-tabs-item title="1.js" %}
+{% tabs %}
+{% tab title="1.js" %}
 ```javascript
 View.navTo("goods-detail", {
     /**
@@ -66,9 +66,9 @@ View.navTo("goods-detail", {
     }
 });
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="2.js" %}
+{% tab title="2.js" %}
 ```javascript
 View.navTo("delivery-address-list", {
     /**
@@ -82,9 +82,9 @@ View.navTo("delivery-address-list", {
     }
 });
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="3.js" %}
+{% tab title="3.js" %}
 ```javascript
 View.navTo("goods-detail", {
     params: {
@@ -102,8 +102,8 @@ view.on("enter", function(){
     goodsId = view.seekParameter("goodsId");// --> G01
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 > `options` 用于指定视图选项，`params` 用于指定视图参数
 
@@ -113,8 +113,8 @@ view.on("enter", function(){
 
 例如：同一个注册页面，对于密码长度，不同的甲方要求执行不同的长度限制：
 
-{% code-tabs %}
-{% code-tabs-item title="register.config.js" %}
+{% tabs %}
+{% tab title="register.config.js" %}
 ```javascript
 var view = View.ofId("register");
 
@@ -124,9 +124,9 @@ view.config.get("password-min-length").setValue(6);
 /* 默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20);
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="register.action.js" %}
+{% tab title="register.action.js" %}
 ```javascript
 var view = View.ofId("register");
 view.find(".submit").addEventListener("click", function(){
@@ -146,9 +146,9 @@ view.find(".submit").addEventListener("click", function(){
     }
 });
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="客户A配置.js" %}
+{% tab title="客户A配置.js" %}
 ```javascript
 var view = View.ofId("register");
 
@@ -159,9 +159,9 @@ view.config.get("password-min-length").setValue(10, true);
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20, true);
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="客户B配置.js" %}
+{% tab title="客户B配置.js" %}
 ```
 var view = View.ofId("register");
 
@@ -172,8 +172,8 @@ view.config.get("password-min-length").setValue(4, true);
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(10, true);
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## 视图上下文
 
@@ -230,22 +230,22 @@ view.on("leave", function(){
 
 除此之外，开发者还可以根据自己的业务需要，自行发起并消费事件，如下所示：
 
-{% code-tabs %}
-{% code-tabs-item title="init.js" %}
+{% tabs %}
+{% tab title="init.js" %}
 ```javascript
 var view = View.ofId("myView");
 view.on("myevent", function(e){
     view.logger.debug("Event name: {}, event data: {}", e.name, e.data);
 });
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="action.js" %}
+{% tab title="action.js" %}
 ```javascript
 var view = View.ofId("myView");
 view.fire("myevent", {a: 1});
 //控制台将输出： 0918 10:20:54 [View#myView]: Event name: null, event data: {"a":1}
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 

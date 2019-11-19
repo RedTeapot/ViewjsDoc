@@ -46,12 +46,33 @@ View.navTo("targetViewId", {
         paramName5: function(data){doSth(data);}/* 传导回调方法 */
     }
 });
+
+/**
+ * 以“替换栈顶”的方式跳转至 my-namespace 命名空间下, ID为 targetVieWId 的视图
+ */
+View.changeTo("targetViewId", "my-namespace", {
+    /**
+     * 开发者可以在视图参数集合指定任意数量的参数，参数取值可以是
+     * 任意合法的js类型
+     */
+    params: {
+        paramName1: "boo",/* 传导字符串 */
+        paramName2: true,/* 传导枚举值 */
+        paramName3: ['str', 123, false, new Object()],/* 传导数组 */
+        paramName4: View.find(".container"),/* 传导DOM元素 */
+        paramName5: function(data){doSth(data);}/* 传导回调方法 */
+    }
+});
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="warning" %}
 视图参数在视图离开后清空（检索参数将得到 `null`），开发者可以将参数存放在 视图上下文 中，以使得视图离开后仍然可以使用视图参数。
+{% endhint %}
+
+{% hint style="info" %}
+`View.back()` 和 `View.forward()` 同样支持视图参数。
 {% endhint %}
 
 ## 参数检索
@@ -134,7 +155,7 @@ view.on("leave", function(){
 
 实现思路为：
 
-1. 用户在 “确认订单” 页面点击 “选择收货地址” 时，“确认订单” 页面跳转至 “收货地址列表” 界面，并传递回调方法：“用户点选特定收货地址时要执行的方法”，方法内部实现用户选择的收货地址的渲染等
+1. 用户在 “确认订单” 页面点击 “收货人” 时，界面跳转至 “收货地址列表”，并传递回调方法：“用户点选特定收货地址时要执行的方法”，方法内部实现用户选择的收货地址的渲染等
 2. “收货地址列表” 界面监听用户对 “收货地址” DOM 元素的点击事件，并在点击时执行收到的回调方法，并将DOM元素关联的收货地址信息传递进去
 
 代码如下：

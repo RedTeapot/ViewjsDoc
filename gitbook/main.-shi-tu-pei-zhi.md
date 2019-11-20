@@ -2,7 +2,11 @@
 
 ## 概述
 
-视图配置，是存放在视图实例上的，用于供开发者检索，以指导视图脚本工作模式、表现形态的工具。
+视图配置，是存放在视图实例上的，用于供开发者检索、配置，以指导视图脚本工作模式、表现形态的工具。
+
+借助视图配置，开发者可以将视图开发为多种形态的综合体，尽可能地提高代码复用度。
+
+> 在相当一部分场景下，尤其是对于软件开发公司，以配置的方式满足不同客户的多样化诉求，会极大地降低维护成本，帮助开发人员规避 “代码存在多份硬拷贝” 的窘境，辅助企业不断实现产出的有效积累。
 
 ## 创建配置
 
@@ -106,36 +110,18 @@ console.log(viewObj.getAttribute("data-viewconfig_if-show-header")); // -> "fals
 {% endtab %}
 {% endtabs %}
 
+## 响应配置
 
+上述的两种配置使用方式并不能满足开发者的所有需求。开发者可以只使用视图配置存放配置取值，然后在脚本中自定义使能逻辑。
 
-在正式介绍视图配置的功能作用之前，我们先来看一看我们在面临『相似而又不同』的需求时，我们是如何处理的。
-
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190220214934986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
-
-如上图所示，我们同时面临3个需求需要满足（这些需求可能是同时提出的，也可能是一个需求满足后而又提出的其它需求），这些需求有相当一部分是重合，可以共用的，但是彼此时间又互有差异之处。
-
-通常的做法，是先满足一个需求，然后将重叠部分的逻辑硬拷贝多份，转而以其为基础分别实现需求B和需求C。
-
-这样做当然可行，但潜在的维护成本就会一下子高出了很多.因为我们都清醒地认识到当代码衍生出多个副本的时候，开发团队就难免会遇到代码同步的问题：
-
-> 在副本A中发现的故障，需要同步在副本B、副本C中解决； 在副本B中丰富的功能，需要同步至副本A、副本C中；
-
-随着项目的进一步开展和功能的进一步丰富，将会出现 “相比功能开发或故障解决而言，代码同步工作会耗费更多的精力”的情况。虽然我们耿耿于怀，越来越担心，但似乎一直找不到合适、优雅的解决办法。
-
-怎么办？ 先从思路上做出改变：
-
-> 将需求A、需求B和需求C合并开发，使用配置决定工作模式
-
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190220220951149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
-
-亦即，开发者可以将需求A和需求B，以及需求C在同一载体上同时实现，然后借助配置工具通过配置决定功能的具体工作模式。 对View.js而言，这个载体就是视图，配置工具，就是视图配置。
-
-借助视图配置，开发者可以将视图开发为多种形态的综合体，最终以视图配置的方式指定视图的具体工作模式或表现形式。 例如，开发者可以使用视图配置轻松实现如下需求：
+例如，对于需求：
 
 > 注册界面的密码长度，软件定制客户A要求在6-20位，软件定制客户B要求在4-10位。
 
-代码如下所示：
+可以使用如下代码实现：
 
+{% tabs %}
+{% tab title="视图脚本" %}
 ```javascript
 var view = View.ofId("register");
 
@@ -145,6 +131,7 @@ view.config.get("password-min-length").setValue(10);
 /* 默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20);
 
+/* 注册提交 */
 view.find(".submit").addEventListener("click", function(){
     var pwd = pwdObj.value.trim();
 
@@ -162,26 +149,32 @@ view.find(".submit").addEventListener("click", function(){
     }
 });
 ```
+{% endtab %}
 
-客户A的配置：
-
+{% tab title="客户A的配置" %}
 ```javascript
+var view = View.ofId("register");
+
 /* 重载既有配置：密码最少位数 */
-view.config.get("password-min-length").setValue(6, true);/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
+/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
+view.config.get("password-min-length").setValue(6, true);
 
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(20, true);
 ```
+{% endtab %}
 
-客户B的配置：
-
+{% tab title="客户B的配置" %}
 ```javascript
+var view = View.ofId("register");
+
 /* 重载既有配置：密码最少位数 */
-view.config.get("password-min-length").setValue(4, true);/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
+/* 第二个参数用于复写可能已经存在的值，如果不传且已经有值，则赋值无效，相当于什么也没做 */
+view.config.get("password-min-length").setValue(4, true);
 
 /* 重载默认配置：密码最多位数 */
 view.config.get("password-max-length").setValue(10, true);
 ```
-
-[\[第一篇\]](https://blog.csdn.net/baozhang007/article/details/81587648) [\[上一篇 - 初始化\]](https://blog.csdn.net/baozhang007/article/details/87387097) [\[下一篇 - 日志输出\]](https://blog.csdn.net/baozhang007/article/details/87903508)
+{% endtab %}
+{% endtabs %}
 

@@ -16,7 +16,7 @@ description: View.js 支持 视图参数 和 视图选项 两种数据传递媒�
 4. `View.forward()`
 
 {% hint style="info" %}
-视图参数只能使用 js 传导，不能使用 dom 指令传导。
+视图参数只能使用 js 传导，不能使用 html 指令传导。
 {% endhint %}
 
 ## 参数赋值
@@ -86,6 +86,7 @@ view.on("enter", function(){
     console.log(params["paramName3"] === param3); // -> true
     console.log(params["paramName4"] === param4); // -> true
     console.log(params["paramName5"] === param5); // -> true
+});
 ```
 {% endtab %}
 {% endtabs %}

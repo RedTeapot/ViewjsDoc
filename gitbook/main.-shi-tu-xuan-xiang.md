@@ -2,132 +2,168 @@
 
 ## 概述
 
-视图选项，是 View.js 支持的第二种数据传导方式。
-
+视图选项，是 View.js 支持的第二种数据传导方式。  
 与视图参数不同的是，视图选项的传导媒介，是地址栏。其地址栏表现形态如下所示：
 
 > _http://domain:port/context/path/to/html\#view-id@view-namespace!**option1=value1&option2=value2...**_
 
 其中，`option1` 和 `option2` 即为视图选项。
 
-{% hint style="info" %}
-`#` 符号即为锚点，是视图ID的URL前缀；`@` 符号为 视图ID 与 视图命名空间的分隔符；`!` 符号为 视图 与 视图选项 的分隔符；`&` 符号为多个选项之间的分隔符；`=` 符号为 选项 key 与 选项 value 之间的分隔符。
-{% endhint %}
-
-{% hint style="warning" %}
-地址栏只呈现当前活动视图所关联的视图选项。
-{% endhint %}
-
 开发者同样只能在 视图跳转 时指定视图选项。但支持指定视图选项的视图跳转 API 只包括：
 
 1. `View.navTo()` 
 2. `View.changeTo()`
 
-并不包括：
+## 参数赋值
 
-1. `View.back()`
-2. `View.forward()`
+视图选项的赋值，同时支持使用 js 传导来进行 和 使用 html 传导来进行。
 
+对于 js 传导，使用预留关键字：`options` 在跳转指令中指定，例如：
 
-
-我们在上一章节中讲述了多视图协作时视图参数的使用方式，本文将就视图之间的参数传递问题做进一步的补充描述。
-
-使用了视图参数的开发者会遇到的第一个问题，可能是：
-
-> 视图参数在目标视图刷新后获取不到
-
-是的，确实是这样。 作为最灵活、支持类型最全面的传参方式，视图参数的传递是临时性的，一次性的，是在内存中发生的。这意味着：
-
-1. 视图刷新后，视图参数消失
-2. 视图参数只能批量设置。亦即，第二次视图进入传递的视图参数会覆盖第一次传递的参数
-
-为了解决问题1，View.js同步引入了【视图选项】概念，以作为视图参数的补充，满足开发者传参需要在刷新后依然可见的需求。
-
-## 表现形式
-
-和视图参数不同，通过视图选项传递的参数将实时提现在地址栏中。同时有别于queryString，视图选项的参数名和参数值，是附加在视图ID之后的，如下所示：
-
-```text
-http://mall.com/index.html#confirm-order!goodsId=G01&count=1
-```
-
-其中，字符：“!”是视图ID与选项的分隔符，视图选项的多个参数之间使用字符：“&”分隔。
-
-## 传参方式
-
-View.js为所有视图切换API均加上了参数传递支持，包括： 1. View.navTo\(\) 2. View.changeTo\(\) 3. View.back\(\) 4. View.forward\(\)
-
-例如：
-
+{% tabs %}
+{% tab title="action.js" %}
 ```javascript
-View.navTo("confirm-order", {
+/**
+ * 以“替换栈顶”的方式跳转至 mall 命名空间下, ID为 goods-detail 的视图。
+ *
+ * 第一个和第二个参数指定了跳转目标；
+ * 第三个参数指定了跳转控制选项，其中，关键字：'options' 用于指定视图选项集合。
+ */
+View.changeTo("goods-detail", "mall", {
+    /**
+     * 视图选项只支持字符串类型
+     */
     options: {
-        goodsId: "G01",
-        count: 1
+        paramName1: "boo"
+        paramName2: "bar"
     }
 });
 ```
+{% endtab %}
+{% endtabs %}
 
-其中，对象：`{options: xxx}`是视图切换选项，使用关键字：`options` 指定视图选项这一选项。（除视图选项外，视图切换还有其它控制选项，后面的章节会有介绍。）
+对于 html 传导，在 `data-view-rel` 指令中，使用 `!` 符号追加至跳转目标后即可，例如：
 
-## 获取方法
+{% tabs %}
+{% tab title="main.html" %}
+```markup
+<!-- 跳转目标是 视图ID -->
+<span data-view-rel = "goods-detail!id=ID666" data-view-rel-namespace = "mall">商品详情</span>
 
-View.js提供了多种方式获取视图选项：
-
-```javascript
-/* 获取所有选项 */
-View.getActiveViewOptions();// -> {goodsId: "G01", count: "1"}
-
-/* 获取单个选项 */
-View.getActiveViewOption("count");// --> "1"
+<!-- 跳转目标是 视图群组（~ 符号用于告诉 View.js 字符串："detail" 是 视图群组名称，而非 视图ID） -->
+<span data-view-rel = "~detail!id=ID666" data-view-rel-namespace = "mall">商品详情</span>
 ```
+{% endtab %}
+{% endtabs %}
 
-**开发者要留意的是，这两项API不是视图实例所拥有的，是宏观层面的API。**
+## 参数获取
 
-此外，为简化开发者工作，View.js在视图实例上提供了智能化的API：`view.seekParameter({String} paramName)`，该方法按如下方式工作：
+由于视图选项的传导媒介是地址栏，而地址栏只能表达出当前活动视图的信息，所以开发者只能获取到当前活动视图所关联的视图选项。
 
-1. 从视图参数中查找名为goodsId的参数，有则返回，没有则执行步骤2；
-2. 从视图选项中查找名为goodsId的参数，有则返回，没有则执行步骤3；
-3. 从queryString中查找名为goodsId的参数，有则返回对应的取值，没有则返回null
+用于获取当前活动视图的视图选项的API为：
+
+1. `View.hasActiveViewOption(name: string): boolean` 判断视图选项中是否含有特定名称的参数
+2. `View.getActiveViewOption(name: string): null|string` 获取视图选项中特定名称的参数
+3. `View.getActiveViewOptions(): null|Object<string, string>` 获取视图选项描述的参数集合
 
 例如：
 
+{% tabs %}
+{% tab title="init.js" %}
 ```javascript
+var view = View.ofId("goods-detial", "mall");
+
+view.on("enter", function(){
+    var param1 = View.getActiveViewOption("paramName1"); // -> "boo"
+    var param2 = View.getActiveViewOption("paramName2"); // -> "bar"
+    var id = View.getActiveViewOption("id"); // -> "ID666"
+    
+    var options = View.getActiveViewOptions();
+    console.log(options["paramName1"] === param1); // -> true
+    console.log(options["paramName2"] === param1); // -> true
+    console.log(options["id"] === param1); // -> true
+});
+```
+{% endtab %}
+{% endtabs %}
+
+{% hint style="warning" %}
+参数名区分大小写
+{% endhint %}
+
+## 参数更新
+
+部分情况下，开发者需要响应用户的操作，更新地址栏中的视图选项。对此，View.js 提供了API：`View.setActiveViewOption(name: string, value: string)` 来应对。例如：
+
+{% tabs %}
+{% tab title="main.js" %}
+```javascript
+var count = view.getActiveViewOption("count") || 1;
+
+
+/**
+ * 增加购买数量
+ */
+Hammer(plusObj).on("tap", function(){
+    View.setActiveViewOption("count", String(++count));
+});
+```
+{% endtab %}
+{% endtabs %}
+
+## 与 视图参数 的对比
+
+由于视图选项是通过地址栏传导的，并且只能检索当前活动视图关联的视图选项，所以视图选项在如下几个方面与视图参数有所不同：
+
+1. 参数个数受浏览器地址栏长度限制
+2. 参数类型只能是 `string` 类型
+3. 参数在页面刷新后仍然可以检索到
+4. 参数在浏览器前进或后退时自动恢复
+
+## 更智能的参数检索方法
+
+为简化开发者的参数检索工作，View.js 提供了一个更智能的参数检索API：`View.seekParameter(name: string)`。
+
+该方法如下方式工作：
+
+1. 尝试从 视图参数 中检索同名参数，有则返回，没有则执行步骤2；
+2. 尝试从 视图选项 中检索同名参数，有则返回，没有则执行步骤3；
+3. 尝试从 queryString 中 检索同名参数，有则返回对应的取值，没有则返回 `null`。
+
+例如：
+
+{% tabs %}
+{% tab title="action.js" %}
+```javascript
+/**
+ * 从 商品详情 页面跳转至 确认订单 界面
+ *
+ * 跳转前，页面的URL为：http://domain/main.html?id=G01#goods-detail
+ */
 View.navTo("confirm-order", {
     params: {
-        goodsId: "G01"
+        inventory: 100 /* 库存量：100 */
     },
     options: {
-        count: 1
+        count: 1 /* 购买个数：1 */
     }
 });
-
-view.seekParameter("goosId");// -> G01
-view.seekParameter("count");// -> 1
 ```
+{% endtab %}
 
-需要注意的是，视图选项是与视图ID绑定在一起的，仅当绑定的视图是活动视图的时候，才可以通过API正确地获取到参数取值。 这样做还有另外一个好处，就是即便通过浏览器的前进后退按钮切换视图，视图选项也仍然可以在视图切换为活动状态时获取得到。
-
-## 参数类型
-
-与 [视图参数](https://blog.csdn.net/baozhang007/article/details/84886614) 相比，借助视图选项可以传递的参数类型，则要受限很多。与queryString类似，通过视图选项传递的参数在通过API索取时，所得到的取值类型均为 `String` 。
-
-## 更新参数取值
-
-在一些情况下，开发者需要响应用户的操作，将操作结果更新到视图选项中，以规避 “视图离开并重新进入时参数值被重置” 的问题。此时，开发者可以通过方法： `View.setActiveViewOption(name {String}, value {String})` 方法更新地址栏中的参数值。例如：
-
+{% tab title="init.js" %}
 ```javascript
-/* 从 商品详情界面 进入 确认订单界面 */
-View.navTo("confirm-order", {
-    options: {
-        goodsId: "G01",
-        count: "2"
-    }
-});
-// 此时地址栏将为：#confirm-order!goodsId=G01&count=2
+var view = View.ofId("confirm-order");
 
-/* 确认订单界面 */
-View.setActiveViewOption("count", "3");
-// 此时地址栏姜维：#confirm-order!goodsId=G01&count=3
+/**
+ * 跳转后，页面的URL为 http://domain/main.html?id=G01#confirm-order!count=1
+ */
+view.on("enter", function(){
+    console.log(view.seekParameter("id")); // -> "G01"
+    console.log(view.seekParameter("inventory")); // -> 100
+    console.log(view.seekParameter("count")); // -> "1"
+});
 ```
+{% endtab %}
+{% endtabs %}
 

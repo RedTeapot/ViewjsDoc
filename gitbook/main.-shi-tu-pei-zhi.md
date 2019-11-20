@@ -1,5 +1,113 @@
 # 视图配置
 
+## 概述
+
+视图配置，是存放在视图实例上的，用于供开发者检索，以指导视图脚本工作模式、表现形态的工具。
+
+## 创建配置
+
+开发者可以通过配置的获取方法自动创建一个原来不存在的配置，例如：
+
+{% tabs %}
+{% tab title="config.js" %}
+```javascript
+var view = View.ofId("myView");
+
+/**
+ * 每个视图实例上均有 "config" 属性，以供开发者获取视图配置句柄。
+ *
+ * 获取 key 为 "config-item" 的配置项。
+ * 如果配置项并不存在，则 get 方法会在调用时将其自动创建出来。
+ */
+var config = view.config.get("config-item");
+
+/**
+ * 应用配置
+ * 因为此时并没有提供应用逻辑，所以什么也不会发生。但也不会报错。
+ */
+config.apply();
+
+/**
+ * 通过API： setApplication(application: Function) 设置应用逻辑
+ */
+config.setApplication(function(value){
+    console.log("Applying config: 'config-item' = " + value);
+});
+
+/**
+ * 通过API：setValue(value: any) 设置配置项取值，并应用配置值
+ */
+config.setValue([666, "str"]);
+config.apply(); // -> Applying config: 'config-item' = [666, "str"]
+```
+{% endtab %}
+{% endtabs %}
+
+## 应用配置
+
+因为每个配置项的工作逻辑可能并不相同，所以应用配置前，开发者需要提供配置的应用逻辑，告诉 View.js 在应用配置时要执行的方法，例如：
+
+```javascript
+var view = View.ofId("myView");
+
+var configItem = view.config.get("config-item");
+
+/**
+ * 应用配置
+ * 因为此时并没有提供应用逻辑，所以什么也不会发生。但也不会报错。
+ */
+configItem.apply();
+
+/**
+ * 通过API： setApplication(application: Function) 设置应用逻辑
+ */
+configItem.setApplication(function(value){
+    console.log("Applying config: 'config-item' = " + value);
+});
+
+/**
+ * 通过API：setValue(value: any) 设置配置项取值，并应用配置值
+ */
+configItem.setValue([666, "str"]);
+configItem.apply(); // -> Applying config: 'config-item' = [666, "str"]
+```
+
+除了 `apply()` 方法外，每个配置项还有 `reflectToDom()` 方法，用于样式使能的配置逻辑。
+
+`reflectToDom()` 方法在调用时，View.js 将在视图的 DOM 元素上设置属性：`data-viewconfig_xx=yy` 。其中 `xx` 为配置项的key，`yy` 为配置项的取值。对应地，开发者需要据此撰写对应配置项取值的 css，否则方法调用并不会产生任何实质上的变化。
+
+例如：
+
+{% tabs %}
+{% tab title="config.js" %}
+```javascript
+var view = View.ofId("myView");
+
+/* 配置项：是否呈现 header */
+view.config.get("if-show-header").setValue("false").reflecToDom();
+
+/* 视图关联的DOM元素 */
+var viewObj = view.getDomElement();
+console.log(viewObj.getAttribute("data-viewconfig_if-show-header")); // -> "false"
+```
+{% endtab %}
+
+{% tab title="view.scss" %}
+```css
+[data-view-id=myView]{
+    /* 隐藏 header */
+    &[data-viewconfig_if-show-header=false]{
+        header{
+            display: none;
+        }
+    }
+}
+```
+{% endtab %}
+{% endtabs %}
+
+
+
 在正式介绍视图配置的功能作用之前，我们先来看一看我们在面临『相似而又不同』的需求时，我们是如何处理的。
 
 ![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190220214934986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)

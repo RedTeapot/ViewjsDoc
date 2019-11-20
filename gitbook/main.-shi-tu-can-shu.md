@@ -10,18 +10,18 @@ description: View.js 支持 视图参数 和 视图选项 两种数据传递媒�
 
 开发者只能在 视图跳转 时指定视图参数。支持指定视图参数的视图跳转 API 包括：
 
-1. `View.navTo` 
-2. `View.changeTo`
+1. `View.navTo()` 
+2. `View.changeTo()`
 3. `View.back()`
 4. `View.forward()`
 
 {% hint style="info" %}
-视图参数只能使用 js 传导，不能使用 dom 指令传到。
+视图参数只能使用 js 传导，不能使用 dom 指令传导。
 {% endhint %}
 
 ## 参数赋值
 
-视图参数使用预留关键字：`params` 指定，例如：
+视图参数在跳转指令中使用预留关键字：`params` 指定，例如：
 
 {% tabs %}
 {% tab title="action.js" %}
@@ -68,11 +68,7 @@ View.changeTo("targetViewId", "my-namespace", {
 {% endtabs %}
 
 {% hint style="warning" %}
-视图参数在视图离开后清空（检索参数将得到 `null`），开发者可以将参数存放在 视图上下文 中，以使得视图离开后仍然可以使用视图参数。
-{% endhint %}
-
-{% hint style="info" %}
-`View.back()` 和 `View.forward()` 同样支持视图参数。
+视图参数在视图离开后清空，此时检索参数将得到 `null`。开发者可以将参数存放在 视图上下文 中，以使得视图离开后仍然可以使用视图参数。
 {% endhint %}
 
 ## 参数检索
@@ -99,7 +95,7 @@ view.on("enter", function(){
     var param4 = view.getParameter("paramName4"); // -> HTMLDivElement
     var param5 = view.getParameter("paramName5"); // -> function(){...}
     
-    var params = view.getParameter();
+    var params = view.getParameter();/* 获取整个参数集合 */
     console.log(params["paramName1"] === param1); // -> true
     console.log(params["paramName2"] === param2); // -> true
     console.log(params["paramName3"] === param3); // -> true
@@ -155,7 +151,7 @@ view.on("leave", function(){
 
 实现思路为：
 
-1. 用户在 “确认订单” 页面点击 “收货人” 时，界面跳转至 “收货地址列表”，并传递回调方法：“用户点选特定收货地址时要执行的方法”，方法内部实现用户选择的收货地址的渲染等
+1. 用户在 “确认订单” 页面点击 “收货人” 时，界面跳转至 “收货地址列表”，并传递回调方法：“_用户点选特定收货地址时要执行的方法_”，方法内部实现用户选择的收货地址的渲染等
 2. “收货地址列表” 界面监听用户对 “收货地址” DOM 元素的点击事件，并在点击时执行收到的回调方法，并将DOM元素关联的收货地址信息传递进去
 
 代码如下：
@@ -165,6 +161,10 @@ view.on("leave", function(){
 ```javascript
 var view = View.ofId("confirm-order");
 
+/**
+ * view.find() 方法等同于 view.getDomElement().querySelector()，
+ * 用于查找视图的DOM骨架中，符合给定选择器的DOM元素
+ */
 var consigneeObj = view.find(".consignee"),
     consigneeNameObj = view.find(".consignee-name"),
     consigneePhoneObj = view.find(".consignee-phone"),

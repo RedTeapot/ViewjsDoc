@@ -1,5 +1,35 @@
 # 视图选项
 
+## 概述
+
+视图选项，是 View.js 支持的第二种数据传导方式。
+
+与视图参数不同的是，视图选项的传导媒介，是地址栏。其地址栏表现形态如下所示：
+
+> _http://domain:port/context/path/to/html\#view-id@view-namespace!**option1=value1&option2=value2...**_
+
+其中，`option1` 和 `option2` 即为视图选项。
+
+{% hint style="info" %}
+`#` 符号即为锚点，是视图ID的URL前缀；`@` 符号为 视图ID 与 视图命名空间的分隔符；`!` 符号为 视图 与 视图选项 的分隔符；`&` 符号为多个选项之间的分隔符；`=` 符号为 选项 key 与 选项 value 之间的分隔符。
+{% endhint %}
+
+{% hint style="warning" %}
+地址栏只呈现当前活动视图所关联的视图选项。
+{% endhint %}
+
+开发者同样只能在 视图跳转 时指定视图选项。但支持指定视图选项的视图跳转 API 只包括：
+
+1. `View.navTo()` 
+2. `View.changeTo()`
+
+并不包括：
+
+1. `View.back()`
+2. `View.forward()`
+
+
+
 我们在上一章节中讲述了多视图协作时视图参数的使用方式，本文将就视图之间的参数传递问题做进一步的补充描述。
 
 使用了视图参数的开发者会遇到的第一个问题，可能是：

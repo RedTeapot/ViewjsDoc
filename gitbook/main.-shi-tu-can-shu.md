@@ -46,29 +46,14 @@ View.navTo("targetViewId", {
         paramName5: function(data){doSth(data);}/* 传导回调方法 */
     }
 });
-
-/**
- * 以“替换栈顶”的方式跳转至 my-namespace 命名空间下, ID为 targetVieWId 的视图
- */
-View.changeTo("targetViewId", "my-namespace", {
-    /**
-     * 开发者可以在视图参数集合指定任意数量的参数，参数取值可以是
-     * 任意合法的js类型
-     */
-    params: {
-        paramName1: "boo",/* 传导字符串 */
-        paramName2: true,/* 传导枚举值 */
-        paramName3: ['str', 123, false, new Object()],/* 传导数组 */
-        paramName4: View.find(".container"),/* 传导DOM元素 */
-        paramName5: function(data){doSth(data);}/* 传导回调方法 */
-    }
-});
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="warning" %}
 视图参数在视图离开后清空，此时检索参数将得到 `null`。开发者可以将参数存放在 视图上下文 中，以使得视图离开后仍然可以使用视图参数。
+
+视图参数只能以集合的形式批量设置，不能按参数名分别设置。
 {% endhint %}
 
 ## 参数检索

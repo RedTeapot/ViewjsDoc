@@ -1,39 +1,60 @@
 # 视图标题
 
-视图标题，是由每个视图分别声明，展示在浏览器标签页上的、独立的窗口标题。开发者可以借助视图标题实现 『进入不同页面展现不同标题』 的效果，如下图所示：
+## 概述
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/2019030318183622.gif)
+视图标题，是声明在视图 DOM 元素上的，用于在视图切换为活动状态时，展示在浏览器标签页上的窗口标题。
 
-实现上述效果，开发者只需要在视图的DOM节点上声明`data-view-title`属性并将视图标题赋值为属性值即可，如下图所示：
+借助视图标题，开发者可以轻松实现 “进入不同页面显示不同标题” 的效果，如下所示：
 
+![&#x6D4F;&#x89C8;&#x5668;&#x6807;&#x9898;&#x7684;&#x81EA;&#x52A8;&#x5207;&#x6362;](https://img-blog.csdnimg.cn/2019030318183622.gif)
+
+## 声明标题
+
+开发者只需在视图的 DOM 元素上声明 `data-view-title` 属性，并赋值为期望的标题即可声明视图标题。例如：
+
+{% tabs %}
+{% tab title="view.html" %}
 ```markup
-<section id="doc_what-is-spa"
-    data-view="true"
-    data-view-title="什么是单页应用">
-    <header>
-        <a class="nav-back" data-view-rel=":back"></a>
-        <span>什么是单页应用</span>
-    </header>
-    <div class="body">
-        <p>单页应用，是指将用户视觉上的多个页面（以下简称“视图”）在技术上使用一个载体来实现的应用。放到web前端环境中，这个载体就是单独的html文件。</p>
-    </div>
-    <footer><div class="btn next" data-view-rel="doc_impl-spa">下一节</div></footer>
+<section
+    data-view-id="view-title"
+    data-view-title="视图标题">
+    <!-- ... -->
 </section>
 ```
+{% endtab %}
+{% endtabs %}
 
-当开发者为视图声明了视图标题后，View.js将在视图进入时自动使用设定的视图标题改写浏览器标题。在视图离开之后，进入下一个视图之前自动恢复浏览器标题。
+如果当前的活动视图没有声明视图标题，View.js 将自动使用在初始化阶段捕获的文档标题更新浏览器标题。
 
-需要注意的是，用于执行恢复动作的浏览器标题，是在视图初始化时自动捕获的（除非开发者另行设定，否则View.js将在`DOMContentLoaded`事件发生时自动初始化）。如果这一特性无法满足开发者，开发者则可以通过`View.setDocumentTitle({String} title)`主动通知View.js对应的浏览器标题。相关View.js源码如下所示：
+## 修改标题
 
+View.js 允许开发者动态修改视图标题，例如：
+
+{% tabs %}
+{% tab title="action.js" %}
 ```javascript
-View.setDocumentTitle = function(title){
-    if(util.isEmptyString(title, true)){
-        globalLogger.warn("Invalid document title: " + title);
-        return View;
-    }
+var view = View.ofId("myView");
 
-    document.title = documentTitle = title;
-    return View;
-};
+/* 设置新的标题 */
+view.setTitle("新的标题");
+
+/* 获取当前的视图标题 */
+console.log(view.getTitle()); // -> "新的标题"
 ```
+{% endtab %}
+{% endtabs %}
+
+在动态设置视图标题时，如果视图当前处于活动状态，则浏览器标题也将同步发生变化。
+
+## 注意事项
+
+当开发者为视图声明了视图标题后，View.js将在 视图进入 时自动使用设定的视图标题改写浏览器标题。在视图离开之后，进入下一个视图之前自动恢复浏览器标题。
+
+需要注意的是，用于执行恢复动作的浏览器标题，是在视图初始化时自动捕获的。（除非开发者另行设定，否则 View.js 将在`DOMContentLoaded`事件发生时执行初始化动作。）
+
+开发者可以通过 `View.setDocumentTitle(title: string)` 主动通知View.js 其需要捕获的浏览器标题。
+
+{% hint style="info" %}
+如果当前的活动视图并没有声明视图标题，则浏览器上呈现的文档标题将自动变更为新设置的文档标题。
+{% endhint %}
 

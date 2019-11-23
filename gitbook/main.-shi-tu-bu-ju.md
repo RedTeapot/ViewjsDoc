@@ -1,53 +1,96 @@
 # 视图布局
 
-## 布局方式
+## 概述
 
-作为用户视觉的页面载体，每个视图都可能拥有自己独特的布局。 下图是移动端常见的布局结构：
+作为用户视觉的页面载体，每个视图都可能拥有自己独特的布局结构，例如：
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190303194147538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+![&#x79FB;&#x52A8;&#x7AEF;&#x5E38;&#x89C1;&#x5E03;&#x5C40;&#x7ED3;&#x6784;](https://img-blog.csdnimg.cn/20190303194147538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
 
-其中，顶部标题栏和底部导航栏，以及可能存在的标签页栏，通常情况下是需要固定位置显示的。开发者一般采用绝对定位的方式将其固定。但在页面涉及用户输入的场景下，为避免弹出的虚拟键盘将底部导航 “顶上去” 的情况等，View.js 建议开发者使用脚本动态布局来实现位置固定的目的，亦即：
-
-> \[可滚动正文\] 的高度 = 布局空间的总高度 - \[标题\]的高度 - \[底部导航\] 的高度
-
-其中，布局空间的高度基本上等同于浏览器正文区域的高度，例如：
-
-```javascript
-var totalHeight = View.layout.getLayoutHeight();
-var height = totalHeight - headerObj.offsetHeight;
-
-bodyObj.style.height = height + "px";
-```
-
-## 布局动作
+大多数情况下，开发者使用 css 就可以完成页面布局。但有的时候，开发者需要使用 js 进行动态布局，并且要响应布局空间的大小变化（例如：窗口大小的变化），触发布局动作的再次执行。
 
 为简化开发者的开发工作，View.js按如下方式供开发者实现动态布局：
 
-> 1. 开发者提供特定布局空间宽度和高度下的布局动作；
-> 2. View.js自动检测布局环境的变化，做出是否需要重新布局的决定，并自动计算出布局空间的宽度和高度；
-> 3. View.js使用计算得出的布局空间的宽度和高度调用开发者提供的布局动作，实现动态布局的目的
+1. 开发者通过 API 向 View.js 提供布局动作
+2. View.js 自动检测布局空间的变化，在必要的时候触发布局动作的执行
 
-开发者可以通过API：
+## 布局动作
 
-> `view.setLayoutAction({Function} action, {Boolean} [ifLayoutWhenLayoutChanges=true])`
+布局动作，即为 View.js 为视图进行动态布局时要调用的方法。每个视图都有属于自己的布局动作，因此开发者需要分别设置。
 
+View.js 在执行布局动作时，将传入开发者可使用的布局空间的宽度和高度。开发者应当确保视图内的元素不会超出这一空间大小，否则将会带来糟糕的视觉体验。
+
+可布局空间的大小，受视图容器的尺寸和内边距影响。其中：
+
+> 可布局宽度 = 视图容器.`clientWidth` - 视图容器.`padddingLeft` - 视图容器.`paddingRight`
+>
+> 可布局高度 = 视图容器.`clientHeight` - 视图容器.`paddingTop` - 视图容器.`paddingBottom`
+
+源码如下：
+
+{% tabs %}
+{% tab title="View.js源码片段" %}
+```javascript
+/**
+ * 获取布局宽度
+ */
+var getLayoutWidth = function(){
+	var containerObj = getViewContainerObj();
+	var style = util.getComputedStyle(containerObj);
+	var paddingLeft = Number(style.paddingLeft.replace(/px/, "")),
+		paddingRight = Number(style.paddingRight.replace(/px/, ""));
+	if(isNaN(paddingLeft))
+		paddingLeft = 0;
+	if(isNaN(paddingRight))
+		paddingRight = 0;
+	return containerObj.clientWidth - paddingLeft - paddingRight;
+};
+
+/**
+ * 获取布局高度
+ */
+var getLayoutHeight = function(){
+	var containerObj = getViewContainerObj();
+	var style = util.getComputedStyle(containerObj);
+	var paddingTop = Number(style.paddingTop.replace(/px/, "")),
+		paddingBottom = Number(style.paddingBottom.replace(/px/, ""));
+	if(isNaN(paddingTop))
+		paddingTop = 0;
+	if(isNaN(paddingBottom))
+		paddingBottom = 0;
+	return containerObj.clientHeight - paddingTop - paddingBottom;
+};
+```
+{% endtab %}
+{% endtabs %}
+
+> 之所以减去内边距，是考虑到开发者 “需要在视图容器内创建多视图共用的 footer” 的可能，从而用于为 footer 预留空间，实现 footer 与视图内容的无缝衔接。
+
+
+
+开发者可以通过API：  
+`view.setLayoutAction(action: Function, ifLayoutWhenLayoutChanges?: boolean = true)`   
 设定布局动作。如：
 
+{% tabs %}
+{% tab title="init.layout.js" %}
 ```javascript
-var viewId = "myView";
-var view = View.ofId(viewId);
+var view = View.ofId("myView");
 
-var headerObj = view.find("header");
-var bodyObj = view.find(".body"),
-    btnObj = view.find(".btn");
+var headerObj = view.find("header"),
+    bodyObj = view.find(".body");
 
 view.setLayoutAction(function(){
+    /**
+     * 可滚动区域的高度 = 布局空间总高度 - header高度
+     */
     var totalHeight = View.layout.getLayoutHeight();
-    var height = totalHeight - headerObj.offsetHeight - btnObj.offsetHeight;
+    var height = totalHeight - headerObj.offsetHeight;
 
     bodyObj.style.height = height + "px";
 });
 ```
+{% endtab %}
+{% endtabs %}
 
 布局动作会在视图的每次进入前（ `enter` 事件触发前）执行。如果视图是第一次进入，则在 `ready` 事件触发前执行。
 

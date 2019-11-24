@@ -1,10 +1,28 @@
 # 日志输出
 
-为辅助开发者更清晰地排查问题，View.js内置了格式化日志输出组件，输出效果如下图所示：
+为辅助开发者更清晰地排查问题，View.js 为每个视图实例内置了格式化日志输出组件，开发者可以通过 `logger` 句柄直接使用。例如：
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190224152904243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+{% tabs %}
+{% tab title="init.js" %}
+```javascript
+var view = View.ofId("myView");
 
-每个视图实例均含有名为logger的实例句柄，开发者可以直接使用。 支持的日志级别包括（级别从低到高）：
+// 1124 21:28:17 [View#myView]: debug
+view.logger.debug("debug");
+
+// 1124 21:28:29 [View#myView]: hello, world
+view.logger.info("hello, {}", "world");
+
+// 1124 21:28:41 [View#myView]: data: {a: 1}
+view.logger.warn("data: {}", {a: 1});
+
+// 1124 21:28:43 [View#myView]: error: {}
+view.logger.error("error: \\{}");
+```
+{% endtab %}
+{% endtabs %}
+
+View.js 共支持如下 5 种级别的日志输出（级别从低到高）：
 
 1. debug
 2. log

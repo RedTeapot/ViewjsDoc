@@ -56,7 +56,7 @@ view.setLayoutAction(function(layoutWidth, layoutHeight){
 {% endtab %}
 {% endtabs %}
 
-设置的布局动作会在视图每次进入时，`enter` 事件触发前由 View.js  自动执行。
+设置布局动作后，View.js 将在视图每次进入时，`enter` 事件触发前自动触发布局动作的执行。
 
 如果视图在活动状态下需要再次布局，开发者需要手动执行布局方法。例如：
 
@@ -97,7 +97,7 @@ layoutAction();
 
 ## 场景化布局
 
-在布局的功能设计上，View.js 假定不同浏览场景下需要执行的布局动作是不同的，允许开发者为此分别设置。
+在布局的功能设计上，View.js 假定不同浏览场景下需要展现的布局是不同的，允许开发者为此分别设置。
 
 > 与 “布局动作，用于实现单个视图的动态调整” 所不同，场景化布局，多用于调整视图容器的显示效果，实现整个应用统一调整。
 
@@ -110,7 +110,7 @@ View.js 支持如下几种场景：
 5. 使用 PC设备 在 类竖屏模式（窗口宽度小于等于高度） 下浏览
 6. 使用 PC设备 在 类横屏模式（窗口宽度大于高度） 下浏览
 
-开发者可以通过 API：`View.layout.init` 设置不同场景下的布局动作。例如：
+开发者可以通过 API：`View.layout.init` 分别设置这几个不同场景下的布局动作，以实现场景化布局的目的。例如：
 
 {% tabs %}
 {% tab title="init.js" %}
@@ -152,7 +152,7 @@ View.layout.init({
 {% endtab %}
 {% endtabs %}
 
-View.js 将自动完成设备类型及设备方向的识别，并调用开发者设置的对应的布局动作。
+在实际运行时，View.js 将自动完成设备类型及设备方向的识别，并调用开发者设置的对应的布局动作。
 
 {% hint style="warning" %}
 开发者设置该方法后，`data-view-whr` 属性将失效。
@@ -174,12 +174,18 @@ View.js 将自动完成设备类型及设备方向的识别，并调用开发者
 {% tabs %}
 {% tab title="main.html" %}
 ```markup
-<body data-view-whr = "375/568">
+<body data-view-container data-view-whr = "375/568">
     ...
 </body>
 ```
 {% endtab %}
 {% endtabs %}
+
+{% hint style="info" %}
+'whr' 是 'width height ratio' 的缩写，用于表示 “宽度与高度的比值”。
+{% endhint %}
+
+
 
 效果如下所示：
 

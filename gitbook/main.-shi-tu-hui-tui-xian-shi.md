@@ -1,37 +1,105 @@
-# 视图回退显示
+# 回退视图
 
-View.js允许开发者设定视图是否可以『直接访问』，亦即：
+## 概述
 
-> 是否可以根据视图的URI位置打开视图
+回退视图，并非是视图的某一种类型，而是指在不可直接访问的视图上指定的，页面刷新后将要显示的视图，亦即，需要回退显示的视图。
 
-我们来看一个可以直接打开的例子：
+回退视图通常需要设置为逻辑距离上比较近的视图。例如：
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190304133001243.gif)
+![&#x89C6;&#x56FE;&#x7684;&#x56DE;&#x9000;&#x663E;&#x793A;](.gitbook/assets/1%20%282%29.gif)
 
-如上图所示，视图：“attr\_data-view-rel”便是可以直接访问的。
+在上图中，“个人中心子页面” 是不可直接访问的，但由于设定了其回退视图为 “个人中心”，所有页面刷新后展现的，是个人中心界面。
 
-我们再来看一个不能直接打开的例子：
+如果没有设置回退视图，那么页面将在刷新后呈现默认视图。
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190306131714874.gif)
+## 设置回退视图
 
-其中，视图：`ProfileSubPage` 和 `Page2` 均是不能直接访问，均在刷新后离开切换到了其它视图。亦即，这两个视图将显示动作回退至其它视图。
+开发者可以使用属性： `data-view-fallback` 指定回退视图。例如：
 
-之所以 `ProfileSubPage` 视图在刷新后回退至 `Profile` 视图，而不是像 `Page2` 一样切换至首页，是因为该视图使用属性：`data-view-rel` 设定了回退视图（亦即，该视图不能直接访问时需要展现的视图），源码如下所示：
-
+{% tabs %}
+{% tab title="main.html" %}
 ```markup
-<section id = "profile-sub" data-view = "true" data-view-directly-accessible = "false" data-view-fallback = "profile">
-    <header>
-        <span class = "nav-back" data-view-rel = ":back"></span>
-        ProfileSubPage
-    </header>
-    <h1>This is a sub page for profile.</h1>
-    <div data-view-rel = "page3" class = "btn">Navigate to page 3.</div>
-</section>
+<!-- 设置回退视图为 default 命名空间下ID为 profile 的视图 -->
+<section data-view-id = "profile-sub-page"
+    data-view-title = "个人中心子页面"
+    data-view-directly-accessible = "false"
+    
+    data-view-fallback = "profile"
+></section>
 ```
+{% endtab %}
+{% endtabs %}
 
-注：
+如果回退视图的命名空间不是默认的 `default`，开发者可以通过声明 `data-view-fallback-namespace` 属性指定回退视图的命名空间。例如：
 
-> `data-view-fallback` 属性需要声明在视图的布局骨架上； 设定的回退视图也可以是不能直接访问的，此时View.js将以链条的形式自动向上查找可以直接访问的视图
+{% tabs %}
+{% tab title="main.html" %}
+```markup
+<!-- 设定回退视图为 myNamespace 命名空间下ID为 profile 的视图 -->
+<section data-view-id = "profile-sub-page"
+    data-view-title = "个人中心子页面"
+    data-view-directly-accessible = "false"
+    
+    data-view-fallback = "profile"
+    data-view-fallback-namespace = "myNamespace"
+></section>
+```
+{% endtab %}
+{% endtabs %}
 
-有了这个特性的辅助，开发者就可以将复杂的功能拆分为多个子步骤，在多个视图中分别实施了。
+`data-view-fallback` 不仅可以用来指定确切的视图ID，也可以设定为 `:default-view` 伪视图。
+
+{% hint style="info" %}
+开发者通常不需要这样做，因为不声明回退视图，就能实现 “页面刷新后呈现默认视图” 的效果。
+{% endhint %}
+
+除 DOM 指令外，View.js 也允许开发者通过 API 动态设置回退视图。例如：
+
+{% tabs %}
+{% tab title="init.js" %}
+```javascript
+var view = View.ofId("myView");
+
+/**
+ * 设置回退视图为 default 命名空间下ID为 profile
+ * 的视图
+ */
+view.setFallbackViewId("profile");
+
+/**
+ * 设置回退视图为 myNamespace 命名空间下ID为 profile
+ * 的视图
+ */
+view.setFallbackViewId("profile", "myNamespace");
+```
+{% endtab %}
+{% endtabs %}
+
+无论是通过 API 动态设置，还是借助 DOM 指令静态设置，View.js 并不要求设置的回退视图必须可以直接访问。
+
+如果设置的回退视图不能直接访问，View.js 将逐级回退，直到找到最近的，可以直接访问的视图。如果回退链路上的所有视图都不能直接访问，View.js 将回退显示默认视图。
+
+开发者可以通过 API：`view.getFallbackView()` 得知回退显示的最终视图。例如：
+
+{% tabs %}
+{% tab title="init.js" %}
+```javascript
+var subPageView = View.ofId("subPage"),
+    subPageCenterView = View.ofId("subPageCenter");
+
+/**
+ * 视图：subPageCenter 不可直接访问
+ */
+subPageView.setFallbackViewId("subPageCenter");
+
+/**
+ * 视图：profile 可以直接访问
+ */
+subPageCenterView.setFallbackViewId("profile");
+
+var fbView = subPageView.getFallbackView();
+console.log(fbView.id); // -> profile
+```
+{% endtab %}
+{% endtabs %}
 

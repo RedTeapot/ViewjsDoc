@@ -61,13 +61,13 @@
 var view = View.ofId("myView");
 
 /**
- * 设置回退视图为 default 命名空间下ID为 profile
+ * 设置 myView 的回退视图为 default 命名空间下ID为 profile
  * 的视图
  */
 view.setFallbackViewId("profile");
 
 /**
- * 设置回退视图为 myNamespace 命名空间下ID为 profile
+ * 设置 myView 的回退视图为 myNamespace 命名空间下ID为 profile
  * 的视图
  */
 view.setFallbackViewId("profile", "myNamespace");

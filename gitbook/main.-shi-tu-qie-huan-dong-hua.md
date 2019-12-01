@@ -1,14 +1,42 @@
-# 视图切换动画
+# 视图跳转动画
 
-视图切换动画，是指活动视图发生变化，从一个视图切换至另外一个视图的过程中展现给用户的动画效果。 我们来看两个例子：
+## 概述
 
-## [动画1](http://wzhsoft.com/demo/view-switch-animation/1/index.html)（点击体验）
+视图跳转动画，是指活动视图从一个视图切换至另外一个视图的过程中，展现给用户的动画效果。 
+
+View.js 提供的默认样式中，是不含跳转动画的。
+
+## 效果预览
+
+我们来看两个例子：
+
+[动画1](http://wzhsoft.com/demo/view-switch-animation/1/index.html)（点击体验）
 
 ![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190318185939367.gif)
 
-## [动画2](http://wzhsoft.com/demo/view-switch-animation/2/index.html)（点击体验）
+[动画2](http://wzhsoft.com/demo/view-switch-animation/2/index.html)（点击体验）
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190318185953112.gif) 开发者也可以选择不应用动画，效果如下图所示： ![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190318190725879.gif)
+![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190318185953112.gif) 
+
+开发者也可以选择不应用动画，效果如下图所示： ![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190318190725879.gif)
+
+
+
+细心的读者可能已经发现，在 [前文给的例子](https://blog.csdn.net/baozhang007/article/details/88364811) 中，通过点击浏览器的前进与后台按钮，我们可以触发不同的视觉切换效果。这是如何实现的呢？答案是：
+
+> 1. View.js实时追踪浏览信息
+> 2. View.js监听`history`的`popstate`事件，通过比对最新的浏览信息和弹出的浏览信息得出视图浏览的先后顺序
+> 3. View.js根据比较结果，得出视图切换类型：
+>
+>    3.1 `View.SWITCHTYPE_HISTORYFORWARD` - 由浏览器前进操作触发
+>
+>    3.2 `View.SWITCHTYPE_HISTORYBACK`- 由浏览器后退操作触发
+>
+>    3.3 `View.SWITCHTYPE_VIEWNAV` - 由视图切换：`View.navTo()` 操作触发
+>
+>    3.4 `View.SWITCHTYPE_VIEWCHANGE` - 由视图切换：`View.changeTo()` 操作触发
+>
+> 4. 开发者监听 `change` 事件，根据 `type` 应用不同的视图切换动画
 
 通过对比，我们可以清晰地观察到：动画点缀会使得视图切换生动许多。那么，我们该如何开发视图切换动画呢？
 
@@ -19,6 +47,30 @@
 > 3. 在页面就绪时调用View.js提供的 `View.setSwitchAnimation` 方法，以设置动画的『播放触发器』
 
 以下是动画2的源码（已在注释中详细描述各个步骤的执行）。
+
+
+
+## 效果实现
+
+开发者在设定视图切换效果时，便可以通过比较结果决定对应的渲染动画，例如：
+
+```javascript
+/**
+ * @param {HTMLElement} srcElement 视图切换时，要离开的当前视图对应的DOM元素。可能为null
+ * @param {HTMLElement} tarElement 视图切换时，要进入的目标视图对应的DOM元素
+ * @param {String} type 视图切换方式
+ * @param {Function} render 渲染句柄
+ */
+View.setSwitchAnimation(function(srcElement, tarElement, type, render){
+
+    var isNav = type === View.SWITCHTYPE_VIEWNAV,
+        isChange = type === View.SWITCHTYPE_VIEWCHANGE,
+        isHistoryBack = type === View.SWITCHTYPE_HISTORYBACK,
+        isHistoryForward = type === View.SWITCHTYPE_HISTORYFORWARD;
+
+    //...
+});
+```
 
 ## HTML
 

@@ -1,121 +1,110 @@
 # 识别浏览器的前进与后退
 
-细心的读者可能已经发现，在 [前文给的例子](https://blog.csdn.net/baozhang007/article/details/88364811) 中，通过点击浏览器的前进与后台按钮，我们可以触发不同的视觉切换效果。这是如何实现的呢？答案是：
+## 概述
 
-> 1. View.js实时追踪浏览信息
-> 2. View.js监听`history`的`popstate`事件，通过比对最新的浏览信息和弹出的浏览信息得出视图浏览的先后顺序
-> 3. View.js根据比较结果，得出视图切换类型：
->
->    3.1 View.SWITCHTYPE\_HISTORYFORWARD - 由浏览器前进操作触发
->
->    3.2 View.SWITCHTYPE\_HISTORYBACK - 由浏览器后退操作触发
->
->    3.3 View.SWITCHTYPE\_VIEWNAV - 由视图切换：View.navTo操作触发
->
->    3.4 View.SWITCHTYPE\_VIEWCHANGE - 由视图切换：View.changeTo操作触发
->
-> 4. 开发者根据type应用不同的视图切换动画
+在部分场景下，开发者可能需要得知视图的进入方式，捕获浏览器的前进和后退动作，以此补充、完善业务逻辑。虽然浏览器并没有对应的事件可以监听，但 View.js 可以通过追踪浏览信息，并对其进行先后顺序比较，间接将其反向推演出来。
 
 ## 浏览追踪
 
-每次发生视图切换操作，View.js都会记录如下关键信息并将其反映在浏览状态：`history.state` 上：
+每次发生视图跳转时，View.js 都会记录如下关键信息并将其反映在 `history.state` 上：
 
-> 1. 视图ID
-> 2. 浏览流水
+1. 浏览流水
+2. 浏览的视图的ID及命名空间
+3. 携带的视图选项
 
 例如：
 
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190412132236515.png)
+![&#x6D4F;&#x89C8;&#x5143;&#x6570;&#x636E;](https://img-blog.csdnimg.cn/20190412132236515.png)
 
-其中，视图ID标记了浏览的视图，浏览流水则标记了浏览发生的时间（时间戳的36进制 + 2位序列号）。下面是View.js生成浏览流水的源代码：
+其中，`viewId` 和 `viewNamespace` 标记了浏览的视图，`sn` 浏览流水则标记了浏览发生的时间（时间戳的36进制 + 2位序列号），`options` 则记录了关联的视图选项。
 
-```javascript
-var getUniqueString = (function(){
-    var i = 0;
+当视图发生跳转切换时，View.js 便使用上述浏览信息不断更新历史堆栈，如下图所示：
 
-    return function(){
-        var n = Date.now();
-        var s = n.toString(36);
-        var p = "00" + (i++).toString(36);
-        p = p.substring(p.length - 2);
-
-        return (s + p).toUpperCase();
-    };
-})();
-```
-
-当视图发生切换时，上述浏览信息便不断的更新历史堆栈，如下图所示：
-
-![&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;](https://img-blog.csdnimg.cn/20190412135433191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
+![&#x6D4F;&#x89C8;&#x5806;&#x6808;](https://img-blog.csdnimg.cn/20190412135433191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jhb3poYW5nMDA3,size_16,color_FFFFFF,t_70)
 
 ## 顺序比较
 
-当用户通过浏览器执行前进或后退浏览操作时，浏览器便会触发 `history` 的 `popstate` 事件，并将对应的先前追踪并压入的浏览状态通过事件实例反馈给View.js，如下文源码：
+当用户通过浏览器执行前进或后退浏览操作时，浏览器便会触发 `history` 的 `popstate` 事件，并将先前追踪并压入的浏览状态通过事件实例反馈给 View.js。
 
+接着，View.js 将通过事件得到的浏览状态与当前状态进行比较，推演出视图的切换方式：
+
+{% tabs %}
+{% tab title="view.js源码" %}
 ```javascript
-var stateChangeListener =  function(e){
-    //...
-    if(ViewState.isConstructorOf(e.state)){
-        var popedNewState = e.state;
-        //...
-    }
-    //...
-};
-
-window.addEventListener(historyPushPopSupported? "popstate": "hashchange", stateChangeListener);
-```
-
-接着，View.js将通过 `popstate` 事件得到的浏览状态与当前状态进行比较，得出视图的切换方式：
-
-```javascript
-var stateChangeListener =  function(e){
+var stateChangeListener = function(e){
     //...
     var type;
     if(ViewState.isConstructorOf(e.state)){
         var popedNewState = e.state;
         //...
 
-        /* View.currentState描述内容等同于history.state */
+        /**
+         * View.SWITCHTYPE_HISTORYBACK 代表后退
+         * View.SWITCHTYPE_HISTORYFORWARD 代表前进
+         */
         if(View.currentState != null)
                 type = popedNewState.sn < View.currentState.sn? View.SWITCHTYPE_HISTORYBACK: View.SWITCHTYPE_HISTORYFORWARD;
 
     }
     //...
 };
+
+window.addEventListener(historyPushPopSupported? "popstate": "hashchange", stateChangeListener);
 ```
+{% endtab %}
+{% endtabs %}
 
-## 效果实现
+## 动作捕获
 
-开发者在设定视图切换效果时，便可以通过比较结果决定对应的渲染动画，例如：
+对于 View.js 推演出来的跳转方式，开发者可以通过添加事件监听的方式获得。支持的事件包括：：
 
+1. 视图实例的 `leave` 事件
+2. 视图实例的 `ready` 事件
+3. 视图实例的 `beforeenter` 事件
+4. 视图实例的 `enter` 事件
+5. 视图实例的 `afterenter` 事件
+6. `View` 的 `beforechange` 事件
+7. `View` 的 `change` 事件
+8. `View` 的 `afterchange` 事件
+
+例如：
+
+{% tabs %}
+{% tab title="init.js" %}
 ```javascript
+
 /**
- * @param {HTMLElement} srcElement 视图切换时，要离开的当前视图对应的DOM元素。可能为null
- * @param {HTMLElement} tarElement 视图切换时，要进入的目标视图对应的DOM元素
- * @param {String} type 视图切换方式
- * @param {Function} render 渲染句柄
+ * on 方法用于添加事件监听器
+ * 'change' 事件代表活动视图发生了变更
  */
-View.setSwitchAnimation(function(srcElement, tarElement, type, render){
-
-    var isNav = type === View.SWITCHTYPE_VIEWNAV,
-        isChange = type === View.SWITCHTYPE_VIEWCHANGE,
-        isHistoryBack = type === View.SWITCHTYPE_HISTORYBACK,
-        isHistoryForward = type === View.SWITCHTYPE_HISTORYFORWARD;
-
-    //...
+View.on("change", function(e){
+    var switchType = e.data.type;
+    
+    switch(){
+    /* “压入堆栈” 式跳转 */
+    case View.SWITCHTYPE_VIEWNAV:
+        doSth1();
+        break;
+    
+    /* “替换栈顶” 式跳转 */
+    case View.SWITCHTYPE_VIEWCHANGE:
+        doSth2();
+        break;
+    
+    /* 浏览器后退 */
+    case View.SWITCHTYPE_HISTORYBACK:
+        doSth3();
+        break;
+    
+    /* 浏览器前进 */
+    case View.SWITCHTYPE_HISTORYFORWARD:
+        doSth4();
+        break;
+    }
 });
 ```
+{% endtab %}
+{% endtabs %}
 
-此外，如下事件也会反馈对应的视图切换方式，以供开发者使用：
-
-> 1. View\#leave
-> 2. View\#ready
-> 3. View\#beforeenter
-> 4. View\#enter
-> 5. View\#afterenter
-> 6. View.beforechange
-> 7. View.change
-> 8. View.afterchange
-
-至此，开发者就完成了浏览器的前进与后退的识别操作。
+对于上文中描述的多个事件的发生顺序及业务含义，我们将在后面的篇章中详细介绍。
 

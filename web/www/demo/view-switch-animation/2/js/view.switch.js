@@ -6,6 +6,64 @@
 	 * @type {number}
 	 */
 	var animationDuration = 600;
+	
+	/**
+	 * 判断给定的对象是否包含指定名称的样式类
+	 */
+	var hasClass = function(obj, clazz){
+		if(null == clazz || (clazz = String(clazz).trim()) === "")
+			return false;
+
+		if(obj.classList && obj.classList.contains)
+			return obj.classList.contains(clazz);
+
+		return new RegExp("\\b" + clazz + "\\b", "gim").test(obj.className);
+	};
+	
+	/**
+	 * 为指定的对象添加样式类
+	 */
+	var addClass = function(obj, clazz){
+		if(null == clazz || (clazz = String(clazz).trim()) === "" || hasClass(obj, clazz))
+			return;
+
+		if(obj.classList && obj.classList.add){
+			obj.classList.add(clazz);
+			return;
+		}
+
+		obj.className = (obj.className.trim() + " " + clazz).trim();
+	};
+	
+	/**
+	 * 为指定的对象删除样式类
+	 */
+	var removeClass = function(obj, clazz){
+		if(null == clazz || (clazz = String(clazz).trim()) === "" || !hasClass(obj, clazz))
+			return;
+
+		if(obj.classList && obj.classList.remove){
+			obj.classList.remove(clazz);
+			return;
+		}
+
+		clazz = String(clazz).toLowerCase();
+		var arr = obj.className.split(/\s+/), str = "";
+		for(var i = 0; i < arr.length; i++){
+			var tmp = arr[i];
+			if(null == tmp || (tmp = tmp.trim()) === "")
+				continue;
+
+			if(tmp.toLowerCase() === clazz)
+				continue;
+
+			str += " " + tmp;
+		}
+		if(str.length > 0)
+			str = str.substring(1);
+		obj.className = str.trim();
+	};
+	
 
 	/**
 	 * 清除给定DOM元素上声明的动画样式
@@ -16,7 +74,7 @@
 			return;
 
 		"hideToLeft, showFromRight, hideToRight, showFromLeft".split(/\s*,\s*/).forEach(function(className){
-			obj.classList.remove(className);
+			removeClass(obj, className);
 		});
 	};
 
@@ -61,22 +119,22 @@
 		 * 视图切换动作是“替换堆栈”的方式，或浏览器不支持对history的操作
 		 */
 		if(!View.checkIfBrowserHistorySupportsPushPopAction() || isChange){
-			srcElement.classList.add("fadeOut");
-			tarElement.classList.add("fadeIn");
+			addClass(srcElement, "fadeOut");
+			addClass(tarElement, "fadeIn");
 		}else if(isHistoryForward || isNav){
 			/**
 			 * 视图切换动作是“压入堆栈”的方式（浏览器前进，或代码触发）
 			 */
 
-			srcElement.classList.add("hideToLeft");
-			tarElement.classList.add("showFromRight");
+			addClass(srcElement, "hideToLeft");
+			addClass(tarElement, "showFromRight");
 		}else{
 			/**
 			 * 视图切换动作是“弹出堆栈”的方式（浏览器后退）
 			 */
 
-			srcElement.classList.add("hideToRight");
-			tarElement.classList.add("showFromLeft");
+			addClass(srcElement, "hideToRight");
+			addClass(tarElement, "showFromLeft");
 		}
 
 		/**

@@ -21,12 +21,20 @@
 	};
 
 	/**
-	 * @param {HTMLElement} srcElement 视图切换时，要离开的当前视图对应的DOM元素。可能为null
-	 * @param {HTMLElement} tarElement 视图切换时，要进入的目标视图对应的DOM元素
+	 * @param {Object} meta 切换信息
+	 * @param {HTMLElement} meta.srcElement 视图切换时，要离开的当前视图对应的DOM元素。可能为null
+	 * @param {HTMLElement} meta.targetElement 视图切换时，要进入的目标视图对应的DOM元素
 	 * @param {String} type 视图切换方式
+	 * @param {String} trigger 视图切换触发器
 	 * @param {Function} render 渲染句柄
 	 */
-	View.setSwitchAnimation(function(srcElement, tarElement, type, render){
+	View.setSwitchAnimation(function(meta){
+		var srcElement = meta.srcElement,
+			tarElement = meta.targetElement,
+			type = meta.type,
+			trigger = meta.trigger,
+			render = meta.render;
+		
 		/**
 		 * 动画播放前清除可能存在的动画样式
 		 */
@@ -45,6 +53,9 @@
 			isChange = type === View.SWITCHTYPE_VIEWCHANGE,
 			isHistoryBack = type === View.SWITCHTYPE_HISTORYBACK,
 			isHistoryForward = type === View.SWITCHTYPE_HISTORYFORWARD;
+		
+		if(/\bsafari\b/i.test(navigator.userAgent) && (isHistoryBack || isHistoryForward) && trigger === View.SWITCHTRIGGER_NAVIGATOR)
+			return;
 
 		/**
 		 * 视图切换动作是“替换堆栈”的方式，或浏览器不支持对history的操作

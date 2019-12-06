@@ -36,15 +36,16 @@
 /**
  * @typdef {Function} Initializer
  * @param {Function} init - 视图的初始化方法句柄。
- * 开发者需要在时机合适的时候主动调用该方法，使得View.js可以完成初始化。
- * 如果init方法没有被调用，则View.js不会被初始化。
+ * 开发者需要在时机合适的时候主动调用该方法，使得 View.js 可以完成初始化。
+ * 如果init方法没有被调用，则 View.js 不会被初始化。
  */
 
 /**
  * 设置初始化器
  * @param {Initializer} 初始化器
  * @param {String} [execTime=domready] 提供的初始化器的执行时机
- * 可识别的字面量包括：
+ *
+ * 支持的初始化器执行时机包括：
  * 1) domready DOM就绪后自动执行（设置的callback）
  * 2) rightnow 立即执行（设置的callback）
  */
@@ -59,12 +60,20 @@ View.setInitializer({Initializer} callback, {String} execTime);
 {% tab title="init.js" %}
 ```javascript
 View.setInitializer(function(init){
+    /**
+     * 向后端请求关键数据
+     */
     $.post("/someuri", function(data){
         //...
-        init();/* 初始化View.js */
+        
+        /**
+         * 在必要条件准备完毕后，初始化 View.js
+         */
+        init();
+        
         //...
     });
-}, "rightnow");
+}, "rightnow");/* 'rightnow' 向 View.js 标明：立即执行提供的初始化动作 */
 ```
 {% endtab %}
 {% endtabs %}

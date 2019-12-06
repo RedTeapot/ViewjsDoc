@@ -8,5 +8,7 @@
 
 View.js 的设计初衷，是为了满足H5的移动端功能开发需要，所以开发者不需要担心移动端的兼容性。
 
-对于 PC 浏览器，View.js 同样可以在现代化的主流浏览器，如：firefox, chrome, safari, edge 上运行良好。
+对于 PC 浏览器，View.js 可以在现代化的主流浏览器，如：firefox, chrome, safari, edge 上运行良好。View.js 同样支持 IE9，但视图的直接访问特性将会受到影响：配置为不能直接访问的视图也将能够直接访问。
+
+View.js 不支持 IE8-。
 

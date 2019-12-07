@@ -21,7 +21,6 @@
 * [伪视图](main.-wei-shi-tu.md)
 * [视图参数](main.-shi-tu-can-shu.md)
 * [视图选项](main.-shi-tu-xuan-xiang.md)
-* [视图群组](main.-shi-tu-qun-zu.md)
 * [事件驱动（一）](main.-shi-jian-qu-dong-1.md)
 * [事件驱动（二）](main.-shi-jian-qu-dong-2.md)
 * [事件驱动（三）](main.-shi-jian-qu-dong-3.md)

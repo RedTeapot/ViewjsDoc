@@ -14,7 +14,8 @@ View.js 预置了如下几个伪视图：
 
 使用示例：
 
-{% code title="main.html" %}
+{% tabs %}
+{% tab title="main.html" %}
 ```markup
 <!-- 返回至上一个视图 -->
 <a data-view-rel = ":back">返回</a>
@@ -30,11 +31,13 @@ View.js 预置了如下几个伪视图：
 <!-- 替换至首页 -->
 <a data-view-rel = ":default-view" data-view-rel = "change">首页</a>
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 开发者也可以在 js 文件中使用伪视图进行视图跳转：
 
-{% code title="action.js" %}
+{% tabs %}
+{% tab title="action.js" %}
 ```javascript
 /**
  * 返回至上一个视图。等同于：View.back()
@@ -59,7 +62,8 @@ View.navTo(":forward");
  */
 View.changeTo(":default-view");
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 {% hint style="warning" %}
 1. `:back` 和 `:forward` 支持API：`View.navTo()` 调用，不支持 `View.changeTo()` 调用；

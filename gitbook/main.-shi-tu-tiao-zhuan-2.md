@@ -23,7 +23,8 @@ View.js 在执行视图跳转时，将按顺序执行如下动作：
 
 假定我们当前处于视图 A ，对于浏览路径：A → B 及如下事件监听：
 
-{% code title="init.js" %}
+{% tabs %}
+{% tab title="init.js" %}
 ```javascript
 var viewA = View.ofId("A"),
     viewB = View.ofId("B");
@@ -44,7 +45,8 @@ viewB.on("ready", log("B: ready"));/* ready 事件仅在视图第一次进入时
 viewB.on("enter", log("B: enter"));
 viewB.on("afterenter", log("B: afterenter"));
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 在切换至视图 B 后，我们将会得到下面的结果
 
@@ -64,7 +66,7 @@ View.js 预置的这些事件，是为了提供干预入口，使得开发者能
 View.js 当前支持如下几种跳转目标：
 
 1. 视图ID
-2. 视图群组名称
+2. 视图名称
 3. 伪视图
 4. 外部链接地址
 
@@ -129,13 +131,13 @@ View.changeTo("targetView", {
 View.navTo(":default-view");
 
 /**
- * 跳转目标：视图群组
+ * 跳转目标：视图名称
  *
- * 符号：“~” 用于告诉 View.js 后边跟随的，是视图群组的名称
+ * 符号：“~” 用于告诉 View.js 后边跟随的，是视图的名称
  *
- * View.changeTo() 同样支持按相同的语法切换至视图群组
+ * View.changeTo() 同样支持按相同的语法进行跳转
  */
-View.navTo("~groupName");
+View.navTo("~viewName");
 
 /**
  * 跳转目标：外部链接

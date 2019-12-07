@@ -21,11 +21,11 @@
 {% tabs %}
 {% tab title="view.html" %}
 ```markup
+<!-- 声明视图可以直接访问 -->
 <section
     data-view-id="myView"
     data-view-namespace = "my-namespace"
-    data-view-directly-accessible="true">
-
+    data-view-directly-accessible = "true">
     
 </section>
 ```
@@ -59,24 +59,26 @@ console.log(view.isDirectlyAccessible()); // -> true
 {% tabs %}
 {% tab title="index.html" %}
 ```markup
+<!-- 设置所有视图默认可以直接访问 -->
 <body data-view-container
     data-view-directly-accessible = "true">
     
+    <!-- 设置视图可以直接访问 -->
     <section
         data-view-id="myView"
         data-view-namespace = "my-namespace"
         data-view-directly-accessible="true">
     </section>
     
+    <!-- 设置视图不能直接访问 -->
     <section
         data-view-id="myView2"
         data-view-namespace = "my-namespace"
         data-view-directly-accessible="false">
     </section>
     
-    
-    <section data-view-id="myView3">
-    </section>
+    <!-- 继承默认设置：因此可以直接访问 -->
+    <section data-view-id="myView3"></section>
 </body>
 ```
 {% endtab %}
@@ -88,6 +90,8 @@ console.log(view.isDirectlyAccessible()); // -> true
 
 与单个视图一样，开发者同样可以使用 API 动态设置所有视图的默认表现：
 
+{% tabs %}
+{% tab title="action.js" %}
 ```javascript
 /**
  * 设置所有视图默认可以直接访问。
@@ -100,4 +104,6 @@ View.setIsDirectlyAccessible(true);
  */
 console.log(View.isDirectlyAccessible()); // -> true
 ```
+{% endtab %}
+{% endtabs %}
 

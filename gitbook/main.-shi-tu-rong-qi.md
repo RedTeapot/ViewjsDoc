@@ -20,7 +20,7 @@
 
 ## 状态表达
 
-除此之外，视图容器还承载着 “表达 View.js 的初始化状态，以及当前活动视图” 的责任。这些信息的表达，通过在其 DOM 上附加相关属性完成，例如：
+除了集中包裹视图之外，视图容器还承载着 “表达 View.js 的初始化状态，以及当前活动视图” 的责任。这些信息的表达，通过在其 DOM 上附加相关属性完成，例如：
 
 ![&#x8868;&#x8FBE;&#x7684;&#x4FE1;&#x606F;&#x5728;&#x89C6;&#x56FE;&#x5207;&#x6362;&#x65F6;&#x7684;&#x6539;&#x53D8;](.gitbook/assets/3%20%281%29.gif)
 
@@ -30,7 +30,7 @@
 
 ### 直接访问
 
-开发者可以设定视图是否可以直接访问。
+开发者可以借助视图容器设定视图默认是否可以直接访问。
 
 视图是否“可以直接访问”，是指视图在传播打开或刷新时，是否在页面装载完毕后第一个呈现给用户。
 
@@ -38,26 +38,43 @@
 
 开发者可以在视图容器的 DOM 结点上声明属性 `data-view-directly-accessible=true|false` 以设定“所有视图是否可以直接访问”，也可以在特定视图的骨架 DOM 结点上单独声明，以设定该视图的单独表现情况。例如：
 
+{% tabs %}
+{% tab title="main.html" %}
 ```markup
 <body>
-  <div data-view-container data-view-directly-accessible="true">
-    <section data-view-id = "view1" data-view-directly-accessible = "false">
+  <!-- 设定所有视图默认可以直接访问 -->
+  <div
+    data-view-container
+    data-view-directly-accessible = "true">
+    
+    <!-- 设置视图不能直接访问 -->
+    <section
+        data-view-id = "view1"
+        data-view-directly-accessible = "false">
     </section>
-    <section data-view-id = "view2" data-view-directly-accessible = "true">
+    
+    <!-- 设置视图可以直接访问 -->
+    <section
+        data-view-id = "view2"
+        data-view-directly-accessible = "true">
     </section>
-    <section data-view-id = "view3">
-    </section>
+    
+    <!-- 继承默认配置 -->
+    <section data-view-id = "view3"></section>
+    
   </div>
 </body>
 ```
+{% endtab %}
+{% endtabs %}
 
-其中，`view1` 不能直接访问，`view2` 可以直接访问（响应自身配置），`view3` 可以直接访问（响应全局配置）。
+其中，`view1` 不能直接访问（响应自身配置），`view2` 可以直接访问（响应自身配置），`view3` 可以直接访问（响应全局配置）。
 
-View.js 默认将所有视图设定为“不能直接访问”。
+没有在视图容器上声明 `data-view-directly-accessible` 属性时，View.js 默认将所有视图设定为“不能直接访问”。
 
 ### 渲染宽高比
 
-View.js 提供了 `data-view-whr` 属性，以允许开发者设定视图在 PC 的桌面环境浏览时，视图容器渲染尺寸的宽高比。
+视图容器支持 `data-view-whr` 属性，以允许开发者设定视图在 PC 的桌面环境浏览时，视图容器渲染尺寸的宽高比。
 
 当用户在移动端浏览网页时，这一属性并无作用。但当浏览环境是 PC 这一 “宽度大于高度” 的情况时，View.js 将调整视图容器的渲染效果，使其 “高度撑满，宽度按比例动态计算，水平居中”，如下所示：
 

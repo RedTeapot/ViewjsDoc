@@ -2,15 +2,15 @@
 
 ## 概述
 
-视图，是用户视觉上看到的一页内容，也是由 View.js 驱动的单页应用的页面区块载体。视觉上一个界面向另一个界面的切换，在技术上则是同一 HTML 页面中，可见区域从一个 DIV 区块向另一个 DIV 区块的切换。这个 DIV 区块就是视图。
+视图，是 View.js 驱动的单页应用的单元载体，用于定义用户视觉上看到的一屏内容。
 
-作为页面功能的单元载体，每个视图都是唯一的，都有唯一的ID及命名空间（开发者通常并不需要指定视图的命名空间，默认为 `default`）以将其与其它视图区分开来。
-
-对于视图的内部组成，仍然由我们熟悉的html、js、css以及依赖的图片和音视频等静态资源组成。不同的是，这些html、js和css等都只单纯地描述了这一个视图的行为表现，对于不同视图以及页面的整体表现，需要开发者分别提供。
+视觉上一个界面向另一个界面的切换，在技术上是同一 HTML 页面中，可见区域从一个 DIV 区块向另一个 DIV 区块的切换。这些动态被切换显示的 DIV 区块就是视图。
 
 ## 创建视图
 
-通过为特定的 DIV 区块添加属性：`data-view-id` ，开发者即可完成视图的创建：
+作为页面的功能单元，每个视图都是唯一的，都有唯一的ID及命名空间以将其与其它视图区分开来。
+
+通过为特定的 DIV 区块添加属性：`data-view-id` 来定义视图的ID，开发者即可完成视图的创建：
 
 ```markup
 <!DOCTYPE HTML>
@@ -20,6 +20,7 @@
     <link rel = "stylesheet" href = "css/main/view1.css"/>
 </head>
 <body>
+    <!-- 定义 default 命名空间下，ID为 view1 的视图 -->
     <section data-view-id = "view1">
         <header>个人资料</header>
         <div class = "body">
@@ -33,7 +34,11 @@
             <div class = "btn">提交</div>
         </div>
     </section>
-    <section data-view-id = "view2">
+    
+    <!-- 定义 my-namespace 命名空间下，ID为 view2 的视图-->
+    <section
+        data-view-id = "view2"
+        data-view-namespace = "my-namespace">
         ...
     </section>
 
@@ -42,46 +47,47 @@
 </html>
 ```
 
-其中，ID为 `view1` 和 `view2`的两个DOM元素，分别是两个视图的内容骨架。当使用程序时，用户看到的视觉效果分别是由 `view1` 和 `view2` 提供的。当区块 `view1` 处于活动状态时，用户看到的是 `view1` 的表现效果；当活动视图（处于活动状态的视图）切换至 `view2` 时，用户看到的是 `view2` 的表现效果。
+上述代码展示了两个视图的创建。其中，ID 为 `view1` 和 `view2` 的两个 DOM 元素，分别是两个视图的内容骨架，他们共同定义了应用的视觉效果和使用体验。
 
-> 检验视图创建是否成功，可以在文档装载完毕后通过执行API：`View.ifExists(viewId: {String})` - 判断视图是否存在 得知；
->
-> 检验视图是否处于活动状态，可以通过执行API：view.isActive\(\) 得知。也可以通过API：View.getActiveView\(\) 获取当前处于活动状态的视图实例。
+当区块 `view1` 处于活动状态时，用户看到的是视图 `view1` 的表现效果；当活动视图（处于活动状态的视图）切换至 `view2` 时，用户看到的是视图 `view2` 的表现效果。
+
+{% hint style="info" %}
+检验视图创建是否成功，可以通过执行API：`View.ifExists(viewId: {String})` - 判断视图是否存在 得知。
+{% endhint %}
 
 ## 赋能视图
 
-视图创建完成后，开发者即可添加脚本，实现视图内的数据展现、操作交互等，例如：
+视图在创建完成后，只具备了静态展现的能力，开发者需要手动开发脚本，实现视图内的数据展现和操作交互等，例如：
 
-{% code title="init.js" %}
+{% tabs %}
+{% tab title="init.js" %}
 ```javascript
+/**
+ * 为视图 view1 赋能：视图初始化
+ */
+ 
 var view = View.ofId("view1");
 
 var bodyObj = view.find(".body");
 var nameInputObj = view.find(".name input"),
     addressInputObj = view.find(".address input");
 
+
 /**
- * 视图进入时查询并展现用户信息
- */    
-view.on("enter", function(){
+ * 查询并呈现用户信息
+ */
+var queryAndShowUserInfo = function(){
     $.post("/userInfo", {
         onsuccess: function(data){
             nameInputObj.value = data.userName || "";
             addressInputObj.value = data.address || "";
         }
     });
-});
-```
-{% endcode %}
+};
 
-{% code title="init.reset-view.js" %}
-```javascript
-var view = View.ofId("view1");
-
-var bodyObj = view.find(".body");
-var nameInputObj = view.find(".name input"),
-    addressInputObj = view.find(".address input");
-
+/**
+ * 重置视图
+ */
 var resetView = function(){
     /* 清空输入框的内容 */
     nameInputObj.value = "";
@@ -92,14 +98,28 @@ var resetView = function(){
 };
 
 /**
+ * 视图进入时查询并展现用户信息
+ * 'enter' 是 View.js 预置的事件，代表视图的进入
+ */    
+view.on("enter", queryAndShowUserInfo);
+
+/**
  * 视图离开时重置视图
+ *
+ * 'leave' 是View.js 预置的事件，代表视图的离开
  */
 view.on("leave", resetView);
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-{% code title="action.js" %}
+{% tabs %}
+{% tab title="action.js" %}
 ```javascript
+/**
+ * 为视图 view1 赋能：添加交互支持
+ */
+ 
 var view = View.ofId("view1");
 
 var nameInputObj = view.find(".name input");
@@ -113,29 +133,30 @@ submitObj.addEventListener("click", function(){
     //do something
 });
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-View.js 能够很友好地与其它 _非路由类_ _\*\*_框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统的开发方式使用这些框架。
+{% hint style="info" %}
+View.js 能够很友好地与其它 _非路由类_  框架并存，例如：jQuery, knockout, vue 等，开发者可以一如既往地按照传统开发方式使用这些框架。
+{% endhint %}
 
-## 视图URL
+## 访问视图
 
-视图的URL组成由以下三部分组成：
+开发者可以通过访问 html 页面，并使用 `#` 符号指定视图信息来访问视图。
 
-1. 视图ID
-2. 视图命名空间
-3. 视图选项（体现在地址栏中的，和视图绑定在一起的参数）
+例如，URL：
 
-形如：
+> http://view-js.com/demo.html\#view1
 
-> _http://domain:port/context/path/to/html\#view-id@view-namespace!option1=value1&option2=value2..._
+表示 “访问定义在 demo.html 中的，命名空间为 `default`，ID 为 `view1` 的视图”。而对于URL：
 
-当视图命名空间为 `default` 时，URL将表现为：
+> http://view-js.com/index.html\#view2@myNamespace
 
-> _http://domain:port/context/path/to/html\#view-id!option1=value1&option2=value2..._
+则表示 “访问定义在 index.html 中的，命名空间为 `myNamespace`，ID 为 `view2` 的视图”。其中，`@` 符号为 视图ID 与 视图命名空间的分隔符。
 
-其中，`#` 符号即为锚点，是视图ID的URL前缀；`@` 符号为 视图ID 与 视图命名空间的分隔符；`!` 符号为 视图 与 视图选项 的分隔符；`&` 符号为多个选项之间的分隔符；`=` 符号为 选项 key 与 选项 value 之间的分隔符。
+如果没有指定视图信息，那么页面打开后，View.js 将自动展现默认视图。
 
-当活动视图发生变化时，View.js 将根据新的活动视图信息，结合视图跳转动作关联的视图选项，实时构造新的 URL 并将其反馈到浏览器的地址栏中。
+当活动视图发生变化时，View.js 将根据新的活动视图信息，实时构造新的 URL 并将其反馈到浏览器的地址栏中。
 
 {% hint style="info" %}
 视图当前仅支持 hash 形态的地址栏表示，且不支持自定义。出于简化开发的考虑，View.js 当前也并不打算变更这一特性。
@@ -143,7 +164,7 @@ View.js 能够很友好地与其它 _非路由类_ _\*\*_框架并存，例如�
 
 ## 注意事项
 
-{% hint style="warning" %}
-无论什么时候，每个视图只有唯一的一个实例与之对应，其内容骨架不会发生变更或替换，其中DOM元素的状态、输入框的取值等自然也不会自动被重置。开发者需要自行维护好视图内DOM元素的状态，使其不至于在页面切换时出现脏数据等现象。我们的建议，是在恰当的时机，如 “视图离开时” 重置视图。
-{% endhint %}
+每个视图都是以渲染模板的姿态唯一存在的，开发者需要使用 “静态模板 + 动态填充数据” 的方式完成视图的功能开发。
+
+开发者可以动态、灵活调整视图内部的 DOM 结构，但不能删除、或替换视图的根结点 DOM 元素。
 

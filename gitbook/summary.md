@@ -15,6 +15,7 @@
 * [日志输出](main.-ri-zhi-shu-chu.md)
 * [视图跳转（一）](main.-shi-tu-tiao-zhuan-1.md)
 * [视图跳转（二）](main.-shi-tu-tiao-zhuan-2.md)
+* [视图名称](shi-tu-ming-cheng.md)
 * [识别浏览器的前进与后退](main.-shi-bie-liu-lan-qi-de-qian-jin-yu-hou-tui.md)
 * [视图跳转动画](main.-shi-tu-qie-huan-dong-hua.md)
 * [伪视图](main.-wei-shi-tu.md)

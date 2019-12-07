@@ -6,28 +6,35 @@
 
 任何情况下，最多只有一个视图处于活动状态。开发者可以通过API：`View.getActiveView()` 获取当前的活动视图，如下所示：
 
-{% code title="action.js" %}
+{% tabs %}
+{% tab title="JavaScript" %}
 ```javascript
 /* 导航到ID为 view1 的视图 */
 View.navTo("view1");
-console.log(View.getActiveView().getId());// --> view1
+var activeView = View.getActiveView();
+console.log(activeView.getId());// -> 'view1'
 
 /* 导航到ID为 view2 的视图 */
 View.navTo("view2");
-/* id 属性只读，与 getId() 方法功能相同，均用于获取视图的ID */
-console.log(View.getActiveView().id);// --> view2
+activeView = View.getActiveView();
+/**
+ * id 属性只读，与 getId() 方法功能相同，
+ * 均用于获取视图的ID
+ */
+console.log(activeView.id);// -> 'view2'
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 也可以使用借助API：`view.isActive()` 判定特定视图是否处于活动状态：
 
 ```javascript
 /* 导航到ID为 view2 的视图 */
 View.navTo("view2");
-console.log(View.getActiveView().getId());// --> view2
+console.log(View.getActiveView().id);// -> 'view2'
 
-console.log(View.ofId("view1").isActive());// --> false
-console.log(View.ofId("view2").isActive());// --> true
+console.log(View.ofId("view1").isActive());// -> false
+console.log(View.ofId("view2").isActive());// -> true
 ```
 
 ## 视图选项
@@ -42,17 +49,17 @@ console.log(View.ofId("view2").isActive());// --> true
 /**
  * 获取所有选项。如果一个选项也没有，则返回 null
  */
-console.log(View.getActiveViewOptions()); // --> {a: "1", b: "true"}
+console.log(View.getActiveViewOptions()); // -> {a: "1", b: "true"}
 
 /**
  * 获取 key 为 'a' 的选项取值
  */
-console.log(View.getActiveViewOption("a")); // --> "1"
+console.log(View.getActiveViewOption("a")); // -> "1"
 
 /**
  * key 为 'c' 的选项不存在，返回 undefined
  */
-console.log(View.getActiveViewOption("c")); // --> undefined
+console.log(View.getActiveViewOption("c")); // -> undefined
 ```
 
 但要格外注意的是，开发者只能获取处于活动状态的视图的选项。视图变为非活动状态后，`View.getActiveViewOptions()` 等方法将返回 新的活动视图 的视图选项。这也是为什么获取视图选项的API被定义为 `getActiveViewOptions()` 而非 `getViewOptions()` 的原因。

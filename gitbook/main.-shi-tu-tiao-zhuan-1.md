@@ -6,8 +6,8 @@
 
 开发者通过如下两种方式执行视图跳转：
 
-1. 在 DOM 元素上声明跳转指令：`data-view-rel`
-2. 在 js 中调用API：`View.navTo(targetViewId)` 或 `View.changeTo(targetViewId)`
+1. 声明式跳转。通过在 DOM 元素上声明跳转指令：`data-view-rel` 实现。
+2. 编程式跳转。通过在 js 中调用API：`View.navTo(targetViewId)` 或 `View.changeTo(targetViewId)` 实现。
 
 例如：
 
@@ -15,7 +15,7 @@
 {% tab title="main.html" %}
 ```markup
 <!-- data-view-rel 用于指定跳转目标 -->
-<!-- :back 为伪视图，代表上一个视图 -->
+<!-- :back 为伪视图，代表上一个浏览过d额视图 -->
 <a class = "nav-back" data-view-rel = ":back">返回</a>
 
 <!-- :default-view 为伪视图，代表默认视图 -->

@@ -54,9 +54,9 @@ console.log(view.getTitle()); // -> "新的标题"
 
 需要注意的是，用于执行恢复动作的浏览器标题，是在视图初始化时自动捕获的。（除非开发者另行设定，否则 View.js 将在`DOMContentLoaded`事件发生时执行初始化动作。）
 
-开发者可以通过 `View.setDocumentTitle(title: string)` 主动通知View.js 其需要捕获的浏览器标题。
+如果上述的捕获时机并不是贴合程序的恰当时机，开发者可以通过 `View.setDocumentTitle(title: string)` 主动通知 View.js 其需要捕获的浏览器标题。
 
 {% hint style="info" %}
-如果当前的活动视图并没有声明视图标题，则浏览器上呈现的文档标题将自动变更为新设置的文档标题。
+当调用 `View.setDocumentTitle()` 方法时，如果当前的活动视图并没有声明视图标题，则浏览器上呈现的文档标题将自动变更为新设置的文档标题。
 {% endhint %}
 

@@ -26,7 +26,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewSwitchEventData`]()\`\`
+\`\`[`ViewSwitchEventData`](viewswitcheventdata.md)\`\`
 
 ## 宏观 change 事件
 
@@ -44,7 +44,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewSwitchEventData`]()\`\`
+\`\`[`ViewSwitchEventData`](viewswitcheventdata.md)\`\`
 
 ## 宏观 afterchange 事件
 
@@ -62,7 +62,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewSwitchEventData`]()
+\`\`[`ViewSwitchEventData`](viewswitcheventdata.md)
 
 ## 实例 beforeenter 事件
 
@@ -80,7 +80,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewInstanceEnterEventData`]()\`\`
+\`\`[`ViewInstanceEnterEventData`](viewinstanceentereventdata.md)\`\`
 
 ## 实例 ready 事件
 
@@ -98,7 +98,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewInstanceEnterEventData`]()\`\`
+\`\`[`ViewInstanceEnterEventData`](viewinstanceentereventdata.md)\`\`
 
 ## 实例 enter 事件
 
@@ -116,7 +116,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewInstanceEnterEventData`]()\`\`
+\`\`[`ViewInstanceEnterEventData`](viewinstanceentereventdata.md)\`\`
 
 ## 实例 afterenter 事件
 
@@ -134,7 +134,7 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewInstanceEnterEventData`]()\`\`
+\`\`[`ViewInstanceEnterEventData`](viewinstanceentereventdata.md)\`\`
 
 ## 实例 leave 事件
 
@@ -152,5 +152,5 @@ description: 事件
 
 **关联数据**
 
-\`\`[`ViewInstanceLeaveEventData`]()\`\`
+\`\`[`ViewInstanceLeaveEventData`](viewinstanceleaveeventdata.md)\`\`
 

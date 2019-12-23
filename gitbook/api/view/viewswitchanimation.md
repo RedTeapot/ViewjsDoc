@@ -6,11 +6,11 @@ description: 视图跳转动画执行器
 
 ## 签名
 
-`(info:` [`ViewSwitchInfo`]()`) => void`
+`(info:` [`ViewSwitchInfo`](viewswitchinfo.md)`) => void`
 
 ## 入参
 
-1. `info:` [`ViewSwitchInfo`]() - 跳转信息
+1. `info:` [`ViewSwitchInfo`](viewswitchinfo.md) - 跳转信息
 
 ## 返回
 

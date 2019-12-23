@@ -6,7 +6,7 @@
 
 **签名：**
 
-`View.currentState:` [`ViewState`]() 
+`View.currentState:` [`ViewState`](viewstate.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -21,7 +21,7 @@
 
 **签名：**
 
-`View.context:` [`ViewContext`]() 
+`View.context:` [`ViewContext`](viewcontext.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -329,7 +329,7 @@ btnObj = View.find(containerObj, ".btn");
 
 **签名：**
 
-`View.getSwitchAnimation():` [`ViewSwitchAnimation`]() `| null`
+`View.getSwitchAnimation():` [`ViewSwitchAnimation`](viewswitchanimation.md) `| null`
 
 **可用版本：**`1.6.2+`
 
@@ -347,7 +347,7 @@ btnObj = View.find(containerObj, ".btn");
 
 **签名：**
 
-`View.setSwitchAnimation(animation:` [`ViewSwitchAnimation`]()`): View`
+`View.setSwitchAnimation(animation:` [`ViewSwitchAnimation`](viewswitchanimation.md)`): View`
 
 **可用版本：**`1.6.2+`
 
@@ -486,7 +486,7 @@ setTimeout(function(){
 
 **签名：**
 
-`View.navTo(viewId: string, viewNamespace?: string, ctrl:` [`ViewSwitchCtrl`]()`): View`
+`View.navTo(viewId: string, viewNamespace?: string, ctrl:` [`ViewSwitchCtrl`](viewswitchctrl.md)`): View`
 
 **可用版本：**`1.6.2+`
 
@@ -573,7 +573,7 @@ setTimeout(function(){
 > ```
 
 * `viewNamespace?: string` - 视图隶属的命名空间。可选，默认为：`default` 。
-* `ctrl?:` [`ViewSwitchCtrl`]() - 视图跳转控制。可选。
+* `ctrl?:` [`ViewSwitchCtrl`](viewswitchctrl.md) - 视图跳转控制。可选。
 
 **返回：**
 
@@ -620,7 +620,7 @@ View.navTo("targetViewId", "myNamespace", {
 
 **签名：**
 
-`View.changeTo(viewId: string, viewNamespace?: string, ctrl:` [`ViewSwitchCtrl`]()`): View`
+`View.changeTo(viewId: string, viewNamespace?: string, ctrl:` [`ViewSwitchCtrl`](viewswitchctrl.md)`): View`
 
 **可用版本：**`1.6.2+`
 
@@ -684,7 +684,7 @@ View.navTo("targetViewId", "myNamespace", {
 > ```
 
 * `viewNamespace?: string` - 视图隶属的命名空间。可选，默认为：`default` 。
-* `ctrl?:` [`ViewSwitchCtrl`]() - 视图跳转控制。可选。
+* `ctrl?:` [`ViewSwitchCtrl`](viewswitchctrl.md) - 视图跳转控制。可选。
 
 **返回：**
 
@@ -723,13 +723,13 @@ View.setNoViewToNavBackAction(function(){
 
 **签名：**
 
-`View.back(ctrl?:` [`ViewBackForwardCtrl`]()`): View`
+`View.back(ctrl?:` [`ViewBackForwardCtrl`](viewbackforwardctrl.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
-* `ctrl?:` [`ViewBackForwardCtrl`]() - 视图跳转控制。可选。
+* `ctrl?:` [`ViewBackForwardCtrl`](viewbackforwardctrl.md) - 视图跳转控制。可选。
 
 **返回：**
 
@@ -741,13 +741,13 @@ View.setNoViewToNavBackAction(function(){
 
 **签名：**
 
-`View.forward(ctrl?:` [`ViewBackForwardCtrl`]()`): View`
+`View.forward(ctrl?:` [`ViewBackForwardCtrl`](viewbackforwardctrl.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
-* `ctrl?:` [`ViewBackForwardCtrl`]() - 视图跳转控制。可选。
+* `ctrl?:` [`ViewBackForwardCtrl`](viewbackforwardctrl.md) - 视图跳转控制。可选。
 
 **返回：**
 
@@ -860,14 +860,14 @@ View.setNoViewToNavBackAction(function(){
 
 **签名：**
 
-`View.setInitializer(initializer:` [`ViewInitializer`]()`, execTime?:` [`ViewInitializeTime`]()`): View`
+`View.setInitializer(initializer:` [`ViewInitializer`](viewinitializer.md)`, execTime?:` [`ViewInitializeTime`](viewinitializetime.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
-* `initializer:` [`ViewInitializer`]() - 初始化触发器。
-* `execTime?:` [`ViewInitializeTime`]() - 触发器的执行时机。默认为：`'domready'` 。
+* `initializer:` [`ViewInitializer`](viewinitializer.md) - 初始化触发器。
+* `execTime?:` [`ViewInitializeTime`](viewinitializetime.md) - 触发器的执行时机。默认为：`'domready'` 。
 
 **返回：**
 
@@ -884,14 +884,14 @@ View.setNoViewToNavBackAction(function(){
 
 **签名：**
 
-`View.on(eventName: string, handle:` [`ViewEventListener`]()`): View`
+`View.on(eventName: string, handle:` [`ViewEventListener`](vieweventlistener.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
 * `eventName: string` - 事件名称。
-* `handle:` [`ViewEventListener`]() - 事件监听器 。
+* `handle:` [`ViewEventListener`](vieweventlistener.md) - 事件监听器 。
 
 **返回：**
 
@@ -931,14 +931,14 @@ View.on("myEvent", function(e){
 
 **签名：**
 
-`View.off(eventName: string, handle:` [`ViewEventListener`]()`): View`
+`View.off(eventName: string, handle:` [`ViewEventListener`](vieweventlistener.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
 * `eventName: string` - 事件名称。
-* `handle:` [`ViewEventListener`]() - 事件监听器 。
+* `handle:` [`ViewEventListener`](vieweventlistener.md) - 事件监听器 。
 
 **返回：**
 
@@ -1083,7 +1083,7 @@ View.fire("myEvent", {
 
 **签名：**
 
-`viewInstance.logger:` [`View.Logger`]() 
+`viewInstance.logger:` [`View.Logger`](view.logger.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -1097,7 +1097,7 @@ View.fire("myEvent", {
 
 **签名：**
 
-`viewInstance.config:` [`ViewConfigurationSet`]() 
+`viewInstance.config:` [`ViewConfigurationSet`](viewconfigurationset.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -1111,7 +1111,7 @@ View.fire("myEvent", {
 
 **签名：**
 
-`viewInstance.context:` [`ViewContext`]() 
+`viewInstance.context:` [`ViewContext`](viewcontext.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -1165,7 +1165,7 @@ View.fire("myEvent", {
 
 **签名：**
 
-`viewInstance.getContext():` [`ViewContext`]() 
+`viewInstance.getContext():` [`ViewContext`](viewcontext.md) 
 
 **可用版本：**`1.6.2+`
 
@@ -1634,7 +1634,7 @@ view.on("enter", function(){
 
 **签名：**
 
-`viewInstance.on(eventName: string, handle:` [`ViewEventListener`]()`): View`
+`viewInstance.on(eventName: string, handle:` [`ViewEventListener`](vieweventlistener.md)`): View`
 
 **可用版本：**`1.6.2+`
 
@@ -1680,14 +1680,14 @@ viwe.on("myEvent", function(e){
 
 **签名：**
 
-`viewInstance.off(eventName: string, handle:` [`ViewEventListener`]()`): View`
+`viewInstance.off(eventName: string, handle:` [`ViewEventListener`](vieweventlistener.md)`): View`
 
 **可用版本：**`1.6.2+`
 
 **入参：**
 
 * `eventName: string` - 事件名称。
-* `handle:` [`ViewEventListener`]() - 事件监听器 。
+* `handle:` [`ViewEventListener`](vieweventlistener.md) - 事件监听器 。
 
 **返回：**
 

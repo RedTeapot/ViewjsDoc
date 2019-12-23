@@ -234,7 +234,7 @@ PC上横屏浏览应用时，页面布局空间的宽高比。
 
 **签名：**
 
-`View.layout.init(ops:` [`ViewLayoutInitOptions`]()`): View.layout` 
+`View.layout.init(ops:` [`ViewLayoutInitOptions`](viewlayoutinitoptions.md)`): View.layout` 
 
 **可用版本：**`1.6.2+`
 
@@ -270,7 +270,7 @@ PC上横屏浏览应用时，页面布局空间的宽高比。
 
 **签名：**
 
-`View.layout.addLayoutChangeListner(listener:` [`ViewLayoutChangeLisener`]()`): View.layout` 
+`View.layout.addLayoutChangeListner(listener:` [`ViewLayoutChangeLisener`](viewlayoutchangelistener.md)`): View.layout` 
 
 **可用版本：**`1.6.2+`
 
@@ -288,7 +288,7 @@ PC上横屏浏览应用时，页面布局空间的宽高比。
 
 **签名：**
 
-`View.layout.removeLayoutChangeListner(listener:` [`ViewLayoutChangeLisener`]()`): View.layout` 
+`View.layout.removeLayoutChangeListner(listener:` [`ViewLayoutChangeLisener`](viewlayoutchangelistener.md)`): View.layout` 
 
 **可用版本：**`1.6.2+`
 

@@ -28,7 +28,7 @@ description: 视图配置 - 配置项集合。
 
 **签名：**
 
-`viewConfigSetInstance.get(name: string):` [`ViewConfiguration`]() 
+`viewConfigSetInstance.get(name: string):` [`ViewConfiguration`](viewconfiguration.md) 
 
 **可用版本：**`1.6.2+`
 

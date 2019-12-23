@@ -8,8 +8,8 @@ description: 视图跳转信息
 
 * `srcElement: HTMLElement | null` - 源视图的 DOM 骨架。如果视图是直接访问进入的，则为 `null`
 * `targetElement: HTMLElement` - 目标视图的 DOM 骨架
-* `type:` [`ViewSwitchType`]() - 视图跳转的方式
-* `trigger:` [`ViewSwitchTrigger`]() - 视图跳转的触发来源
+* `type:` [`ViewSwitchType`](viewswitchtype.md) - 视图跳转的方式
+* `trigger:` [`ViewSwitchTrigger`](viewswtichtrigger.md) - 视图跳转的触发来源
 * `render: Function` - 界面渲染动作
 
 {% hint style="warning" %}

@@ -65,7 +65,7 @@ description: 视图配置 - 单个配置项。
 
 **签名：**
 
-`viewConfigInstance.getApplication(): ViewConfigurationApplication | undefined` 
+`viewConfigInstance.getApplication():` [`ViewConfigurationApplication` ](viewconfigurationapplication.md)`| undefined` 
 
 **可用版本：**`1.6.2+`
 

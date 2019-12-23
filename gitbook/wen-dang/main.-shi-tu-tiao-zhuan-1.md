@@ -73,7 +73,7 @@ View.js 使用浏览器的 `history` API 完成视图跳转。
 
 例如，对于浏览历史 A → B，当从活动视图 B 以 “压入堆栈方式” 切换到 C 后，用户需要执行两次回退操作，才能返回视图A：
 
-![&#x538B;&#x5165;&#x5806;&#x6808;](.gitbook/assets/history-stack1.jpg)
+![&#x538B;&#x5165;&#x5806;&#x6808;](../.gitbook/assets/history-stack1.jpg)
 
 ### 替换栈顶
 
@@ -81,7 +81,7 @@ View.js 使用浏览器的 `history` API 完成视图跳转。
 
 例如，对于浏览历史 A → B，当从活动视图 B 以 “替换栈顶方式” 切换到 C 后，用户执行一次回退操作就可以返回视图A，而无法再返回到视图B：
 
-![&#x66FF;&#x6362;&#x6808;&#x9876;](.gitbook/assets/history-stack2.jpg)
+![&#x66FF;&#x6362;&#x6808;&#x9876;](../.gitbook/assets/history-stack2.jpg)
 
 
 

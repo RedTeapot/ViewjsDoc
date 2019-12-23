@@ -1,17 +1,14 @@
 # Table of contents
 
 * [简介](readme.md)
-
-## 文档
-
 * [视图](main.-shi-tu.md)
-* [视图命名空间](wen-dang/main.-shi-tu-ming-ming-kong-jian.md)
+* [视图命名空间](main.-shi-tu-ming-ming-kong-jian.md)
 * [视图容器](main.-shi-tu-rong-qi.md)
 * [默认视图](main.-mo-ren-shi-tu.md)
 * [活动视图](main.-huo-dong-shi-tu.md)
-* [视图标题](wen-dang/main.-shi-tu-biao-ti.md)
-* [视图直接访问](wen-dang/main.-shi-tu-zhi-jie-fang-wen.md)
-* [回退视图](wen-dang/main.-shi-tu-hui-tui-xian-shi.md)
+* [视图标题](main.-shi-tu-biao-ti.md)
+* [视图直接访问](main.-shi-tu-zhi-jie-fang-wen.md)
+* [回退视图](main.-shi-tu-hui-tui-xian-shi.md)
 * [视图布局](main.-shi-tu-bu-ju.md)
 * [视图上下文](main.-shi-tu-shang-xia-wen.md)
 * [视图配置](main.-shi-tu-pei-zhi.md)
@@ -30,30 +27,4 @@
 * [初始化](main.-chu-shi-hua.md)
 * [使用View.js的注意事项](main.-shi-yong-viewjs-de-zhu-yi-shi-xiang.md)
 * [问题反馈及寻求帮助](wen-ti-fan-kui-ji-xun-qiu-bang-zhu.md)
-
-## API
-
-* [View](api/view/README.md)
-  * [ViewContext](api/view/viewcontext.md)
-  * [ViewConfiguration](api/view/viewconfiguration.md)
-  * [ViewConfigurationSet](api/view/viewconfigurationset.md)
-  * [View.layout](api/view/view.layout.md)
-  * [View.Logger](api/view/view.logger.md)
-  * [ViewLayoutInitOptions](api/view/viewlayoutinitoptions.md)
-  * [ViewLayoutChangeListener](api/view/viewlayoutchangelistener.md)
-  * [ViewConfigurationApplication](api/view/viewconfigurationapplication.md)
-  * [ViewState](api/view/viewstate.md)
-  * [ViewSwitchAnimation](api/view/viewswitchanimation.md)
-  * [ViewSwitchInfo](api/view/viewswitchinfo.md)
-  * [ViewSwitchType](api/view/viewswitchtype.md)
-  * [ViewSwtichTrigger](api/view/viewswtichtrigger.md)
-  * [ViewSwitchCtrl](api/view/viewswitchctrl.md)
-  * [ViewBackForwardCtrl](api/view/viewbackforwardctrl.md)
-  * [ViewEvent](api/view/viewevent.md)
-  * [ViewEventListener](api/view/vieweventlistener.md)
-  * [ViewSwitchEventData](api/view/viewswitcheventdata.md)
-  * [ViewInstanceEnterEventData](api/view/viewinstanceentereventdata.md)
-  * [ViewInstanceLeaveEventData](api/view/viewinstanceleaveeventdata.md)
-  * [ViewInitializer](api/view/viewinitializer.md)
-  * [ViewInitializeTime](api/view/viewinitializetime.md)
 

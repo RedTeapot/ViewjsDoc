@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset = "utf-8" />
+	<meta name = "format-detection" content = "telephone = no" />
+	<meta name = "msapplication-tap-highlight" content = "no" />
+	<meta name = "viewport" content="initial-scale=1, minimum-scale=1" />
+
+	<link rel = "stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+	<link rel = "stylesheet" href = "css/index.css"/>
+	<link rel = "stylesheet" href = "iconfont/iconfont.css"/>
+
+	<script src = "https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+	<script src = "https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
+	<title>View.js</title>
+</head>
+<body>
+	<div class = "content">
+		<header><div class = "container">
+			<div class = "logo"><img src = "asset/logo.svg"/><span>View.js</span></div>
+			<a class = "github" href = "https://github.com/RedTeapot/Viewjs" target = "_blank"></a>
+		</div></header>
+		<div class = "banner"><div class = "container">
+			<div class = "slogan">不需要 Npm 的单页应用框架</div>
+			<div class = "icon">
+				<span class = "html"></span>
+				<span class = "css"></span>
+				<span class = "js"></span>
+			</div>
+			<div class = "description">
+				View.js 是一款运行在浏览器中的，Web 单页应用的开发框架。<br/>
+				与其它框架不同，View.js 并不需要 Npm，开发者可以像开发传统的多页应用一样，继续使用熟悉的 Web 知识轻松开发单页应用。
+			</div>
+		</div></div>
+		<div class = "main"><div class = "container">
+			<div class = "left">
+				<div class = "feature">
+					<div class = "title">特性</div>
+					<div class = "content">
+						<div>事件驱动式开发</div>
+						<div>自定义转场动画</div>
+						<div>配置化页面表现</div>
+						<div>页面间传参</div>
+						<div>自定义场景化布局</div>
+						<div>格式化日志输出</div>
+					</div>
+				</div>
+				<hr/>
+				<div class = "navigation">
+					<a class = "download" href = "https://github.com/RedTeapot/Viewjs/releases" target = "_blank"><div class = "wrapper">
+						<span class = "title">下载</span>
+						<object><a class = "latest-version" href = "dist/"></a></object>
+						<object><a class = "other-releases" href = "https://github.com/RedTeapot/Viewjs/tags">其它版本</a></object>
+					</div></a>
+					<a href = "http://doc.view-js.com" target = "_blank"><div class = "wrapper">
+						<span class = "title">文档</span>
+						<span class = "desc">学习、掌握 View.js 的概念和特性</span>
+					</div></a>
+					<a href = "http://api.view-js.com" target = "_blank"><div class = "wrapper">
+						<span class = "title">API</span>
+						<span class = "desc">查找 API 的具体用法和注意事项</span>
+					</div></a>
+					<a href = "http://attr.view-js.com" target = "_blank"><div class = "wrapper">
+						<span class = "title">属性</span>
+						<span class = "desc">查找关联 DOM 属性的声明规则</span>
+					</div></a>
+				</div>
+			</div>
+			<div class = "right">
+				<span class = "title">Gitalk</span>
+				<div class = "wrapper"></div>
+			</div>
+			<div class = "clear-float"></div>
+			<div class = "copyright">作者：Billy，wmjhappy_ok@126.com，河南郑州 豫ICP备17036234号</div>
+		</div>
+	</div></div>
+
+	<script>
+	;(function(){
+		var gitalk = new Gitalk({
+			clientID: '408f27eb84b2b896c507',
+			clientSecret: '0e5d4097e6817656f2b33d33139edc3e17733c3c',
+			repo: 'Viewjs',
+			owner: 'RedTeapot',
+			admin: ['RedTeapot'],
+			labels: ['GitTalk'],
+			id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+			distractionFreeMode: false  // Facebook-like distraction free mode
+		});
+		gitalk.render(document.querySelector(".right .wrapper"));
+	})();
+	;(function(){
+		setTimeout(function(){
+			document.querySelector(".right").style.height = document.querySelector(".left").offsetHeight + "px";
+		}, 100);
+	})();
+	;(function(){
+		var version = "1.6.2";
+
+		var latestVersionObj = document.querySelector(".latest-version");
+		latestVersionObj.href = "dist/viewjs-" + version + ".zip";
+		latestVersionObj.innerHTML = "view.js-v" + version;
+	})();
+	</script>
+</body>
+</html>

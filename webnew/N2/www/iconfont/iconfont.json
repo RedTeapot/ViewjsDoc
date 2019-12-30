@@ -1,0 +1,58 @@
+{
+  "id": "1590466",
+  "name": "View.js-doc",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "475664",
+      "name": "html",
+      "font_class": "html-copy",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "530764",
+      "name": "对号",
+      "font_class": "duihao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "2225569",
+      "name": "js",
+      "font_class": "js",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "2630847",
+      "name": "css",
+      "font_class": "css",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "3782165",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e970",
+      "unicode_decimal": 59760
+    },
+    {
+      "icon_id": "7116800",
+      "name": "zip",
+      "font_class": "zip",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    },
+    {
+      "icon_id": "9994585",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    }
+  ]
+}

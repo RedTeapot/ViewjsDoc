@@ -51,8 +51,6 @@ View.navTo("targetViewId", {
 {% endtabs %}
 
 {% hint style="warning" %}
-视图参数在视图离开后清空，此时检索参数将得到 `null`。开发者可以将参数存放在 视图上下文 中，以使得视图离开后仍然可以使用视图参数。
-
 视图参数只能以集合的形式批量设置，不能按参数名分别设置。
 {% endhint %}
 
@@ -129,6 +127,12 @@ view.on("leave", function(){
 
 {% hint style="warning" %}
 参数名区分大小写
+{% endhint %}
+
+{% hint style="warning" %}
+视图离开后，`getParameter()` 方法仍然可以获取到最后一次传入的参数。但重新进入视图时，再次调用将获取到新传入的参数。
+
+开发者可以将参数存放在 视图上下文 中，以使得再次进入但没有传参时，仍然可以通过上下文获取到先前的参数。
 {% endhint %}
 
 ## 回调方法

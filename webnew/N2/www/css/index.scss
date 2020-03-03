@@ -287,6 +287,10 @@ header{
 	.right .wrapper{
 		height: calc(100% - 48px);
 		overflow: auto;
+		
+		.gt-container{
+			padding: 0px 2rem;
+		}
 	}
 }
 

@@ -13,7 +13,7 @@
 
 	<script>
 	if(document.domain !== "view-js.com"){
-		location.href = location.protocol + "//view-js.com" + location.port + location.pathname;
+		location.href = location.protocol + "//view-js.com" + location.port + location.pathname + location.hash;
 	}
 	</script>
 	<script src = "https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
@@ -102,7 +102,7 @@
 		}, 100);
 	})();
 	;(function(){
-		var version = "1.6.2";
+		var version = "1.6.3";
 
 		var latestVersionObj = document.querySelector(".latest-version");
 		latestVersionObj.href = "dist/viewjs-" + version + ".zip";

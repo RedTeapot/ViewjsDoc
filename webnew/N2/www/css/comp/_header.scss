@@ -1,0 +1,43 @@
+header{
+	height: 8rem;
+	display: flex;
+	position: relative;
+	box-shadow: 0 3px 8px 0 rgba(116, 129, 141, 0.1);
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #d4dadf;
+
+	.container{
+		display: flex;
+	}
+
+	.logo{
+		float: left;
+		display: flex;
+		align-items: center;
+		//padding: 0 1.6rem;
+		background-color: white;
+
+		img{
+			width: 4rem;
+			height: 4rem;
+		}
+
+		span{
+			flex: 1;
+			font-size: 2.4rem;
+			font-weight: 500;
+			overflow-wrap: break-word;
+			margin-left: 0.8rem;
+		}
+	}
+
+	.github{
+		position: absolute;
+		right: 0;
+	}
+	.github:before{
+		font-family: iconfont;
+		content: "\e970";
+		font-size: 4rem;
+	}
+}

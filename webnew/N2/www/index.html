@@ -12,7 +12,7 @@
 	<link rel = "stylesheet" href = "iconfont/iconfont.css"/>
 
 	<script>
-	if(document.domain !== "view-js.com"){
+	if(location.protocol !== "file:" && document.domain !== "view-js.com"){
 		location.href = location.protocol + "//view-js.com" + location.port + location.pathname + location.hash;
 	}
 	</script>
@@ -35,72 +35,93 @@
 				<span class = "js"></span>
 			</div>
 			<div class = "description">
-				View.js 是一款运行在浏览器中的，Web 单页应用的开发框架。<br/>
-				与其它框架不同，View.js 并不需要 Npm，开发者可以像开发传统的多页应用一样，继续使用熟悉的 Web 知识轻松开发单页应用。
+				View.js 是一款运行在浏览器中的，Web 单页应用的开发框架，开发者可以继续使用熟悉的 Web 知识轻松开发单页应用。
 			</div>
 		</div></div>
 		<div class = "main"><div class = "container">
-			<div class = "left">
-				<div class = "feature">
-					<div class = "title">特性</div>
-					<div class = "content">
-						<div>事件驱动式开发</div>
-						<div>自定义转场动画</div>
-						<div>配置化页面表现</div>
-						<div>页面间传参</div>
-						<div>自定义场景化布局</div>
-						<div>格式化日志输出</div>
+			<section class = "download">
+				<div class = "title">下载</div>
+				<div class = "content">
+					<div class = "content-holder">
+						<span class = "animation-wrapper"><a class = "latest-version"></a></span>
+						<a class = "other-releases" href = "https://github.com/RedTeapot/Viewjs/tags" target = "_blank">其它版本</a>
 					</div>
 				</div>
-				<hr/>
-				<div class = "navigation">
-					<a class = "download" href = "https://github.com/RedTeapot/Viewjs/releases" target = "_blank"><div class = "wrapper">
-						<span class = "title">下载</span>
-						<object><a class = "latest-version" href = "dist/"></a></object>
-						<object><a class = "other-releases" href = "https://github.com/RedTeapot/Viewjs/tags">其它版本</a></object>
-					</div></a>
-					<a href = "http://doc.view-js.com" target = "_blank"><div class = "wrapper">
-						<span class = "title">文档</span>
-						<span class = "desc">学习、掌握 View.js 的概念和特性</span>
-					</div></a>
-					<a href = "http://api.view-js.com" target = "_blank"><div class = "wrapper">
-						<span class = "title">API</span>
-						<span class = "desc">查找 API 的具体用法和注意事项</span>
-					</div></a>
-					<a href = "http://attr.view-js.com" target = "_blank"><div class = "wrapper">
-						<span class = "title">属性</span>
-						<span class = "desc">查找关联 DOM 属性的声明规则</span>
-					</div></a>
+			</section>
+			<section class = "code-samples">
+				<div class = "title">编写代码</div>
+				<div class = "content">
+					<div class = "code-sample">
+						<div class = "code-sample-title">视图DOM骨架</div>
+						<div class = "code-block">&lt;section data-view-id=&quot;page1&quot;&gt;
+    &lt;header&gt;
+        &lt;a class=&quot;nav-back&quot; data-view-rel=&quot;:back&quot;&gt;&lt;/a&gt;
+        视图标题
+    &lt;/header&gt;
+    &lt;div class = &quot;body&quot;&gt;
+        主内容区域
+    &lt;/div&gt;
+&lt;/section&gt;</div>
+					</div>
+					<div class = "code-sample">
+						<div class = "code-sample-title">视图脚本</div>
+						<div class = "code-block">;(function(){
+    var viewId = "page1";
+    var view = View.ofId(viewId);
+
+    /* 视图进入 */
+    view.on("enter", function(e){
+        // do something
+    });
+})();</div>
+					</div>
+					<div class = "clear-float"></div>
+					<div class = "description">视图，是View.js的核心概念，代表用户看到的一屏内容</div>
 				</div>
-			</div>
-			<div class = "right">
-				<span class = "title">Gitalk</span>
-				<div class = "wrapper"></div>
-			</div>
-			<div class = "clear-float"></div>
-			<div class = "copyright">作者：Billy，wmjhappy_ok@126.com，河南郑州 豫ICP备17036234号</div>
-		</div>
+			</section>
+			<section class = "doc">
+				<div class = "title">了解更多</div>
+				<div class = "content">
+					<div class = "navigation">
+						<a href = "http://doc.view-js.com" target = "_blank"><div class = "wrapper">
+							<span class = "title">文档</span>
+							<span class = "desc">学习、掌握 View.js 的概念和特性</span>
+						</div></a>
+						<a href = "http://api.view-js.com" target = "_blank"><div class = "wrapper">
+							<span class = "title">API</span>
+							<span class = "desc">查找 API 的具体用法和注意事项</span>
+						</div></a>
+						<a href = "http://attr.view-js.com" target = "_blank"><div class = "wrapper">
+							<span class = "title">属性</span>
+							<span class = "desc">查找关联 DOM 属性的声明规则</span>
+						</div></a>
+						<a href = "http://attr.view-js.com" target = "_blank"><div class = "wrapper">
+							<span class = "title">Demo</span>
+							<span class = "desc">查看代码样例，了解View.js的其它用法</span>
+						</div></a>
+					</div>
+				</div>
+			</section>
+		</div></div>
+		<div class = "container copyright">作者：Billy，wmjhappy_ok@126.com，河南郑州 豫ICP备17036234号</div>
 	</div></div>
 
+	<script src = "js/highlightjs/highlight.pack.js"></script>
 	<script>
-	;(function(){
-		var gitalk = new Gitalk({
-			clientID: '408f27eb84b2b896c507',
-			clientSecret: '0e5d4097e6817656f2b33d33139edc3e17733c3c',
-			repo: 'Viewjs',
-			owner: 'RedTeapot',
-			admin: ['RedTeapot'],
-			labels: ['GitTalk'],
-			id: md5(location.pathname),      // Ensure uniqueness and length less than 50
-			distractionFreeMode: false  // Facebook-like distraction free mode
-		});
-		gitalk.render(document.querySelector(".right .wrapper"));
-	})();
-	;(function(){
-		setTimeout(function(){
-			document.querySelector(".right").style.height = document.querySelector(".left").offsetHeight + "px";
-		}, 100);
-	})();
+	// ;(function(){
+	// 	var gitalk = new Gitalk({
+	// 		clientID: '408f27eb84b2b896c507',
+	// 		clientSecret: '0e5d4097e6817656f2b33d33139edc3e17733c3c',
+	// 		repo: 'Viewjs',
+	// 		owner: 'RedTeapot',
+	// 		admin: ['RedTeapot'],
+	// 		labels: ['GitTalk'],
+	// 		id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+	// 		distractionFreeMode: false  // Facebook-like distraction free mode
+	// 	});
+	// 	gitalk.render(document.querySelector(".right .wrapper"));
+	// })();
+
 	;(function(){
 		var version = "1.6.3";
 
@@ -108,6 +129,10 @@
 		latestVersionObj.href = "dist/viewjs-" + version + ".zip";
 		latestVersionObj.innerHTML = "view.js-v" + version;
 	})();
+
+	;document.addEventListener("DOMContentLoaded", function(){
+		Array.prototype.forEach.call(document.querySelectorAll(".code-block"), hljs.highlightBlock);
+	});
 	</script>
 </body>
 </html>

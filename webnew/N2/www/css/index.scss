@@ -170,6 +170,9 @@ header{
 	section > .title{
 		@include title;
 	}
+	section > .content{
+		overflow: hidden;
+	}
 }
 
 .code-samples{

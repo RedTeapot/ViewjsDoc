@@ -32,3 +32,17 @@ body{
 	border-radius: 6px;
 	background-color: #CCCCCC;
 }
+
+.container{
+	position: relative;
+	width: 100%;
+	align-items: center;
+	max-width: 900px;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+.clear-float{
+	display: block;
+	clear: both;
+}

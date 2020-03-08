@@ -20,16 +20,28 @@ body {
   height: 6px;
   background-color: transparent; }
 
-/*婊氬姩鏉＄殑杞ㄩ亾*/
+/*滚动条的轨道*/
 ::-webkit-scrollbar-track {
   background-color: transparent; }
 
-/*婊氬姩鏉＄殑婊戝潡鎸夐挳*/
+/*滚动条的滑块按钮*/
 ::-webkit-scrollbar-thumb {
   width: 6px;
   height: 6px;
   border-radius: 6px;
   background-color: #CCCCCC; }
+
+.container {
+  position: relative;
+  width: 100%;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box; }
+
+.clear-float {
+  display: block;
+  clear: both; }
 
 @keyframes slideDown {
   0% {
@@ -194,6 +206,7 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
     font-size: 1.2rem;
     text-align: center; } }
 header {
+  z-index: 1;
   height: 8rem;
   display: flex;
   position: relative;
@@ -223,18 +236,6 @@ header {
     font-family: iconfont;
     content: "\e970";
     font-size: 4rem; }
-
-.container {
-  position: relative;
-  width: 100%;
-  align-items: center;
-  max-width: 900px;
-  margin: 0 auto;
-  box-sizing: border-box; }
-
-.clear-float {
-  display: block;
-  clear: both; }
 
 hr {
   border-bottom: none;

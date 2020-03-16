@@ -17,13 +17,12 @@
 			<div class = "logo" onclick = "location.href = 'index.html'"><img src = "asset/logo.svg"/><span>View.js</span></div>
 			<a class = "github" href = "https://github.com/RedTeapot/Viewjs" target = "_blank"></a>
 		</div></header>
-		<div class = "main"><div class = "container">
-			<article><div>
-				<div class = "contact">没有找到期望的样例？<a href = "mailto:wmjhappy_ok@126.com">联系我吧！</a></div>
-			</div></article>
+		<div class = "main">
 			<aside></aside>
-			<div class = "clear-float"></div>
-		</div></div>
+			<article>
+				<div class = "contact">没有找到期望的样例？<a href = "mailto:wmjhappy_ok@126.com">联系我吧！</a></div>
+			</article>
+		</div>
 	</div>
 
 	<script>
@@ -69,7 +68,7 @@
 		};
 
 		var asideObj = find("aside"),
-			articleObj = find("article > div"),
+			articleObj = find("article"),
 			contactObj = find(".contact");
 
 		sections.forEach(function(section, i){
@@ -122,16 +121,23 @@
 				return;
 			switchActiveSection(e.target.getAttribute("data-id"));
 		});
-
-		articleObj.addEventListener("scroll", function(e){
-
-		});
 	})();
 
 	;(function(){
+		var headerObj = document.querySelector("header"),
+			headerContainerObj = headerObj.querySelector(".container"),
+			mainObj = document.querySelector(".main"),
+			articleObj = document.querySelector("article");
+
 		var layout = function(){
 			var height = window.innerHeight;
-			document.querySelector(".main").style.height = (height - document.querySelector("header").offsetHeight) + "px";
+			var h = (height - headerObj.offsetHeight) + "px";
+
+			mainObj.style.height = h;
+
+			var offset = (headerObj.offsetWidth - headerContainerObj.offsetWidth) / 2;
+			articleObj.style.paddingRight = offset + "px";
+			mainObj.style.paddingLeft = (offset) + "px";
 		};
 		layout();
 		window.addEventListener("resize", layout);

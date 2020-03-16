@@ -20,11 +20,11 @@ body {
   height: 6px;
   background-color: transparent; }
 
-/*滚动条的轨道*/
+/*婊氬姩鏉＄殑杞ㄩ亾*/
 ::-webkit-scrollbar-track {
   background-color: transparent; }
 
-/*滚动条的滑块按钮*/
+/*婊氬姩鏉＄殑婊戝潡鎸夐挳*/
 ::-webkit-scrollbar-thumb {
   width: 6px;
   height: 6px;

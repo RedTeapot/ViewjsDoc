@@ -20,11 +20,11 @@ body {
   height: 6px;
   background-color: transparent; }
 
-/*滚动条的轨道*/
+/*婊氬姩鏉＄殑杞ㄩ亾*/
 ::-webkit-scrollbar-track {
   background-color: transparent; }
 
-/*滚动条的滑块按钮*/
+/*婊氬姩鏉＄殑婊戝潡鎸夐挳*/
 ::-webkit-scrollbar-thumb {
   width: 6px;
   height: 6px;
@@ -79,8 +79,9 @@ header .logo {
   cursor: pointer; }
 
 .main {
-  overflow: auto; }
-  .main .container, .main aside, .main article, .main article > div {
+  position: relative;
+  overflow: hidden; }
+  .main .container, .main aside, .main article {
     box-sizing: border-box; }
   .main .container:before {
     content: "";
@@ -92,20 +93,23 @@ header .logo {
     height: 100%;
     background-color: #F5F7F9; }
 
+aside, article {
+  height: 100%;
+  overflow-y: auto; }
+
 aside {
   position: absolute;
   width: 20rem;
-  height: 100%;
   padding: 3rem 0;
   font-size: 1.4rem;
   background-color: #F5F7F9; }
-  aside > a {
+  aside a {
     display: block;
     cursor: default;
     padding: 0.7rem 2.4rem 0.7rem 1.6rem;
     border: solid 1px transparent;
     transition: border-color linear 0.1s, background-color linear 0.1s; }
-    aside > a.active, aside > a:hover {
+    aside a.active, aside a:hover {
       background-color: white;
       border-color: #E6ECF1; }
 
@@ -114,8 +118,7 @@ article {
   width: 100%;
   margin-left: -20rem;
   padding-left: 28.8rem;
-  background-color: white;
-  box-sizing: border-box; }
+  background-color: white; }
   article > div {
     overflow-y: auto;
     padding: 0 1rem 1rem 0; }

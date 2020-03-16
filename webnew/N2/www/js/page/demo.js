@@ -1,30 +1,13 @@
 ;(function(){
 	var sections = [
 		{
-			id: "shi-tu-rong-qi",
-			title: "视图容器",
-			samples: [
-				{
-					title: "多视图共享静态Footer",
-					desc: "借助视图容器使多个视图共享一个底部导航"
-				},
-				{
-					title: "多视图共享静态Footer",
-					desc: "借助视图容器使多个视图共享一个底部导航"
-				}
-			]
-		},
-		{
 			id: "mo-ren-shi-tu",
 			title: "默认视图",
 			samples: [
 				{
-					title: "默认视图1",
-					desc: "默认视图描述1"
-				},
-				{
-					title: "默认视图2",
-					desc: "默认视图描述2"
+					id: "default-view_1",
+					title: "自动识别默认视图",
+					desc: "没有单独指定时，View.js将使用第一个视图作为默认视图"
 				}
 			]
 		}
@@ -54,7 +37,7 @@
 		section.samples.forEach(function(sample){
 			var sampleObj = document.createElement("sample");
 			sampleObj.className = "sample-wrapper";
-			sampleObj.innerHTML = '<a class = "sample">\n' +
+			sampleObj.innerHTML = '<a target = "_blank" class = "sample">\n' +
 				'\t\t<div class = "title"></div>\n' +
 				'\t\t<div class = "desc"></div>\n' +
 				'\t</a>';

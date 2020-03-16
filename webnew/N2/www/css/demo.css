@@ -176,6 +176,7 @@ article {
     article .sample-wrapper:nth-child(1), article .sample-wrapper:nth-child(2) {
       margin-top: 0; }
   article .sample {
+    display: block;
     cursor: pointer;
     padding: 1.6rem;
     border-radius: 0.3rem;

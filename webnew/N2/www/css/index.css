@@ -143,12 +143,6 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
   font-style: italic; }
 
 @media screen and (max-width: 1000px) {
-  header .logo {
-    float: none;
-    margin: 0 auto; }
-  header .github {
-    display: none; }
-
   .banner .slogan {
     font-size: 1.6rem; }
   .banner .icon {
@@ -177,29 +171,29 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
   .code-samples {
     display: none; }
 
-  .doc .navigation {
+  .doc .content .navigation {
     margin-right: 0; }
-  .doc .navigation > a {
+  .doc .content .navigation > a {
     float: none;
     display: block;
     margin-top: 1rem;
     width: auto;
     padding: 0 1rem; }
-    .doc .navigation > a:first-child {
+    .doc .content .navigation > a:first-child {
       margin-top: 0; }
-  .doc .navigation > a .wrapper {
+  .doc .content .navigation > a .wrapper {
     padding: 1em; }
-    .doc .navigation > a .wrapper:after {
+    .doc .content .navigation > a .wrapper:after {
       font-size: 2rem;
       right: 0;
       top: 0; }
-    .doc .navigation > a .wrapper .title {
+    .doc .content .navigation > a .wrapper .title {
       font-size: 1.2rem;
       margin-bottom: 0; }
-    .doc .navigation > a .wrapper .desc {
+    .doc .content .navigation > a .wrapper .desc {
       display: none;
       font-size: 1.2rem; }
-  .doc .navigation > a.download .wrapper .title {
+  .doc .content .navigation > a.download .wrapper .title {
     margin-bottom: 0.8rem; }
 
   .copyright {
@@ -237,6 +231,12 @@ header {
     content: "\e970";
     font-size: 4rem; }
 
+@media screen and (max-width: 1000px) {
+  header .logo {
+    float: none;
+    margin: 0 auto; }
+  header .github {
+    display: none; } }
 hr {
   border-bottom: none;
   border-top: solid 1px #DEDEDE;

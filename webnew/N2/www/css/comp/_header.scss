@@ -42,3 +42,18 @@ header{
 		font-size: 4rem;
 	}
 }
+
+@at-root{
+	@media screen and (max-width: 1000px) {
+		header {
+			.logo {
+				float: none;
+				margin: 0 auto;
+			}
+
+			.github {
+				display: none;
+			}
+		}
+	}
+}

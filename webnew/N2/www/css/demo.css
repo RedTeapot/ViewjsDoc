@@ -43,6 +43,29 @@ body {
   display: block;
   clear: both; }
 
+@media screen and (max-width: 1000px) {
+  .main {
+    height: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important; }
+    .main aside {
+      display: none; }
+    .main article {
+      margin-left: 0 !important;
+      padding-left: 0 !important; }
+      .main article section > .title {
+        padding: 1rem 0; }
+      .main article section > .content {
+        padding: 2rem 0;
+        margin-right: 0; }
+      .main article .sample-wrapper {
+        float: none;
+        width: 100%;
+        margin-top: 0.5rem; }
+        .main article .sample-wrapper:first-child {
+          margin-top: 0; }
+      .main article .contact {
+        margin-top: 0; } }
 header {
   z-index: 1;
   height: 8rem;
@@ -75,6 +98,15 @@ header {
     content: "\e970";
     font-size: 4rem; }
 
+@media screen and (max-width: 1000px) {
+  header .logo {
+    float: none;
+    margin: 0 auto; }
+  header .github {
+    display: none; } }
+header {
+  z-index: 2; }
+
 header .logo {
   cursor: pointer; }
 
@@ -83,17 +115,18 @@ header .logo {
   overflow: hidden; }
   .main .container, .main aside, .main article {
     box-sizing: border-box; }
-  .main .container:before {
+  .main:before {
     content: "";
     display: block;
     position: absolute;
-    right: 100%;
+    left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: #F5F7F9; }
 
 aside, article {
+  z-index: 1;
   height: 100%;
   overflow-y: auto; }
 
@@ -114,14 +147,13 @@ aside {
       border-color: #E6ECF1; }
 
 article {
+  position: relative;
   float: right;
   width: 100%;
   margin-left: -20rem;
   padding-left: 28.8rem;
+  padding-bottom: 1rem;
   background-color: white; }
-  article > div {
-    overflow-y: auto;
-    padding: 0 1rem 1rem 0; }
   article section {
     overflow: hidden; }
   article section > .title {

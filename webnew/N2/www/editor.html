@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset = "utf-8" />
+	<meta name = "format-detection" content = "telephone = no" />
+	<meta name = "msapplication-tap-highlight" content = "no" />
+	<meta name = "viewport" content="initial-scale=1, minimum-scale=1" />
+
+	<link rel = "stylesheet" href = "css/editor.css"/>
+	<link rel = "stylesheet" href = "iconfont/iconfont.css"/>
+
+	<title>View.js</title>
+</head>
+<body>
+	<header>
+		<div class = "logo" onclick = "location.href = 'index.html'"><img src = "asset/logo.svg"/><span>View.js</span></div>
+		<a href = "http://doc.view-js.com" target = "_blank">文档</a>
+		<a href = "http://api.view-js.com" target = "_blank">API</a>
+		<a href = "http://attr.view-js.com" target = "_blank">属性</a>
+	</header>
+	<div class = "main">
+		<div class = "editor" data-tab = "html">
+			<div class = "tab">
+				<span data-lang = "html">HTML</span>
+				<span data-lang = "css">CSS</span>
+				<span data-lang = "js">JS</span>
+
+				<span class = "run">运行</span>
+			</div>
+			<div class = "editor-wrapper">
+				<div class = "html"></div>
+				<div class = "css"></div>
+				<div class = "js"></div>
+			</div>
+		</div>
+		<div class = "preview">
+			<div class = "phone">
+				<iframe></iframe>
+			</div>
+		</div>
+		<div class = "clear-float"></div>
+	</div>
+
+	<script src = "js/plugin/ace/ace.js"></script>
+	<script src = "js/page/editor.js"></script>
+</body>
+</html>

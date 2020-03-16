@@ -1,0 +1,38 @@
+@media screen and (max-width: 1000px) {
+	.main{
+		height: auto !important;
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+
+		aside{
+			display: none;
+		}
+
+		article{
+			margin-left: 0 !important;
+			padding-left: 0 !important;
+
+			section > .title{
+				padding: 1rem 0;
+			}
+			section > .content{
+				padding: 2rem 0;
+				margin-right: 0;
+			}
+
+			.sample-wrapper{
+				float: none;
+				width: 100%;
+				margin-top: 0.5rem;
+
+				&:first-child{
+					margin-top: 0;
+				}
+			}
+
+			.contact{
+				margin-top: 0;
+			}
+		}
+	}
+}

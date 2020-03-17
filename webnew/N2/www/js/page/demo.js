@@ -8,6 +8,11 @@
 					id: "default-view_1",
 					title: "自动识别默认视图",
 					desc: "没有单独指定时，View.js将使用第一个视图作为默认视图"
+				},
+				{
+					id: "default-view_2",
+					title: "手动设定默认视图",
+					desc: "手动设置特定视图作为默认视图"
 				}
 			]
 		}

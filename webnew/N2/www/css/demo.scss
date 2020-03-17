@@ -115,7 +115,13 @@ article{
 		> .desc{
 			color: #9DAAB6;
 			font-size: 1.4rem;
+			height: 3em;
+			line-height: 1.5em;
 			margin-top: 1rem;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
 		}
 	}
 

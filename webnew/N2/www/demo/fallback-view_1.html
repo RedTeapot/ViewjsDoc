@@ -1,17 +1,24 @@
 <markup>
 <section data-view-id = "page1">
 	<header>
-		<span class = "nav-back" data-view-rel = ":back"></span>视图1
+		<span class = "nav-back" data-view-rel = ":back"></span>默认视图
 	</header>
-	<h1>本视图虽然是DOM顺序上的第一个，但视图2被明确设定为默认视图，因此页面刷新后将呈现视图2</h1>
-	<div data-view-rel = "page2" class = "btn">进入视图2</div>
+	<h1>这是默认视图</h1>
+	<div data-view-rel = "profile" class = "btn">进入个人中心</div>
 </section>
-<section data-view-id = "page2">
+<section data-view-id = "profile" data-view-directly-accessible = "true">
 	<header>
-		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+		<span class = "nav-back" data-view-rel = ":back"></span>个人中心
 	</header>
-	<h1>本视图虽然不是第一个视图，但是是默认视图</h1>
-	<div data-view-rel = "page1" class = "btn">进入视图1</div>
+	<h1>本视图已设定为“可直接访问”</h1>
+	<div data-view-rel = "profile_sub" class = "btn">进入子页面</div>
+</section>
+<section data-view-id = "profile_sub" data-view-falback = "profile" data-view-directly-accessible = "false">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>个人中心子页面
+	</header>
+	<h1>本视图已设定为“不可直接访问”，且设定回退视图为个人中心，所以在本界面上刷新后将呈现“个人中心”</h1>
+	<div data-view-rel = ":default-view" class = "btn">进入默认视图</div>
 </section>
 </markup>
 <style>

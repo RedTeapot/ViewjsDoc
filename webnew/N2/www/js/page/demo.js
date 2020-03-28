@@ -35,6 +35,11 @@
 					id: "initialize_1",
 					title: "运行环境准备",
 					desc: "初始化 View.js 前，执行：加载配置、token登录、加载用户数据等"
+				},
+				{
+					id: "initialize_2",
+					title: "提示用户加载中",
+					desc: "页面加载完成之前，用动画等形式降低用户的焦虑感"
 				}
 			]
 		}

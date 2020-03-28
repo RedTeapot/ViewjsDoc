@@ -34,7 +34,34 @@
 			xhr.send();
 		};
 
-		window.apply = function(html, css, js){
+		/**
+		 * 设定参数默认值
+		 */
+		var setDftValue = function(ops, dftOps){
+			ops = ops || {};
+			dftOps = dftOps || {};
+
+			/* 参数不存在时，从默认参数中读取并赋值 */
+			for(var p in dftOps)
+				if(!(p in ops))
+					ops[p] = dftOps[p];
+
+			return ops;
+		};
+
+		/**
+		 * 应用代码
+		 * @param {String} html 待应用的html
+		 * @param {String} css 待应用的css
+		 * @param {String} js 待应用的js
+		 * @param {Object} [ctrl] 控制选项
+		 * @param {Boolean} [ctrl.requireViewjsInitialized=true] 执行脚本时，是否要求View.js已经初始化
+		 */
+		window.apply = function(html, css, js, ctrl){
+			ctrl = setDftValue(ctrl, {
+				requireViewjsInitialized: true
+			});
+
 			if(null != html && (html = String(html).trim()) !== ""){
 				var scriptObj = document.querySelector("script.viewjs");
 
@@ -56,16 +83,21 @@
 				document.head.appendChild(styleObj);
 			}
 
+			if(null == js || (js = String(js).trim()) === "")
+				return;
+
 			ajax("js/plugin/viewjs-1.6.3/view-1.6.3.min.js", {
 				onsuccess: function(responseText){
 					eval(responseText);
-					View.setInitializer(function(init){
-						init();
 
-						if(null != js && (js = String(js).trim()) !== ""){
+					if(ctrl.requireViewjsInitialized){
+						View.setInitializer(function(init){
+							init();
 							eval(js);
-						}
-					}, "rightnow");
+						}, "rightnow");
+					}else{
+						eval(js);
+					}
 				}
 			});
 		};

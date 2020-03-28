@@ -26,6 +26,17 @@
 					desc: "设置回退视图后，不能直接访问的视图在刷新后可以呈现“父”视图"
 				}
 			]
+		},
+		{
+			id: "chu-shi-hua",
+			title: "初始化",
+			samples: [
+				{
+					id: "initialize_1",
+					title: "运行环境准备",
+					desc: "初始化 View.js 前，执行：加载配置、token登录、加载用户数据等"
+				}
+			]
 		}
 	];
 

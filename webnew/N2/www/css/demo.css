@@ -190,7 +190,13 @@ article {
     article .sample > .desc {
       color: #9DAAB6;
       font-size: 1.4rem;
-      margin-top: 1rem; }
+      height: 3em;
+      line-height: 1.5em;
+      margin-top: 1rem;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; }
   article .contact {
     padding: 1.6rem;
     margin-top: 3rem;

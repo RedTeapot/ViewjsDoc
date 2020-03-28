@@ -68,17 +68,14 @@
 		cssEditor.session.setMode("ace/mode/css");
 		jsEditor.session.setMode("ace/mode/javascript");
 
-		var run = function(){
+		var run = function(ctrl){
 			var iframeObj = document.querySelector("iframe");
 			iframeObj.src = "editor_preview.html?v=" + Date.now();
 
 			iframeObj.onload = function(){
-				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue());
+				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue(), ctrl);
 			};
 		};
-
-		/* 运行代码 */
-		runObj.addEventListener("click", run);
 
 		/* 自动加载并运行代码 */
 		var demo = /\bdemo=([^&#]*)\b/i.exec(location.search);
@@ -105,7 +102,19 @@
 						if(null != scriptObj)
 							jsEditor.setValue(scriptObj.innerHTML);
 
-						run();
+						/* 执行控制 */
+						var ctrl = {};
+						var scriptCtrlObj = tmpObj.querySelector("script.ctrl");
+						if(null != scriptCtrlObj){
+							eval("ctrl = " + scriptCtrlObj.innerHTML.trim());
+						}
+
+						run(ctrl);
+
+						/* 运行代码 */
+						runObj.addEventListener("click", function(){
+							run(ctrl);
+						});
 					},
 					oncomplete: function(){
 						htmlEditor.setReadOnly(false);

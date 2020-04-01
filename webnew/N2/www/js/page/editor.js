@@ -57,6 +57,7 @@
 		};
 
 		var htmlEditor = ace.edit(document.querySelector(".editor .html"), ops),
+			externalCssUrls = null,
 			cssEditor = ace.edit(document.querySelector(".editor .css"), ops),
 			jsEditor = ace.edit(document.querySelector(".editor .js"), ops);
 
@@ -73,6 +74,16 @@
 			iframeObj.src = "editor_preview.html?v=" + Date.now();
 
 			iframeObj.onload = function(){
+				if(Array.isArray(externalCssUrls)){
+					for(var i = 0; i < externalCssUrls.length; i++){
+						var linkObj = document.createElement("link");
+						linkObj.rel = "stylesheet";
+						linkObj.href = externalCssUrls[i];
+
+						this.contentDocument.head.appendChild(linkObj);
+					}
+				}
+
 				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue(), ctrl);
 			};
 		};
@@ -92,11 +103,17 @@
 						tmpObj.innerHTML = content;
 
 						var markupObj = tmpObj.querySelector("markup"),
+							styleLinkObjObjs = tmpObj.querySelectorAll("link[rel=stylesheet]"),
 							styleObj = tmpObj.querySelector("style"),
 							scriptObj = tmpObj.querySelector("script");
 
 						if(null != markupObj)
 							htmlEditor.setValue(markupObj.innerHTML);
+						if(0 !== styleLinkObjObjs.length){
+							externalCssUrls = [];
+							for(var i = 0; i < styleLinkObjObjs.length; i++)
+								externalCssUrls.push(styleLinkObjObjs[i].href);
+						}
 						if(null != styleObj)
 							cssEditor.setValue(styleObj.innerHTML);
 						if(null != scriptObj)

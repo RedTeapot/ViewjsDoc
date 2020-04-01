@@ -13,6 +13,7 @@
 <body>
 
 	<script type = "text/javascript" class = "viewjs">
+	;(function(){
 		var ajax = function(url, ops){
 			ops = ops || {};
 
@@ -83,9 +84,6 @@
 				document.head.appendChild(styleObj);
 			}
 
-			if(null == js || (js = String(js).trim()) === "")
-				return;
-
 			ajax("js/plugin/viewjs-1.6.3/view-1.6.3.min.js", {
 				onsuccess: function(responseText){
 					eval(responseText);
@@ -101,6 +99,7 @@
 				}
 			});
 		};
+	})();
 	</script>
 </body>
 </html>

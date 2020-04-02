@@ -53,6 +53,17 @@
 					desc: "初始化 View.js 前，执行：加载配置、token登录、加载用户数据等"
 				}
 			]
+		},
+		{
+			id: "shi-tu-pei-zhi",
+			title: "视图配置",
+			samples: [
+				{
+					id: "view-config_1",
+					title: "简单使用",
+					desc: "使用视图配置实现配置值的设置、读取和使能"
+				}
+			]
 		}
 	];
 

@@ -6,7 +6,7 @@
 
 	<div class = "forward" style = "display: none">
 		<div class = "note">伪视图 ':forward' 代指返回前的视图</div>
-		<div data-view-rel = ":forward" class = "btn">前进</div>
+		<div class = "btn forward">前进</div>
 	</div>
 </section>
 <section data-view-id = "page2">
@@ -30,13 +30,17 @@
 </style>
 <script>
 var page1 = View.ofId("page1");
+var forwardBtnObj = page1.find(".btn.forward");
 
-var tryToShowForwardBlock = function(){
+page1.on("enter", function(){
 	if(page1.getActiveTimes() > 1)
 		page1.find(".forward").style.display = "block";
-};
+});
 
-if(page1.isActive())
-	tryToShowForwardBlock();
-page1.on("enter", tryToShowForwardBlock);
+/**
+ * 编程式导航
+ */
+forwardBtnObj.addEventListener("click", function(){
+	View.navTo(":forward");
+});
 </script>

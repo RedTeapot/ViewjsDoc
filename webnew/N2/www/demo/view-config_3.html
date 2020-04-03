@@ -36,24 +36,26 @@
 	border: none;
 }
 
-/* 含有 visible 样式类时才显示 */
-.note.visible{
+/**
+ * 使用css响应视图配置。
+ * data-viewconfig_* 属性由 View.js 在 reflectToDom 方法调用时自动附加
+ */
+[data-view-id=page1][data-viewconfig_displaying-note=note1] .note1{
+	display: block;
+}
+[data-view-id=page1][data-viewconfig_displaying-note=note2] .note2{
 	display: block;
 }
 </style>
 <script>
 var page1 = View.ofId("page1");
-var page1Note1Obj = page1.find(".note1"),
-	page1Note2Obj = page1.find(".note2");
 
 /**
- * 获取（没有时自动创建）名为：'displaying-note'的配置项，并设置默认值为 true
- * setApplication() 用于设置 “配置项应用动作”，以指定调用 apply() 方法时要触发的方法
+ * 获取（没有时自动创建）名为：'displaying-note'的配置项，并设置默认值为 true。
+ * 当调用 reflectToDom() 方法时，View.js 将自动在视图容器上附加 data-viewconfig_* 属性，
+ * 然后开发者可以据此在样式表中撰写相应逻辑。
  */
-page1.config.get("displaying-note").setApplication(function(newValue){
-	page1Note1Obj.classList[newValue === "note1"? "add": "remove"]("visible");
-	page1Note2Obj.classList[newValue === "note2"? "add": "remove"]("visible");
-}).setValue("note1").apply();
+page1.config.get("displaying-note").setValue("note1").reflectToDom();
 
 /**
  * 切换视图1显示的注释文本
@@ -64,7 +66,7 @@ page2ToggleObj.addEventListener("click", function () {
 	var newValue = validValues[++i % validValues.length];
 
 	/* 第二个参数：true 代表是否覆盖既有取值（非必填，默认为 false） */
-	page1.config.get("displaying-note").setValue(newValue, true).apply();
+	page1.config.get("displaying-note").setValue(newValue, true).reflectToDom();
 
 	/* 自动返回 */
 	View.back();

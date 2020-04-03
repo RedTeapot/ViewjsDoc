@@ -61,11 +61,11 @@ page1.on("beforeenter", function(){
  * 切换视图1显示的注释文本
  */
 var page2ToggleObj = View.ofId("page2").find(".toggle-page1-displaying-note");
+var validValues = ["note1", "note2"], i = 0;
 page2ToggleObj.addEventListener("click", function () {
-	var validValues = ["note1", "note2"], i = 0;
+	var newValue = validValues[++i % validValues.length];
 
 	/* 第二个参数：true 代表是否覆盖既有取值（非必填，默认为 false） */
-	var newValue = validValues[++i % validValues.length];
 	page1.config.get("displaying-note").setValue(newValue, true);
 
 	/* 自动返回 */

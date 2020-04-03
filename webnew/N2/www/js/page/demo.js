@@ -61,12 +61,17 @@
 				{
 					id: "view-config_1",
 					title: "简单使用",
-					desc: "使用视图配置实现配置值的设置、读取和使能"
+					desc: "实现配置值的设置、读取和使能"
 				},
 				{
 					id: "view-config_2",
-					title: "简化样式控制",
-					desc: "借助视图配置的 reflectToDom() 方法，简化样式控制代码"
+					title: "应用配置",
+					desc: "在配置项中声明配置项的应用逻辑，在它处应用配置"
+				},
+				{
+					id: "view-config_3",
+					title: "样式控制",
+					desc: "借助 reflectToDom() 方法，实现“用样式控制界面渲染效果”"
 				}
 			]
 		}

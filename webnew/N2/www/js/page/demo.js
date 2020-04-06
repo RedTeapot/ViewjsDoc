@@ -49,8 +49,8 @@
 			samples: [
 				{
 					id: "pseudo-view_1",
-					title: "运行环境准备",
-					desc: "初始化 View.js 前，执行：加载配置、token登录、加载用户数据等"
+					title: "视图跳转",
+					desc: "使用伪视图进行视图跳转"
 				}
 			]
 		},
@@ -72,6 +72,17 @@
 					id: "view-config_3",
 					title: "样式控制",
 					desc: "借助 reflectToDom() 方法，实现“用样式控制界面渲染效果”"
+				}
+			]
+		},
+		{
+			id: "shi-tu-rong-qi",
+			title: "视图容器",
+			samples: [
+				{
+					id: "view-container_1",
+					title: "手动指定视图容器",
+					desc: "使用 data-view-container 属性指定视图容器"
 				}
 			]
 		}

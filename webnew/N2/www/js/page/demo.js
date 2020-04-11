@@ -81,8 +81,13 @@
 			samples: [
 				{
 					id: "view-container_1",
-					title: "手动指定视图容器",
-					desc: "使用 data-view-container 属性指定视图容器"
+					title: "抽取公用元素",
+					desc: "使用 data-view-container 属性指定视图容器，以包裹非公用元素"
+				},
+				{
+					id: "view-container_2",
+					title: "动态控制公用元素",
+					desc: "借助事件监听，动态控制公用 footer 的显示与隐藏"
 				}
 			]
 		}

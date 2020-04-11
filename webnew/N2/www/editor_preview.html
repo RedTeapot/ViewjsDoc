@@ -88,14 +88,20 @@
 				onsuccess: function(responseText){
 					eval(responseText);
 
-					if(ctrl.requireViewjsInitialized){
-						View.setInitializer(function(init){
+					if(ctrl.ifSpecifyViewjsInitializer){
+						eval(js);
+						return;
+					}
+
+					View.setInitializer(function(init){
+						if(ctrl.requireViewjsInitialized){
 							init();
 							eval(js);
-						}, "rightnow");
-					}else{
-						eval(js);
-					}
+						}else{
+							eval(js);
+							init();
+						}
+					}, "rightnow");
 				}
 			});
 		};

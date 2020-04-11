@@ -120,7 +120,12 @@
 							jsEditor.setValue(scriptObj.innerHTML);
 
 						/* 执行控制 */
-						var ctrl = {};
+						var ctrl = {
+							/* 是否声明自己的 initializer */
+							ifSpecifyViewjsInitializer: false,
+							/* 是否要求 View.js 完成初始化 */
+							requireViewjsInitialized: true
+						};
 						var scriptCtrlObj = tmpObj.querySelector("script.ctrl");
 						if(null != scriptCtrlObj){
 							eval("ctrl = " + scriptCtrlObj.innerHTML.trim());

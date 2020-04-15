@@ -90,6 +90,22 @@
 					desc: "借助事件监听，动态控制公用 footer 的显示与隐藏"
 				}
 			]
+		},
+		{
+			id: "shi-tu-shang-xia-wen",
+			title: "视图上下文",
+			samples: [
+				{
+					id: "view-context_1",
+					title: "视图内存取数据",
+					desc: "使用视图上下文在同一视图内存取数据"
+				},
+				{
+					id: "view-context_2",
+					title: "跨视图存取数据",
+					desc: "使用视图上下文在跨视图存取数据"
+				}
+			]
 		}
 	];
 

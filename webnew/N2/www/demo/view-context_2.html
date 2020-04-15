@@ -1,0 +1,76 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>本视图创建了一个呈现时间的方法在公共上下文上</h1>
+	<div data-view-rel = "page2" class = "btn">进入视图2</div>
+</section>
+<section data-view-id = "page2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+
+	<h1>下面的时间，是由 视图1 创建的方法生成的</h1>
+
+	<div class = "time">
+		<label>当前时间</label>
+		<span></span>
+	</div>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<style>
+.time{
+	padding: 0.2rem 0;
+	text-align: center;
+}
+.time label{
+	color: #999999;
+	margin-bottom: 0.1rem;
+	font-size: 1.2em;
+}
+.time span{
+	display: block;
+	font-size: 1.5em;
+}
+</style>
+<script>
+/* 向上下文中添加数据 */
+;(function(){
+	var v = View.ofId("page1");
+
+	/**
+	 * 渲染当前时间
+	 */
+	var renderTime = function(timeSpanObj){
+		timeSpanObj.innerHTML = new Date().toLocaleTimeString();
+	};
+
+	/**
+	 * 将方法句柄存放至公用上下文中。
+	 *
+	 * View.context 可以跨视图使用。
+	 * 我们建议开发者将原来附加至 window 上的变量均存放在这里，降低 window 上
+	 * 全局变量冲突的可能性。
+	 */
+	View.context.set("renderTime", renderTime);
+})();
+
+/**
+ * 从上下文中读取数据
+ */
+;(function(){
+	var v = View.ofId("page2");
+	var timeSpanObj = v.find(".time span");
+
+	/**
+	 * 从公用上下文中读取句柄
+	 */
+	var renderTime = View.context.get("renderTime");
+
+	/* 立即展现并周期性更新时间 */
+	renderTime(timeSpanObj);
+	setInterval(function(){
+		renderTime(timeSpanObj);
+	}, 200);
+})();
+</script>

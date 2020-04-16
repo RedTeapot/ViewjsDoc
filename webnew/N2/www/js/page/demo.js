@@ -106,6 +106,22 @@
 					desc: "使用视图上下文在跨视图存取数据"
 				}
 			]
+		},
+		{
+			id: "shi-tu-zhi-jie-fang-wen",
+			title: "视图直接访问",
+			samples: [
+				{
+					id: "view-directly-accessible_1",
+					title: "设置特定视图",
+					desc: "所有视图默认都【不能】直接访问，单独设置特定视图是否允许直接访问"
+				},
+				{
+					id: "view-directly-accessible_2",
+					title: "设置所有视图",
+					desc: "设置所有视图默认都【能】直接访问"
+				}
+			]
 		}
 	];
 

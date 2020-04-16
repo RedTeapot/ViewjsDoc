@@ -1,0 +1,21 @@
+<markup>
+<!-- 在视图容器上声明的配置可作用于所有视图 -->
+<div data-view-container data-view-directly-accessible="true">
+	<section data-view-id="page1" data-view-default="true">
+		<header>
+			视图1
+		</header>
+		<h1>该视图是默认视图，可以直接访问（刷新后仍然显示该视图）</h1>
+		<div data-view-rel="page2" class="btn">进入视图2</div>
+	</section>
+
+	<section data-view-id="page2">
+		<header>
+			<span class="nav-back" data-view-rel=":back"></span>视图2
+		</header>
+		<h1>受默认表现影响，该视图能直接访问</h1>
+		<div data-view-rel="page3" class="btn">进入视图3</div>
+	</section>
+</div>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>

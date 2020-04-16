@@ -1,0 +1,37 @@
+<markup>
+<section data-view-id="page1" data-view-default="true">
+	<header>
+		视图1
+	</header>
+	<h1>该视图是默认视图，可以直接访问（刷新后仍然显示该视图）</h1>
+	<div data-view-rel="page2" class="btn">进入视图2</div>
+</section>
+
+<section data-view-id="page2">
+	<header>
+		<span class="nav-back" data-view-rel=":back"></span>视图2
+	</header>
+	<h1>受默认表现影响，该视图不能直接访问</h1>
+	<div data-view-rel="page3" class="btn">进入视图3</div>
+</section>
+
+<section data-view-id="page3" data-view-directly-accessible="false">
+	<header>
+		<span class="nav-back" data-view-rel=":back"></span>视图3
+	</header>
+
+	<!-- data-view-directly-accessible = false 属性声明 -->
+	<h1>该视图被显式设定为：不可以直接访问</h1>
+	<div data-view-rel="page4" class="btn">进入视图4</div>
+</section>
+
+<section data-view-id="page4" data-view-directly-accessible="true">
+	<header>
+		<span class="nav-back" data-view-rel=":back"></span>视图4
+	</header>
+
+	<!-- data-view-directly-accessible = true 属性声明 -->
+	<h1>该视图被显式设定为：可以直接访问</h1>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>

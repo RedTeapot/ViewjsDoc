@@ -49,34 +49,44 @@
 }
 </style>
 <script>
-console.log(2342342);
-
 var msgObj = View.find(document.body, ".msg");
 
-var buildEventMsg = function(e){
+/**
+ * 呈现事件详情
+ * @param {ViewEvent} e 视图实例事件
+ * @param {String} [title] 标题
+ */
+var showEventMsg = function(e, title){
 	var divObj = document.createElement("div");
 	divObj.className = "msg-item";
 	divObj.innerHTML = "<div>\n\t<div class = \"title\"><span></span><span class = \"time\"></span></div>\n\t<div class = \"desc\"></div>\n</div>";
-	divObj.querySelector(".title span").innerHTML = e.type;
+	divObj.querySelector(".title span").innerHTML = title || e.type;
 	divObj.querySelector(".title .time").innerHTML = new Date().toLocaleTimeString();
+
+	/**
+	 * 开发者可以尝试点击浏览器的 后退 和 前进 按钮，
+	 * 观察界面上呈现的事件详细信息有没有什么不同
+	 */
+
 	divObj.querySelector(".desc").innerHTML = "触发者：" + (e.data.trigger === "app"? "应用程序": "浏览器")
 		+ "<br/>触发方式：" + e.data.type;
 
-	return divObj;
+	msgObj.prepend(divObj);
 };
 
 var view1 = View.ofId("page1");
 view1.on("ready, beforeenter, enter, afterenter, leave", function(e){
-	var divObj = buildEventMsg(e);
-	divObj.querySelector(".title span").innerHTML = "视图1 - " + e.type;
-	msgObj.prepend(divObj);
+	showEventMsg(e, "视图1 - " + e.type);
 });
 
 var view2 = View.ofId("page2");
 view2.on("ready, beforeenter, enter, afterenter, leave", function(e){
-	var divObj = buildEventMsg(e);
-	divObj.querySelector(".title span").innerHTML = "视图2 - " + e.type;
-	msgObj.prepend(divObj);
+	showEventMsg(e, "视图2 - " + e.type);
+});
+
+/* 实例事件发生前清空消息列表 */
+View.on("beforechange", function(e){
+	msgObj.innerHTML = "";
 });
 </script>
 <script class = "ctrl">

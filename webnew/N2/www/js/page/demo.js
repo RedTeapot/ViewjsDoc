@@ -129,8 +129,8 @@
 			samples: [
 				{
 					id: "view-event_1",
-					title: "了解视图实例的内置事件",
-					desc: "了解 View.js 内置的，发生在视图实例上的事件"
+					title: "实例事件",
+					desc: "实例时间，是 View.js 内置的，发生在视图实例上的事件"
 				}
 			]
 		}

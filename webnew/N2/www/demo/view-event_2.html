@@ -1,0 +1,92 @@
+<markup>
+<div data-view-container data-view-whr = "unlimited">
+	<section data-view-id = "page1">
+		<header>视图1</header>
+		<h1>这是视图1</h1>
+		<div data-view-rel = "page2" class = "btn">进入视图2</div>
+	</section>
+	<section data-view-id = "page2">
+		<header>
+			<span class = "nav-back" data-view-rel = ":back"></span>视图2
+		</header>
+		<h1>这是视图2</h1>
+	</section>
+</div>
+<div class = "msg"></div>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<style>
+[data-view-container]{
+	height: 50%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	box-sizing: border-box;
+	overflow: auto;
+}
+.msg{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 50%;
+	padding: 10px 0;
+	overflow: auto;
+	box-sizing: border-box;
+}
+.msg > div{
+	padding: 10px;
+}
+.msg > div:nth-child(even){
+	background-color: #ECECEC;
+}
+.msg-item{
+	color: #999999;
+}
+.msg-item .title{
+	color: #333333;
+}
+.msg-item .time{
+	float: right;
+	color: #999999;
+}
+</style>
+<script>
+var msgObj = View.find(document.body, ".msg");
+
+/**
+ * 呈现事件详情
+ * @param {ViewEvent} e 视图实例事件
+ * @param {String} [title] 标题
+ */
+var showEventMsg = function(e, title){
+	var divObj = document.createElement("div");
+	divObj.className = "msg-item";
+	divObj.innerHTML = "<div>\n\t<div class = \"title\"><span></span><span class = \"time\"></span></div>\n\t<div class = \"desc\"><div class = \"trigger\"></div><div class = \"method\"></div><div class = \"source-view\"></div><div class = \"target-view\"></div></div>\n</div>";
+	divObj.querySelector(".title span").innerHTML = title || e.type;
+	divObj.querySelector(".title .time").innerHTML = new Date().toLocaleTimeString();
+
+	/**
+	 * 开发者可以尝试点击浏览器的 后退 和 前进 按钮，
+	 * 观察界面上呈现的事件详细信息有没有什么不同
+	 */
+
+	divObj.querySelector(".desc .trigger").innerHTML = "触发者：" + (e.data.trigger === "app"? "应用程序": "浏览器");
+	divObj.querySelector(".desc .method").innerHTML = "触发方式：" + e.data.type;
+	divObj.querySelector(".desc .source-view").innerHTML = "来源视图：" + (e.data.sourceView? e.data.sourceView.id: "--");
+	divObj.querySelector(".desc .target-view").innerHTML = "目标视图：" + (e.data.targetView? e.data.targetView.id: "--");
+
+	msgObj.prepend(divObj);
+};
+
+/* 实例事件发生前清空消息列表 */
+View.on("beforechange, change, afterchange", function(e){
+	if(e.type === "beforechange")
+		msgObj.innerHTML = "";
+
+	showEventMsg(e);
+});
+</script>
+<script class = "ctrl">
+{
+	/* 是否要求 View.js 完成初始化 */
+	requireViewjsInitialized: false
+}
+</script>

@@ -122,6 +122,17 @@
 					desc: "设置所有视图默认都【能】直接访问"
 				}
 			]
+		},
+		{
+			id: "shi-tu-shi-jian",
+			title: "视图事件",
+			samples: [
+				{
+					id: "view-event_1",
+					title: "了解视图实例的内置事件",
+					desc: "了解 View.js 内置的，发生在视图实例上的事件"
+				}
+			]
 		}
 	];
 

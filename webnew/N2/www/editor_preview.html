@@ -84,7 +84,7 @@
 				document.head.appendChild(styleObj);
 			}
 
-			ajax("js/plugin/viewjs-1.6.3/view-1.6.3.min.js", {
+			ajax("js/plugin/viewjs-newest/view-newest.dev.min.js", {
 				onsuccess: function(responseText){
 					eval(responseText);
 
@@ -98,8 +98,11 @@
 							init();
 							eval(js);
 						}else{
-							eval(js);
-							init();
+							try{
+								eval(js);
+							}finally{
+								init();
+							}
 						}
 					}, "rightnow");
 				}

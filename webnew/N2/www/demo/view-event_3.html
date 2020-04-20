@@ -1,0 +1,87 @@
+<markup>
+<div data-view-container data-view-whr = "unlimited">
+	<section data-view-id = "page1">
+		<header>视图1</header>
+		<h1>这是视图1</h1>
+		<div class = "btn">发起事件</div>
+	</section>
+</div>
+<div class = "msg"></div>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<style>
+[data-view-container]{
+	height: 50%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	box-sizing: border-box;
+	overflow: auto;
+}
+.msg{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 50%;
+	padding: 10px 0;
+	overflow: auto;
+	box-sizing: border-box;
+}
+.msg > div{
+	padding: 10px;
+}
+.msg > div:nth-child(even){
+	background-color: #ECECEC;
+}
+.msg-item{
+	color: #999999;
+}
+.msg-item .title{
+	color: #333333;
+}
+.msg-item .time{
+	float: right;
+	color: #999999;
+}
+</style>
+<script>
+var msgObj = View.find(document.body, ".msg");
+
+/**
+ * 呈现事件详情
+ * @param {ViewEvent} e 视图实例事件
+ * @param {String} [title] 标题
+ */
+var showEventMsg = function(e, title){
+	var divObj = document.createElement("div");
+	divObj.className = "msg-item";
+	divObj.innerHTML = "<div>\n\t<div class = \"title\"><span></span><span class = \"time\"></span></div>\n\t<div class = \"desc\"></div>\n</div>";
+	divObj.querySelector(".title span").innerHTML = title || e.type;
+	divObj.querySelector(".title .time").innerHTML = new Date().toLocaleTimeString();
+
+	divObj.querySelector(".desc").innerHTML = String(e.data);
+
+	msgObj.prepend(divObj);
+};
+
+var page1 = View.ofId("page1");
+var btnObj = page1.find(".btn");
+
+/* 监听自定义事件 */
+page1.on("myEvent1", function(e){
+	showEventMsg(e);
+});
+
+/* 发起自定义事件 */
+btnObj.addEventListener("click", function(){
+	/**
+	 * 第一个参数是事件名，不区分大小写
+	 * 第二个参数是附加的数据，任意类型
+	 */
+	page1.fire("myevent1", Date.now());
+});
+</script>
+<script class = "ctrl">
+{
+	/* 是否要求 View.js 完成初始化 */
+	requireViewjsInitialized: false
+}
+</script>

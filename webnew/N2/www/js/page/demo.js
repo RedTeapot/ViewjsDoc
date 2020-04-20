@@ -136,6 +136,11 @@
 					id: "view-event_2",
 					title: "宏观事件",
 					desc: "宏观事件，是 View.js 内置的，发生在全局变量：View 上的事件"
+				},
+				{
+					id: "view-event_3",
+					title: "自定义事件",
+					desc: "发起、监听自定义事件"
 				}
 			]
 		}

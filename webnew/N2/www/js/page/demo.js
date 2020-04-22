@@ -143,6 +143,17 @@
 					desc: "发起、监听自定义事件"
 				}
 			]
+		},
+		{
+			id: "shi-tu-ming-cheng",
+			title: "视图名称",
+			samples: [
+				{
+					id: "view-name_1",
+					title: "视图跳转",
+					desc: "使用视图名称完成视图跳转"
+				}
+			]
 		}
 	];
 

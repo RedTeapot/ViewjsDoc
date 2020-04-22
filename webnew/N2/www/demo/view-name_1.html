@@ -1,0 +1,49 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>这是视图1</h1>
+
+	<!-- 使用指令完成跳转 -->
+	<div data-view-rel = "~page-name-2" class = "btn">进入视图2</div>
+</section>
+
+<section data-view-id = "page2" data-view-name = "page-name-2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<h1>这是视图2</h1>
+
+	<!-- 借助脚本完成跳转 -->
+	<div class = "btn">进入视图3</div>
+</section>
+
+<section data-view-id = "page3" data-view-name = "page-name-3">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图3
+	</header>
+	<h1>这是视图3<br/><span></span></h1>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<script>
+var page2 = View.ofId("page2");
+var btnObj = page2.find(".btn");
+
+/**
+ * 通过脚本完成视图跳转
+ */
+btnObj.addEventListener("click", function(){
+
+	/**
+	 * 符号：'~' 用于告诉 View.js 后边的是 视图名称
+	 * 如果没有该符号，View.js 将查找 ID 为 page-name-3 的视图。
+	 */
+	View.navTo("~page-name-3");
+});
+
+var page3 = View.ofId("page3");
+var nameObj = page3.find("h1 span");
+page3.on("ready", function(){
+	nameObj.innerHTML = page3.getName();
+});
+</script>

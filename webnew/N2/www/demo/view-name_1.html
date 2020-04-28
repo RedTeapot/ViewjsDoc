@@ -41,9 +41,15 @@ btnObj.addEventListener("click", function(){
 	View.navTo("~page-name-3");
 });
 
+/*********************************************/
+
 var page3 = View.ofId("page3");
 var nameObj = page3.find("h1 span");
 page3.on("ready", function(){
+
+	/**
+	 * 获取并呈现 视图3 的视图名称
+	 */
 	nameObj.innerHTML = page3.getName();
 });
 </script>

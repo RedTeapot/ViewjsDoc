@@ -154,6 +154,17 @@
 					desc: "使用视图名称完成视图跳转"
 				}
 			]
+		},
+		{
+			id: "shi-tu-ming-ming-kong-jian",
+			title: "视图命名空间",
+			samples: [
+				{
+					id: "view-namespace_1",
+					title: "视图跳转",
+					desc: "跳转至非默认空间下的目标视图"
+				}
+			]
 		}
 	];
 

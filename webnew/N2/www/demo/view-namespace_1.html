@@ -1,0 +1,72 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>这是视图1，命名空间默认为：<span class = "namespace"></span></h1>
+
+	<!-- 使用指令完成跳转 -->
+	<!-- 目标视图的命名空间为： default -->
+	<div data-view-rel = "page2" class = "btn">进入视图2</div>
+</section>
+
+<section data-view-id = "page2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<h1>这是视图2，命名空间默认为：<span class = "namespace"></span></h1>
+
+	<!-- 目标视图的命名空间为： my-namespace -->
+	<!-- 不同命名空间下的视图ID可以相同 -->
+	<div data-view-rel = "page1" data-view-rel-namespace = "my-namespace" class = "btn">进入 my-namespace 下的视图1</div>
+</section>
+
+<section data-view-id = "page1" data-view-namespace="my-namespace">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图1
+	</header>
+	<h1>这是视图1，命名空间默认为：<span class = "namespace"></span></h1>
+
+	<!-- 借助脚本完成跳转 -->
+	<div class = "btn">进入 my-namespace 下的视图2</div>
+</section>
+
+<section data-view-id = "page2" data-view-namespace="my-namespace">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<h1>这是视图2，命名空间默认为：<span class = "namespace"></span></h1>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<script>
+/**
+ * 呈现所有视图所隶属的命名空间
+ */
+View.ready(function(){
+	var arr = View.listAll();
+	arr.forEach(function(view){
+		view.on("ready", function(){
+			view.find(".namespace").innerHTML = view.namespace;
+		});
+	});
+});
+
+/**
+ * 获取 my-namespace 命名空间下ID为 page1 的视图实例
+ */
+var page1 = View.ofId("page1", "my-namespace");
+var btnObj = page1.find(".btn");
+
+btnObj.addEventListener("click", function(){
+	/**
+	 * 第一个参数为：目标视图的ID
+	 * 第二个参数为：目标视图的命名空间
+	 */
+	View.navTo("page2", "my-namespace");
+});
+</script>
+<script class = "ctrl">
+{
+	/* 是否要求 View.js 完成初始化 */
+	requireViewjsInitialized: false
+}
+</script>

@@ -1,0 +1,110 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>这是视图1</h1>
+	<div class = "btn">进入视图2</div>
+</section>
+<section data-view-id = "page2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<div class = "params"></div>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<style>
+.params{
+	counter-reset: index 0;
+}
+.param{
+	position: relative;
+	padding: 10px 10px 10px 30px;
+	font-family: Consolas, sans-serif, serif;
+}
+.param:before{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	color: #999999;
+	counter-increment: index 1;
+	content: counter(index)".";
+}
+.param:nth-child(even){
+	background-color: #FAFAFA;
+}
+.param .key{
+	float: left;
+}
+.param .type{
+	float: right;
+	color: orange;
+}
+.param .value{
+	display: block;
+	margin-top: 4px;
+}
+.param .clear-float{
+	display: block;
+	clear: both;
+}
+</style>
+<script>
+var page1BtnObj = View.ofId("page1").find(".btn");
+page1BtnObj.addEventListener("click", function(){
+
+	/**
+	 * 跳转时传递参数。可以传递任意数量、任意类型的参数
+	 */
+	View.navTo("page2", {
+		params: {
+			key1: 123,
+			key2: "foo",
+			key3: true,
+			key4: [123, "foo", true],
+			key5: function(){alert("hello, params");}
+		}
+	});
+});
+
+
+/**************************************************/
+
+var page2 = View.ofId("page2");
+var page2ParamsObj = page2.find(".params");
+
+var buildParamObj = function(key, value){
+	var divObj = document.createElement("div");
+	divObj.classList.add("param");
+	divObj.innerHTML = '<span class = "key"></span><span class = "type"></span><span class = "clear-float"></span><span class = "value"></span>';
+
+	View.find(divObj, ".type").innerHTML = typeof key;
+	View.find(divObj, ".key").innerHTML = key + (typeof value === "function"? " (点击触发)": "");
+	View.find(divObj, ".value").innerHTML = String(value);
+
+	return divObj;
+};
+
+/**
+ * 视图进入后展现收到的参数
+ */
+page2.on("enter", function(){
+	var params = page2.getParameter();
+	if(null == params)
+		return;
+
+	for(var name in params){
+		var value = params[name];
+		var paramObj = buildParamObj(name, value);
+
+		/* 如果入参是方法，则在点击时执行方法 */
+		if(typeof value === "function")
+			paramObj.addEventListener("click", (function(value){
+				return function(){
+					value();
+				};
+			})(value));
+
+		page2ParamsObj.appendChild(paramObj);
+	}
+});
+</script>

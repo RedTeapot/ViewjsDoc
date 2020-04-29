@@ -165,6 +165,17 @@
 					desc: "跳转至非默认空间下的目标视图"
 				}
 			]
+		},
+		{
+			id: "shi-tu-can-shu",
+			title: "视图参数",
+			samples: [
+				{
+					id: "view-parameter_1",
+					title: "传递参数",
+					desc: "在视图跳转时传递参数"
+				}
+			]
 		}
 	];
 

@@ -138,6 +138,11 @@
 					desc: "宏观事件，是 View.js 内置的，发生在全局变量：View 上的事件"
 				},
 				{
+					id: "view-event_4",
+					title: "事件顺序",
+					desc: "观察宏观事件与实例事件的触发顺序"
+				},
+				{
 					id: "view-event_3",
 					title: "自定义事件",
 					desc: "发起、监听自定义事件"
@@ -174,6 +179,11 @@
 					id: "view-parameter_1",
 					title: "传递参数",
 					desc: "在视图跳转时传递参数"
+				},
+				{
+					id: "view-parameter_2",
+					title: "参数重置",
+					desc: "View.js 在视图即将进入时自动重置参数"
 				}
 			]
 		}

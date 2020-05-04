@@ -184,6 +184,11 @@
 					id: "view-parameter_2",
 					title: "参数重置",
 					desc: "View.js 在视图即将进入时自动重置参数"
+				},
+				{
+					id: "view-parameter_3",
+					title: "参数暂存",
+					desc: "View.js 自动将最新的参数存储至视图上下文中"
 				}
 			]
 		}

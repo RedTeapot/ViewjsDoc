@@ -5,7 +5,7 @@
  * author: Billy, wmjhappy_ok@126.com
  * license: MIT
  * 
- * -- 2020-04-17 10:27
+ * -- 2020-05-05 13:50
  */
 interface ViewLoggerClass{
 	isEnabled(): boolean;
@@ -99,6 +99,8 @@ interface ViewClass{
 	getLayoutAction(): Function;
 
 	hasParameter(name: string): boolean;
+	getParameter(): null | Object;
+	getParameter(name: string): any;
 	getParameter(name: string): any;
 	seekParameter(name: string, ifRetrieveFromContext?: boolean): any | null;
 

@@ -191,6 +191,17 @@
 					desc: "View.js 自动将最新的参数存储至视图上下文中"
 				}
 			]
+		},
+		{
+			id: "shi-tu-xuan-xiang",
+			title: "视图选项",
+			samples: [
+				{
+					id: "view-option_1",
+					title: "传递选项",
+					desc: "在视图跳转时传递视图选项"
+				},
+			]
 		}
 	];
 

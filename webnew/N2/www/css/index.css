@@ -145,6 +145,9 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 @media screen and (max-width: 1000px) {
   .banner .slogan {
     font-size: 1.6rem; }
+    .banner .slogan .emphasis {
+      display: block;
+      margin-right: 0; }
   .banner .icon {
     margin-top: 2rem; }
   .banner .icon > span {
@@ -247,7 +250,12 @@ hr {
   padding: 4rem 2rem;
   background-color: #F5F7F9; }
   .banner .slogan {
-    font-size: 3.2rem; }
+    font-size: 3.2rem;
+    font-weight: lighter;
+    letter-spacing: 4px; }
+    .banner .slogan .emphasis {
+      font-weight: normal;
+      margin-right: 0.5em; }
   .banner .icon {
     margin-top: 6rem; }
     .banner .icon > span {

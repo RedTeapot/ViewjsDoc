@@ -38,6 +38,13 @@ hr{
 
 	.slogan{
 		font-size: 3.2rem;
+		font-weight: lighter;
+		letter-spacing: 4px;
+
+		.emphasis{
+			font-weight: normal;
+			margin-right: 0.5em;
+		}
 	}
 
 	.icon{

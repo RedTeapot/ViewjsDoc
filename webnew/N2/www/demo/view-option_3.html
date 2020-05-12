@@ -16,6 +16,8 @@
 	</div>
 
 	<div class = "params"></div>
+
+	<div class = "btn">更新参数</div>
 </section>
 </markup>
 <link rel = "stylesheet" href = "demo/css/common.css"/>
@@ -84,6 +86,7 @@ btnObj.addEventListener("click", function(){
 });
 
 var page2 = View.ofId("page2");
+var page2BtnObj = page2.find(".btn");
 var page2UrlObj = page2.find(".url span");
 var page2ParamsObj = page2.find(".params");
 
@@ -99,13 +102,10 @@ var buildParamObj = function(key, value){
 	return divObj;
 };
 
-/**
- * 视图进入后展现收到的参数
- */
-page2.on("enter", function(){
+var showUrlAndOptions = function(){
 	/* 检索所有参数 */
-	var params = View.getActiveViewOptions();
-	if(null == params)
+	var options = View.getActiveViewOptions();
+	if(null == options)
 		return;
 
 	/**
@@ -113,11 +113,28 @@ page2.on("enter", function(){
 	 */
 	page2UrlObj.innerHTML = location.href;
 
-	for(var name in params){
-		var value = params[name];
+	page2ParamsObj.innerHTML = "";
+	for(var name in options){
+		var value = options[name];
 		var paramObj = buildParamObj(name, value);
 
 		page2ParamsObj.appendChild(paramObj);
 	}
+};
+
+/**
+ * 视图进入后展现收到的参数
+ */
+page2.on("enter", function(){
+	showUrlAndOptions();
+});
+
+/**
+ * 更新参数
+ */
+page2BtnObj.addEventListener("click", function(){
+	View.setActiveViewOption("b", false);
+	View.setActiveViewOption("d", {foo: "bar"});
+	showUrlAndOptions();
 });
 </script>

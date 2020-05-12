@@ -3,8 +3,7 @@
 	<header>视图1</header>
 	<h1>这是视图1</h1>
 
-	<!- '!' 是目标视图与视图选项之间的分隔符 -->
-	<div class = "btn" data-view-rel = "page2!a=1&b=str&c=true&d={}">进入视图2</div>
+	<div class = "btn">进入视图2</div>
 </section>
 <section data-view-id = "page2">
 	<header>
@@ -17,6 +16,8 @@
 	</div>
 
 	<div class = "params"></div>
+
+	<div class = "btn">更新参数</div>
 </section>
 </markup>
 <link rel = "stylesheet" href = "demo/css/common.css"/>
@@ -67,7 +68,25 @@
 }
 </style>
 <script>
+var page1 = View.ofId("page1");
+var btnObj = page1.find(".btn");
+btnObj.addEventListener("click", function(){
+	View.navTo("page2", {
+		/**
+		 * 虽然这里的赋值包含了数字、布尔 和 数组等类型，但由于
+		 * 参数是通过URL传输的，所以page2收到的将全部是字符串
+		 */
+		options: {
+			a: 1,
+			b: "str",
+			c: true,
+			d: [123, "456"]
+		}
+	});
+});
+
 var page2 = View.ofId("page2");
+var page2BtnObj = page2.find(".btn");
 var page2UrlObj = page2.find(".url span");
 var page2ParamsObj = page2.find(".params");
 
@@ -83,13 +102,10 @@ var buildParamObj = function(key, value){
 	return divObj;
 };
 
-/**
- * 视图进入后展现收到的参数
- */
-page2.on("enter", function(){
+var showUrlAndOptions = function(){
 	/* 检索所有参数 */
-	var params = View.getActiveViewOptions();
-	if(null == params)
+	var options = View.getActiveViewOptions();
+	if(null == options)
 		return;
 
 	/**
@@ -97,11 +113,28 @@ page2.on("enter", function(){
 	 */
 	page2UrlObj.innerHTML = location.href;
 
-	for(var name in params){
-		var value = params[name];
+	page2ParamsObj.innerHTML = "";
+	for(var name in options){
+		var value = options[name];
 		var paramObj = buildParamObj(name, value);
 
 		page2ParamsObj.appendChild(paramObj);
 	}
+};
+
+/**
+ * 视图进入后展现收到的参数
+ */
+page2.on("enter", function(){
+	showUrlAndOptions();
+});
+
+/**
+ * 更新参数
+ */
+page2BtnObj.addEventListener("click", function(){
+	View.setActiveViewOption("b", false);
+	View.setActiveViewOption("d", {foo: "bar"});
+	showUrlAndOptions();
 });
 </script>

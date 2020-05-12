@@ -16,7 +16,7 @@
 			return;
 
 		"hideToLeft, showFromRight, hideToRight, showFromLeft".split(/\s*,\s*/).forEach(function(className){
-			obj.classList.remove(className);
+			util.removeClass(obj, className);
 		});
 	};
 
@@ -50,22 +50,22 @@
 		 * 视图切换动作是“替换堆栈”的方式，或浏览器不支持对history的操作
 		 */
 		if(!View.checkIfBrowserHistorySupportsPushPopAction() || isChange){
-			srcElement.classList.add("fadeOut");
-			tarElement.classList.add("fadeIn");
+			util.addClass(srcElement, "fadeOut");
+			util.addClass(tarElement, "fadeIn");
 		}else if(isHistoryForward || isNav){
 			/**
 			 * 视图切换动作是“压入堆栈”的方式（浏览器前进，或代码触发）
 			 */
 
-			srcElement.classList.add("hideToLeft");
-			tarElement.classList.add("showFromRight");
+			util.addClass(srcElement, "hideToLeft");
+			util.addClass(tarElement, "showFromRight");
 		}else{
 			/**
 			 * 视图切换动作是“弹出堆栈”的方式（浏览器后退）
 			 */
 
-			srcElement.classList.add("hideToRight");
-			tarElement.classList.add("showFromLeft");
+			util.addClass(srcElement, "hideToRight");
+			util.addClass(tarElement, "showFromLeft");
 		}
 
 		/**

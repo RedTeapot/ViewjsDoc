@@ -53,8 +53,8 @@ page1.config.get("displaying-note").setValue("note1");
 /* 每次视图进入前读取并使能（使其工作）配置项 */
 page1.on("beforeenter", function(){
 	var configValue = page1.config.get("displaying-note").getValue();
-	page1Note1Obj.classList[configValue === "note1"? "add": "remove"]("visible");
-	page1Note2Obj.classList[configValue === "note2"? "add": "remove"]("visible");
+	util[configValue === "note1"? "addClass": "removeClass"](page1Note1Obj, "visible");
+	util[configValue === "note2"? "addClass": "removeClass"](page1Note2Obj, "visible");
 });
 
 /**

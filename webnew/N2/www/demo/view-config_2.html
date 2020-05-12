@@ -51,8 +51,8 @@ var page1Note1Obj = page1.find(".note1"),
  * setApplication() 用于设置 “配置项应用动作”，以指定调用 apply() 方法时要触发的方法
  */
 page1.config.get("displaying-note").setApplication(function(newValue){
-	page1Note1Obj.classList[newValue === "note1"? "add": "remove"]("visible");
-	page1Note2Obj.classList[newValue === "note2"? "add": "remove"]("visible");
+	util[newValue === "note1"? "addClass": "removeClass"](page1Note1Obj, "visible");
+	util[newValue === "note2"? "addClass": "removeClass"](page1Note2Obj, "visible");
 }).setValue("note1").apply();
 
 /**

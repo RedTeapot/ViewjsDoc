@@ -131,10 +131,10 @@ View.setInitializer(
 		loadAndApplyConfig(function(){
 			loginByToken(function(){
 				loadUserData(function(){
-					initLoadingObj.classList.add("hide");
+					util.addClass(initLoadingObj, "hide");
 					setTimeout(function(){
 						initLoadingObj.style.display = "none";
-					}, 600);
+					}, 200);
 
 					init();
 				});

@@ -104,7 +104,7 @@ footer span.active{
 		/* 呈现footer的视图 */
 		var viewIdsShowingFooter = ["page1", "page2"];
 
-		var isFooterCurrentlyVisible = footerObj.classList.contains("visible");
+		var isFooterCurrentlyVisible = util.hasClass(footerObj, "visible");
 		var shouldFooterBeVisible = viewIdsShowingFooter.indexOf(tarViewId) !== -1;
 
 		ifShowFooter = shouldFooterBeVisible;
@@ -116,16 +116,16 @@ footer span.active{
 
 		/* 发生变化时需要重新布局 */
 		if(ifFooterVisibilityChanges){
-			footerObj.classList[shouldFooterBeVisible? "add": "remove"]("visible");
+			util[shouldFooterBeVisible? "addClass": "removeClass"](footerObj, "visible");
 			layout(View.layout.getBrowserWidth(), View.layout.getBrowserHeight());
 		}
 
 		/* 高亮状态切换 */
 		var activeObj = View.find(footerObj, ".active");
-		activeObj && activeObj.classList.remove("active");
+		activeObj && util.removeClass(activeObj, "active");
 
 		var obj = View.find(footerObj, "span[data-id=" + tarViewId + "]");
-		obj && obj.classList.add("active");
+		obj && util.addClass(obj, "active");
 	});
 })();
 
@@ -148,7 +148,7 @@ footer span.active{
 			return;
 
 		"hideToLeft, showFromRight, hideToRight, showFromLeft".split(/\s*,\s*/).forEach(function(className){
-			obj.classList.remove(className);
+			util.removeClass(obj, className);
 		});
 	};
 
@@ -189,22 +189,22 @@ footer span.active{
 		 * 视图切换动作是“替换堆栈”的方式，或浏览器不支持对history的操作
 		 */
 		if(!View.checkIfBrowserHistorySupportsPushPopAction() || isChange){
-			srcElement.classList.add("fadeOut");
-			tarElement.classList.add("fadeIn");
+			util.addClass(srcElement, "fadeOut");
+			util.addClass(tarElement, "fadeIn");
 		}else if(isHistoryForward || isNav){
 			/**
 			 * 视图切换动作是“压入堆栈”的方式（浏览器前进，或代码触发）
 			 */
 
-			srcElement.classList.add("hideToLeft");
-			tarElement.classList.add("showFromRight");
+			util.addClass(srcElement, "hideToLeft");
+			util.addClass(tarElement, "showFromRight");
 		}else{
 			/**
 			 * 视图切换动作是“弹出堆栈”的方式（浏览器后退）
 			 */
 
-			srcElement.classList.add("hideToRight");
-			tarElement.classList.add("showFromLeft");
+			util.addClass(srcElement, "hideToRight");
+			util.addClass(tarElement, "showFromLeft");
 		}
 
 		/**

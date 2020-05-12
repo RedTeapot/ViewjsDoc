@@ -92,7 +92,7 @@ var page2ParamsObj = page2.find(".params");
 
 var buildParamObj = function(key, value){
 	var divObj = document.createElement("div");
-	divObj.classList.add("param");
+	util.addClass(divObj, "param");
 	divObj.innerHTML = '<span class = "key"></span><span class = "type"></span><span class = "clear-float"></span><span class = "value"></span>';
 
 	View.find(divObj, ".type").innerHTML = typeof key;

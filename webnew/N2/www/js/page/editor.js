@@ -70,7 +70,8 @@
 		jsEditor.session.setMode("ace/mode/javascript");
 
 		var run = function(ctrl){
-			var iframeObj = document.querySelector("iframe");
+			var iframeObj = document.querySelector("iframe"),
+				overviewObj = document.querySelector(".overview");
 			iframeObj.src = "editor_preview.html?v=" + Date.now();
 
 			iframeObj.onload = function(){
@@ -86,6 +87,22 @@
 
 				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue(), ctrl);
 			};
+			clearInterval(iframeObj.timer);
+			iframeObj.timer = setInterval(function(){
+				var titleObj = overviewObj.querySelector(".title"),
+					locationObj = overviewObj.querySelector(".location");
+
+				var title = iframeObj.contentDocument.title,
+					location = iframeObj.contentWindow.location.href;
+
+				var oldTitle = titleObj.innerText.trim(),
+					oldLocation = locationObj.value.trim();
+
+				if(title != oldTitle)
+					titleObj.innerHTML = title;
+				if(location != oldLocation)
+					locationObj.value = location;
+			}, 20);
 		};
 
 		/* 自动加载并运行代码 */

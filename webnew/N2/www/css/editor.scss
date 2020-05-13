@@ -129,6 +129,33 @@ header{
 		background: url(../asset/iPhone6.png) no-repeat center/100% 100%;
 	}
 
+	.overview{
+		position: absolute;
+		display: block;
+		margin: 10px;
+		border: none;
+		left: 24px;
+		top: 54px;
+		width: 286px;
+		height: 490px;
+		overflow: hidden;
+		font-size: 12px;
+
+		.title{
+			color: white;
+			margin-bottom: 4px;
+		}
+
+		.location{
+			display: block;
+			font-family: consolas, Serif;
+			width: 100%;
+			border: none;
+			outline: none;
+			padding: 3px 2px;
+		}
+	}
+
 	iframe{
 		position: absolute;
 		display: block;

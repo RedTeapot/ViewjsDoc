@@ -212,6 +212,27 @@
 					desc: "动态更改体现在地址栏中的参数取值"
 				},
 			]
+		},
+		{
+			id: "shi-tu-biaoti",
+			title: "视图标题",
+			samples: [
+				{
+					id: "view-title_1",
+					title: "设置视图标题",
+					desc: "使用 data-view-title 属性静态设置标题"
+				},
+				{
+					id: "view-title_2",
+					title: "设置视图标题",
+					desc: "使用 setTitle() 方法动态设置标题"
+				},
+				{
+					id: "view-title_3",
+					title: "设置文档标题",
+					desc: "使用 setDocumentTitle() 方法动态设置文档标题"
+				}
+			]
 		}
 	];
 

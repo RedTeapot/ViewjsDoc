@@ -1,0 +1,14 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>视图没有声明标题，此时浏览器展示文档标题</h1>
+	<div data-view-rel = "page2" class = "btn">进入视图2</div>
+</section>
+<section data-view-id = "page2" data-view-title = "视图2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<h1>视图设有标题，此时浏览器自动展示该标题</h1>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>

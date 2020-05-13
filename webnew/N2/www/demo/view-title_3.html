@@ -1,0 +1,57 @@
+<markup>
+<section data-view-id = "page1">
+	<header>视图1</header>
+	<h1>视图没有声明标题，此时浏览器展示文档标题</h1>
+	<div data-view-rel = "page2" class = "btn">进入视图2</div>
+</section>
+<section data-view-id = "page2" data-view-title = "视图2">
+	<header>
+		<span class = "nav-back" data-view-rel = ":back"></span>视图2
+	</header>
+	<div class = "item">
+		<label>标题</label>
+		<div class = "input"><input placeholder="要输入文档标题"/></div>
+	</div>
+	<div class = "btn">设置</div>
+	<div class = "tip">设置后，返回视图1，可以观察显示的浏览器标题是否发生变化</div>
+</section>
+</markup>
+<link rel = "stylesheet" href = "demo/css/common.css"/>
+<style>
+[data-view-id=page2]{
+	background-color: #F5F5F5;
+}
+.item{
+	position: relative;
+	padding: 12px 12px 12px 5em;
+	margin-top: 12px;
+	background-color: white;
+}
+.item label{
+	position: absolute;
+	left: 0.12rem;
+}
+input{
+	width: 100%;
+	outline: none;
+	border: none;
+}
+
+.tip{
+	margin: 12px;
+	color: #999999;
+}
+</style>
+<script>
+var page2 = View.ofId("page2");
+var inputObj = page2.find("input"),
+	btnObj = page2.find(".btn");
+
+btnObj.addEventListener("click", function(){
+	/**
+	 * View.js 在加载阶段自动捕获的文档标题，可能并不准确。
+	 * 开发者可以通过调用该API，告知View.js正确的文档标题。
+	 */
+	View.setDocumentTitle(inputObj.value);
+});
+</script>

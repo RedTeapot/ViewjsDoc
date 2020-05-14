@@ -69,6 +69,14 @@
 		cssEditor.session.setMode("ace/mode/css");
 		jsEditor.session.setMode("ace/mode/javascript");
 
+		var appendJs = "";
+
+		/**
+		 * 执行编辑器代码
+		 * @param {Object} ctrl 执行控制
+		 * @param {Boolean} [ctrl.ifSpecifyViewjsInitializer=true] 编辑器中的代码是否声明自己的 initializer
+		 * @param {Boolean} [ctrl.requireViewjsInitialized=true] 执行脚本时，是否要求View.js已经初始化
+		 */
 		var run = function(ctrl){
 			var iframeObj = document.querySelector("iframe"),
 				overviewObj = document.querySelector(".overview");
@@ -85,7 +93,7 @@
 					}
 				}
 
-				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue(), ctrl);
+				this.contentWindow.apply(htmlEditor.getValue(), cssEditor.getValue(), jsEditor.getValue() + "\n" + appendJs, ctrl);
 			};
 			clearInterval(iframeObj.timer);
 			iframeObj.timer = setInterval(function(){
@@ -135,6 +143,10 @@
 							cssEditor.setValue(styleObj.innerHTML);
 						if(null != scriptObj)
 							jsEditor.setValue(scriptObj.innerHTML);
+
+						var scriptAppendObj = tmpObj.querySelector("script.append");
+						if(null != scriptAppendObj)
+							appendJs = scriptAppendObj.innerHTML.trim();
 
 						/* 执行控制 */
 						var ctrl = {

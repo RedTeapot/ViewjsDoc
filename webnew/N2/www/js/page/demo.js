@@ -214,7 +214,7 @@
 			]
 		},
 		{
-			id: "shi-tu-biaoti",
+			id: "shi-tu-biao-ti",
 			title: "视图标题",
 			samples: [
 				{
@@ -231,6 +231,17 @@
 					id: "view-title_3",
 					title: "设置文档标题",
 					desc: "使用 setDocumentTitle() 方法动态设置文档标题"
+				}
+			]
+		},
+		{
+			id: "shi-tu-tiao-zhuan-dong-hua",
+			title: "视图跳转动画",
+			samples: [
+				{
+					id: "view-switch-animation_1",
+					title: "设置跳转动画",
+					desc: "使用 CSS 创建、使用 js 触发视图跳转动画"
 				}
 			]
 		}

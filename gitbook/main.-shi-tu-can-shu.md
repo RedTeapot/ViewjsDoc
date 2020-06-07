@@ -129,6 +129,12 @@ view.on("leave", function(){
 
 由于上述场景是开发者经常遇到的，为简化开发工作，View.js 自 v1.6.3 版本开始默认支持有效视图参数的自动保存（至上下文），结合 `view.seekParameter()` 方法，开发者无需再手动存取。
 
+{% hint style="info" %}
+参阅方法：  
+1. `view.setIfAutoSaveParamsToContext()`  
+2. `view.seekParameter()`
+{% endhint %}
+
 {% hint style="warning" %}
 参数名区分大小写
 {% endhint %}

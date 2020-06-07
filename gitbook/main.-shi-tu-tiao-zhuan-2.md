@@ -67,8 +67,9 @@ View.js 当前支持如下几种跳转目标：
 
 1. 视图ID
 2. 视图名称
-3. 伪视图
-4. 外部链接地址
+3. 视图实例（`1.7.0+` 可用）
+4. 伪视图
+5. 外部链接地址
 
  例如：
 
@@ -89,6 +90,14 @@ View.navTo("targetView");
  * 不同命名空间下可以声明相同ID的视图
  */
 View.navTo("targetView", "my-namespace");
+
+/**
+ * 以“压入堆栈”方式跳转至 my-namespace 命名空间下，ID 为 targetView 的视图
+ * 跳转目标：视图
+ *
+ * 不同命名空间下可以声明相同ID的视图
+ */
+View.navTo(View.ofId("targetView", "my-namespace"));
 
 /**
  * 以“切换栈顶”方式跳转至 default 命名空间下，ID 为 targetView 的视图，
@@ -158,6 +167,141 @@ View.navTo("@http://view-js.com");
 View.changeTo("@sub/another.html");
 ```
 {% endcode %}
+
+## 跳转拦截
+
+从 `1.7.0` 开始，View.js 支持开发者通过添加拦截器的方式，在宏观层面拦截视图跳转动作。例如：
+
+```javascript
+/**
+ * 添加视图跳转拦截器
+ * 拦截器通过返回 true 或 false 告知 View.js 是否继续执行视图跳转动作
+ */
+View.addSwitchInterceptor(function(meta){
+    if(user.isLogined())
+        return true;
+    
+    toast("请登录");
+    //...
+    
+    return false;
+});
+```
+
+{% hint style="info" %}
+如果添加了多个拦截器，View.js 将按添加顺序顺序执行拦截器。如果上一个拦截器返回 `false`，下一个拦截器不会继续执行。
+{% endhint %}
+
+## 跳转效果优化
+
+由于视图跳转完成的，只是活动视图DOM骨架的切换。而开发者一般在视图进入时才开始加载数据，所以会呈现出 “页面结构先变化，而后才填充数据” 的非原子性展示效果。
+
+为了缓解这一不友好的体验，从 `1.7.0` 开始，View.js 允许开发者在进入视图前预先执行异步请求，在得到数据后再执行视图跳转动作。
+
+例如：
+
+{% tabs %}
+{% tab title="商品详情" %}
+```javascript
+var view = View.ofId("goods-detail");
+
+/**
+ * 商品详情 视图使用该API描述自己所需要的数据的获取方式。
+ * 其它视图则使用该视图中由 View.js 创建的标准 fetchData() 
+ * 方法执行数据加载动作。
+ * 
+ * resolve：由 View.js 提供，供开发者执行的，用于告知 View.js 数据加载完成的方法；
+ * reject：由 View.js 提供，供开发者执行的，用于告知 Viewjs 数据加载失败的方法。
+ */
+view.setDataFetchAction(function(resolve, reject){
+    var goodsId = view.seekParameter("goods-id");
+
+    /* 加载商品详情 */
+    var promise1 = new Promise(function(_resolve, _reject){
+        callApi("get-goods-detail", {
+            id: "GOODS1",
+            
+            onsuccess: function(data){
+                _resolve(data);
+            },
+            onerror: function(err){
+                _reject(err);
+            }
+        })
+    });
+    
+    /* 加载商品评论 */
+    var promise2 = new Promise(function(_resolve, _reject){
+        callApi("get-goods-comments", {
+            id: "GOODS1",
+            
+            onsuccess: function(data){
+                _resolve(data);
+            },
+            onerror: function(err){
+                _reject(err);
+            }
+        })
+    });
+    
+    /* 数据加载成功或失败后通知 View.js */
+    Promise.all([promise1, promise2]).then(resolve, reject);
+});
+
+
+/* 视图进入后，根据传入的数据渲染界面，不再执行网络加载，从而带来完整性体验 */
+view.on("enter", function(){
+    /* 参数由 商品列表 界面传入 */
+    var datas = view.getParameter("preloadedDatas");
+
+    var goodsDetal = datas[0],
+        goodsComments = dats[1];
+    
+    /* 呈现商品详情 */
+    showGoodsDetail(goosdDetail);
+    
+    /* 呈现商品评论 */
+    showGoodsComments(goodsComments);
+});
+```
+{% endtab %}
+
+{% tab title="商品列表" %}
+```javascript
+var view = View.ofId("goods-list");
+
+/* 商品详情的入口 */
+var goods1Obj = view.find(".list .detail[data-id=GOODS1]");
+
+/**
+ * 进入 商品详情 视图。
+ * 进入前，预先加载 商品详情 所需要的数据。
+ */
+goods1Obj.addEventListener("click", function(){
+    var targetView = View.ofId("goods-detail");
+    
+    /**
+     * 加载数据（数据的加载方法由目标视图自行描述）
+     */
+    loading.show();
+    var thenable = targetView.fetchData();
+    thenable.then(function(datas){/* 数据加载成功 */
+        loading.hide();
+        
+        /* 将数据传入 商品详情 视图 */
+        View.navTo(targetView, {
+            preloadedDatas: datas
+        });
+    }, function(err){/* 数据加载失败 */
+        loading.hide();
+        
+        /* 提示错误后停留在 商品列表 视图 */
+        toast(err);
+    });
+});
+```
+{% endtab %}
+{% endtabs %}
 
 ## 开发调测
 

@@ -78,3 +78,33 @@ View.setInitializer(function(init){
 {% endtab %}
 {% endtabs %}
 
+从 `1.7.0` 开始，开发者可以通过在视图容器上声明 `data-view-auto-init` 属性，并赋值为 `"false"`，即可避免自动执行初始化动作。同时，在恰当时机通过执行API：`View.init()` 手动出发 View.js 的初始化。例如：
+
+{% tabs %}
+{% tab title="view.html" %}
+```markup
+<body data-view-container data-view-auto-init="false">
+    ...
+</body>
+```
+{% endtab %}
+
+{% tab title="init.js" %}
+```javascript
+/**
+ * 向后端请求关键数据
+ */
+$.post("/someuri", function(data){
+    //...
+    
+    /**
+     * 在必要条件准备完毕后，初始化 View.js
+     */
+    View.init();
+    
+    //...
+});
+```
+{% endtab %}
+{% endtabs %}
+

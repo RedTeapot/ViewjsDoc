@@ -395,5 +395,8 @@ hr {
   font-size: 1.4rem;
   color: #999999;
   text-align: center; }
+  .copyright a {
+    text-decoration: underline;
+    color: #5ac0ba; }
 
 /*# sourceMappingURL=index.css.map */
